@@ -4,7 +4,7 @@ CC = gcc
 CXX = g++
 LD = $(CXX)
 CFLAGS := -Wall -Wextra -O2 -ggdb3 -std=gnu11 $(CFLAGS)
-CXXFLAGS := -Wall -Wextra -O2 -ggdb -std=gnu++14 $(CXXFLAGS)
+CXXFLAGS := -Wall -Wextra -O2 -ggdb -std=gnu++14 $(CXXFLAGS) -Ijson/include
 LDFLAGS := -O2 -ggdb3 $(LDFLAGS)
 LIBS := -lcurl -lpthread -lTgBot -lcrypto -lssl
 

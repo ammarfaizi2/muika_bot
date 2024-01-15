@@ -5,12 +5,14 @@
 
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
 
 namespace muika {
 
 Muika::Muika(const std::string &token):
 	bot_(token)
 {
+	srand(time(NULL));
 }
 
 Muika::~Muika(void)
