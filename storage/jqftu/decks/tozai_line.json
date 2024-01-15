@@ -1,0 +1,163 @@
+[
+	{
+		"n": "T01",
+		"romaji": "nakano",
+		"kanji": "中野",
+		"hiragana": "なかの",
+		"katakana": "ナカノ"
+	},
+	{
+		"n": "T02",
+		"romaji": "ochiai",
+		"kanji": "落合",
+		"hiragana": "おちあい",
+		"katakana": "オチアイ"
+	},
+	{
+		"n": "T03",
+		"romaji": "takadanobaba",
+		"kanji": "高田馬場",
+		"hiragana": "たかだのばば",
+		"katakana": "タカダノババ"
+	},
+	{
+		"n": "T04",
+		"romaji": "waseda",
+		"kanji": "早稲田",
+		"hiragana": "わせだ",
+		"katakana": "ワセダ"
+	},
+	{
+		"n": "T05",
+		"romaji": "kagurazaka",
+		"kanji": "神楽坂",
+		"hiragana": "かぐらざか",
+		"katakana": "カグラザカ"
+	},
+	{
+		"n": "T06",
+		"romaji": "iidabashi",
+		"kanji": "飯田橋",
+		"hiragana": "いいだばし",
+		"katakana": "イイダバシ"
+	},
+	{
+		"n": "T07",
+		"romaji": "kudanshita",
+		"kanji": "九段下",
+		"hiragana": "くだんした",
+		"katakana": "クダンシタ"
+	},
+	{
+		"n": "T08",
+		"romaji": "takebashi",
+		"kanji": "竹橋",
+		"hiragana": "たけばし",
+		"katakana": "タケバシ"
+	},
+	{
+		"n": "T09",
+		"romaji": "otemachi",
+		"kanji": "大手町",
+		"hiragana": "おおてまち",
+		"katakana": "オオテマチ"
+	},
+	{
+		"n": "T10",
+		"romaji": "nihombashi",
+		"kanji": "日本橋",
+		"hiragana": "にほんばし",
+		"katakana": "ニホンバシ"
+	},
+	{
+		"n": "T11",
+		"romaji": "kayabachō",
+		"kanji": "茅場町",
+		"hiragana": "かやばちょう",
+		"katakana": "カヤバチョウ"
+	},
+	{
+		"n": "T12",
+		"romaji": "monzen-nakachō",
+		"kanji": "門前仲町",
+		"hiragana": "もんぜんなかちょう",
+		"katakana": "モンゼンナカチョウ"
+	},
+	{
+		"n": "T13",
+		"romaji": "kiba",
+		"kanji": "木場",
+		"hiragana": "きば",
+		"katakana": "キバ"
+	},
+	{
+		"n": "T14",
+		"romaji": "toyōchō",
+		"kanji": "東陽町",
+		"hiragana": "とうようちょう",
+		"katakana": "トウヨウチョウ"
+	},
+	{
+		"n": "T15",
+		"romaji": "minami-sunamachi",
+		"kanji": "南砂町",
+		"hiragana": "みなみすなまち",
+		"katakana": "ミナミスナマチ"
+	},
+	{
+		"n": "T16",
+		"romaji": "nishi-kasai",
+		"kanji": "西葛西",
+		"hiragana": "にしけっさい",
+		"katakana": "ニシケッサイ"
+	},
+	{
+		"n": "T17",
+		"romaji": "kasai",
+		"kanji": "葛西",
+		"hiragana": "かさい",
+		"katakana": "カサイ"
+	},
+	{
+		"n": "T18",
+		"romaji": "urayasu",
+		"kanji": "浦安",
+		"hiragana": "うらやす",
+		"katakana": "ウラヤス"
+	},
+	{
+		"n": "T19",
+		"romaji": "minami-gyōtoku",
+		"kanji": "南行徳",
+		"hiragana": "みなみぎょうとく",
+		"katakana": "ミナミギョウトク"
+	},
+	{
+		"n": "T20",
+		"romaji": "gyōtoku",
+		"kanji": "行徳",
+		"hiragana": "ぎょうとく",
+		"katakana": "ギョウトク"
+	},
+	{
+		"n": "T21",
+		"romaji": "myōden",
+		"kanji": "妙典",
+		"hiragana": "みょうでん",
+		"katakana": "ミョウデン"
+	},
+	{
+		"n": "T22",
+		"romaji": "baraki-nakayama",
+		"kanji": "原木中山",
+		"hiragana": "ばらきなかやま",
+		"katakana": "バラキナカヤマ"
+	},
+	{
+		"n": "T23",
+		"romaji": "nishi-funabashi",
+		"kanji": "西船橋",
+		"hiragana": "にしふなばし",
+		"katakana": "ニシフナバシ"
+	}
+]

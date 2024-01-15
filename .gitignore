@@ -1,0 +1,10 @@
+/.vscode/
+*.swp
+*.swo
+*.o
+*.so
+*.out
+*.exe
+*.dll
+*.d
+*.bin
