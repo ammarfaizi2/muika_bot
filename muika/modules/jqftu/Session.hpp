@@ -30,12 +30,14 @@ private:
 
 	void worker(void);
 	void drawAndSendCardLocked(void);
+	void handleCorrectAnswer(TgBot::Message::Ptr &msg);
 public:
 	Session(Muika &m, int64_t chat_id, const std::string &deck_name);
 	~Session(void);
 	int start(void);
 	inline int64_t getChatId(void) const { return chat_id_; }
 	void drawAndSendCard(void);
+	void handleAnswer(TgBot::Message::Ptr &msg);
 };
 
 } /* namespace muika::modules::jqftu */

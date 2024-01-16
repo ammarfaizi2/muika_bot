@@ -69,7 +69,6 @@ static char *generate_latex_text(const char *kanji)
 	curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, strlen(req_body));
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_cb);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &cr);
-	curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 	res = curl_easy_perform(curl);
 	curl_easy_cleanup(curl);
 	free(req_body);
@@ -184,16 +183,30 @@ void Session::worker(void)
 	while (!deck_.isFinished()) {
 		drawAndSendCardLocked();
 		cv_.wait_for(lock, std::chrono::seconds(10));
-		if (current_card_) {
-			m_.getBot().getApi().sendMessage(
-				chat_id_,
-				"Time's up! The answer is: " + current_card_->romaji,
-				true,
-				last_msg_id_
-			);
-			current_card_ = nullptr;
-		}
+		if (!current_card_)
+			continue;
+
+		m_.getBot().getApi().sendMessage(
+			chat_id_,
+			"Time's up!\n\n"
+			"Q: " + current_card_->kanji + "\n"
+			"The answer is: " + current_card_->hiragana + " (" + current_card_->romaji + ")",
+			true,
+			last_msg_id_
+		);
+		current_card_ = nullptr;
 	}
+
+	m_.getBot().getApi().sendMessage(
+		chat_id_,
+		"Quiz finished!",
+		true
+	);
+
+	lock.unlock();
+	std::unique_lock<std::mutex> lock2(sessions_mutex);
+	sessions.erase(chat_id_);
+	delete this;
 }
 
 int Session::start(void)
@@ -209,6 +222,81 @@ int Session::start(void)
 	}
 
 	return 0;
+}
+
+static void strtolower(std::string &str)
+{
+	for (auto &c : str)
+		c = tolower(c);
+}
+
+static void str_replace(std::string &str, const std::string &from,
+			const std::string &to)
+{
+	size_t pos = 0;
+
+	while ((pos = str.find(from, pos)) != std::string::npos) {
+		str.replace(pos, from.length(), to);
+		pos += to.length();
+	}
+}
+
+void Session::handleCorrectAnswer(TgBot::Message::Ptr &msg)
+{
+	m_.getBot().getApi().sendMessage(
+		chat_id_,
+		"Correct!\n\n"
+		"Q: " + current_card_->kanji + "\n"
+		"Station Number: " + current_card_->extra + "\n"
+		"The answer is: " + current_card_->hiragana + " (" + current_card_->romaji + ")",
+		true,
+		msg->messageId
+	);
+	current_card_ = nullptr;
+	cv_.notify_one();
+}
+
+void Session::handleAnswer(TgBot::Message::Ptr &msg)
+{
+	std::unique_lock<std::mutex> lock(mutex_);
+	std::string uanswer, canswer;
+
+	if (!current_card_)
+		return;
+
+	uanswer = msg->text;
+	if (uanswer == current_card_->hiragana) {
+		handleCorrectAnswer(msg);
+		return;
+	}
+
+	canswer = current_card_->romaji;
+	str_replace(canswer, "-", " ");
+	str_replace(canswer, " ", "");
+	strtolower(canswer);
+
+	str_replace(uanswer, "-", " ");
+	str_replace(uanswer, " ", "");
+	strtolower(uanswer);
+
+	if (uanswer == canswer) {
+		handleCorrectAnswer(msg);
+		return;
+	}
+
+	std::string o_to_o = canswer;
+	str_replace(o_to_o, "ō", "o");
+	if (o_to_o == uanswer) {
+		handleCorrectAnswer(msg);
+		return;
+	}
+
+	std::string o_to_ou = canswer;
+	str_replace(o_to_ou, "ō", "ou");
+	if (o_to_ou == uanswer) {
+		handleCorrectAnswer(msg);
+		return;
+	}
 }
 
 } /* namespace muika::modules::jqftu */

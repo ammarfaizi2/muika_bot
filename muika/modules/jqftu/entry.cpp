@@ -19,10 +19,28 @@ static bool is_space_or_null(char c)
 	return c == ' ' || c == '\t' || c == '\n' || c == '\0';
 }
 
+static int handle_answer(TgBot::Message::Ptr &msg)
+{
+	std::unique_lock<std::mutex> lock(sessions_mutex);
+	Session *s;
+
+	auto it = sessions.find(msg->chat->id);
+	if (it == sessions.end())
+		return MOD_ENTRY_CONTINUE;
+
+	s = it->second;
+	lock.unlock();
+	s->handleAnswer(msg);
+	return MOD_ENTRY_STOP;
+}
+
 static module_ret_t handle_jqftu_command(muika::Muika &m,
 					 TgBot::Message::Ptr &msg)
 {
 	const char *txt = msg->text.c_str();
+
+	if (handle_answer(msg) == MOD_ENTRY_STOP)
+		return MOD_ENTRY_STOP;
 
 	if (msg->text.length() < 6)
 		return MOD_ENTRY_CONTINUE;
