@@ -31,6 +31,7 @@ private:
 	void worker(void);
 	void drawAndSendCardLocked(void);
 	void handleCorrectAnswer(TgBot::Message::Ptr &msg);
+	void destroySession(void);
 public:
 	Session(Muika &m, int64_t chat_id, const std::string &deck_name);
 	~Session(void);

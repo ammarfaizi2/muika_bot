@@ -133,8 +133,15 @@ Session::Session(Muika &m, int64_t chat_id, const std::string &deck_name):
 {
 }
 
+inline void Session::destroySession(void)
+{
+	std::unique_lock<std::mutex> lock(sessions_mutex);
+	sessions.erase(chat_id_);
+}
+
 Session::~Session(void)
 {
+	destroySession();
 }
 
 void Session::drawAndSendCardLocked(void)
@@ -190,6 +197,7 @@ void Session::worker(void)
 			chat_id_,
 			"Time's up!\n\n"
 			"Q: " + current_card_->kanji + "\n"
+			"Station Number: " + current_card_->extra + "\n"
 			"The answer is: " + current_card_->hiragana + " (" + current_card_->romaji + ")",
 			true,
 			last_msg_id_
@@ -204,8 +212,6 @@ void Session::worker(void)
 	);
 
 	lock.unlock();
-	std::unique_lock<std::mutex> lock2(sessions_mutex);
-	sessions.erase(chat_id_);
 	delete this;
 }
 
