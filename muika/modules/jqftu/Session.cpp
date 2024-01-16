@@ -171,6 +171,7 @@ void Session::drawAndSendCardLocked(void)
 		return;
 	}
 
+	pr_debug("Current card: %s\n", c->romaji.c_str());
 	msg_p = m_.getBot().getApi().sendPhoto(chat_id_, img_url);
 	current_card_ = c;
 	last_msg_id_ = msg_p->messageId;
