@@ -13,7 +13,6 @@ private:
 	TgBot::Bot bot_;
 	void installHandlers(void);
 	void handleMessage(TgBot::Message::Ptr &msg);
-	void handleCmdMessage(TgBot::Message::Ptr &msg);
 
 public:
 	Muika(const std::string &token);

@@ -12,7 +12,8 @@ MUIKA := muika.bin
 MUIKA_SOURCES_CPP := \
 	muika/main.cpp \
 	muika/Muika.cpp \
-	muika/Jqftu.cpp
+	muika/ModuleManager.cpp \
+	muika/modules/jqftu/entry.cpp
 
 MUIKA_OBJECTS := $(MUIKA_SOURCES_CPP:.cpp=.o)
 MUIKA_DEPENDS := $(MUIKA_SOURCES_CPP:.cpp=.d)
