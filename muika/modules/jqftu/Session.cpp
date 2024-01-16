@@ -172,7 +172,11 @@ void Session::drawAndSendCardLocked(void)
 	}
 
 	pr_debug("Current card: %s\n", c->romaji.c_str());
-	msg_p = m_.getBot().getApi().sendPhoto(chat_id_, img_url);
+	msg_p = m_.getBot().getApi().sendPhoto(chat_id_, img_url,
+			"Scope: Tokyo Metro Tozai Line (東西線)\n\n"
+			"Write the kana or romaji of this kanji!\n"
+			"Time limit: 30 minutes");
+	free(img_url);
 	current_card_ = c;
 	last_msg_id_ = msg_p->messageId;
 }
@@ -190,7 +194,7 @@ void Session::worker(void)
 	std::unique_lock<std::mutex> lock(mutex_);
 	while (!deck_.isFinished()) {
 		drawAndSendCardLocked();
-		cv_.wait_for(lock, std::chrono::seconds(10));
+		cv_.wait_for(lock, std::chrono::seconds(1200));
 		if (!current_card_)
 			continue;
 
