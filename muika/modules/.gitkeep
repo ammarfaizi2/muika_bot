@@ -17,7 +17,12 @@ private:
 
 	void parseArgs(void);
 	void showHelp(void);
-
+	void startJqftu(void);
+	char *getDeckJsonFilePath(void);
+	char *getDeckJsonString(void);
+	int randomPickFromDeck(std::string &kanji, std::string &romaji,
+			       std::string &hiragana, std::string &katakana,
+			       std::string &extra);
 public:
 	Jqftu(Muika &m, TgBot::Message::Ptr &msg);
 	~Jqftu(void);
