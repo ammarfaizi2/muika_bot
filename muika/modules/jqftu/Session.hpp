@@ -21,7 +21,14 @@ namespace jqftu {
 
 struct Score {
 	uint32_t point_;
-	inline Score(uint32_t point): point_(point) {}
+	std::string full_name_;
+	std::string username_;
+	inline Score(uint32_t point, std::string full_name, std::string username):
+		point_(point),
+		full_name_(full_name),
+		username_(username)
+	{
+	}
 };
 
 class Session {
@@ -34,12 +41,16 @@ private:
 	std::unique_ptr<Deck> deck_;
 	Card *current_card_ = nullptr;
 	std::unordered_map<int64_t, Score> scores_;
-	uint32_t timeout_ = 300;
+	uint32_t timeout_ = 1800;
 	uint32_t next_delay_ = 5;
 	volatile bool should_stop_ = false;
 	std::atomic<int> ref_count_;
+	uint64_t last_msg_id_ = 0;
 
 	void worker(void);
+	bool sendCard(void);
+	void sendFailMessage(const std::string &msg);
+	void sendFinishMessage(void);
 
 public:
 	Session(Muika &m, int64_t chat_id, const std::string &deck_name);

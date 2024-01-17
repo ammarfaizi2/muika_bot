@@ -41,7 +41,9 @@ public:
 
 	virtual ~Card(void) = default;
 	virtual bool answer(const std::string &answer) const override;
-	virtual const std::string &getInfo(void) const override;
+	virtual std::string getAnswerInfo(void) override;
+	virtual std::string getQuestion(void) override;
+	virtual std::string getQuestionInfo(void) override;
 };
 
 } /* namespace muika::modules::jqftu::decks::tozai_line */

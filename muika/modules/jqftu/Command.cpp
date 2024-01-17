@@ -7,6 +7,7 @@
 #include <mutex>
 #include <cctype>
 #include <cassert>
+#include <cstring>
 #include <unordered_map>
 
 namespace muika {
@@ -61,12 +62,6 @@ void Command::start(void)
 {
 	Session *sess;
 
-	parseArgs();
-	if (args_.size() != 1) {
-		showHelp();
-		return;
-	}	
-
 	sess = Session::createSession(m_, msg_->chat->id, args_[0]);
 	if (!sess) {
 		m_.getBot().getApi().sendMessage(
@@ -83,12 +78,35 @@ void Command::execute(void)
 	assert(msg_->text.length() >= 6);
 	parseArgs();
 
-	if (args_.size() == 0) {
+	if (args_.size() != 1) {
 		showHelp();
 		return;
 	}
 
 	start();
+}
+
+static std::string strtolower(const std::string &str)
+{
+	std::string ret;
+
+	for (auto c : str)
+		ret += std::tolower(c);
+
+	return ret;
+}
+
+bool Command::isStopCommand(void)
+{
+	if (msg_->text.length() < 6)
+		return false;
+
+	parseArgs();
+
+	if (args_.size() != 1)
+		return false;
+
+	return strtolower(args_[0]) == "stop";
 }
 
 } /* namespace muika::modules::jqftu */

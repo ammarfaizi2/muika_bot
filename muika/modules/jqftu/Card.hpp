@@ -17,7 +17,9 @@ public:
 	Card(void) = default;
 	virtual ~Card(void) = default;
 	virtual bool answer(const std::string &answer) const = 0;
-	virtual const std::string &getInfo(void) const = 0;
+	virtual std::string getAnswerInfo(void) = 0;
+	virtual std::string getQuestion(void) = 0;
+	virtual std::string getQuestionInfo(void) = 0;
 };
 
 } /* namespace muika::modules::jqftu */

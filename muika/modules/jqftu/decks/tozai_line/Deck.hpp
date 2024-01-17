@@ -16,7 +16,8 @@ namespace tozai_line {
 
 class Deck: public muika::modules::jqftu::Deck {
 private:
-	std::vector<Card> deck_;
+	std::vector<Card> cards_;
+	uint32_t current_card_;
 	void loadDeck(void);
 	char *getDeckJsonString(void);
 

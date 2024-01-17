@@ -22,6 +22,7 @@ public:
 	Command(Muika &m, TgBot::Message::Ptr &msg);
 	~Command(void) = default;
 	void execute(void);
+	bool isStopCommand(void);
 };
 
 } /* namespace muika::modules::jqftu */

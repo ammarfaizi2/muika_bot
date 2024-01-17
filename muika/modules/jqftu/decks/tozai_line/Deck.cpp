@@ -4,6 +4,9 @@
 #include <cstring>
 #include <cstdlib>
 #include <nlohmann/json.hpp>
+#include <algorithm>
+#include <stdexcept>
+#include <random>
 
 using json = nlohmann::json;
 
@@ -102,7 +105,7 @@ inline void Deck::loadDeck(void)
 			throw std::runtime_error("JSON element does not contain \"katakana\" or is not a string");
 		}
 
-		deck_.emplace_back(
+		cards_.emplace_back(
 			card["n"].get<std::string>(),
 			card["kanji"].get<std::string>(),
 			card["romaji"].get<std::string>(),
@@ -116,16 +119,24 @@ inline void Deck::loadDeck(void)
 
 void Deck::shuffle(void)
 {
+	std::random_device rd;
+	std::mt19937 g(rd());
+
+	std::shuffle(cards_.begin(), cards_.end(), g);
+	current_card_ = 0;
 }
 
 Card *Deck::draw(void)
 {
-	return nullptr;
+	if (current_card_ >= cards_.size())
+		return nullptr;
+
+	return &cards_[current_card_++];
 }
 
 bool Deck::isFinished(void) const
 {
-	return true;
+	return current_card_ >= cards_.size();
 }
 
 } /* namespace muika::modules::jqftu::decks::tozai_line */

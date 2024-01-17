@@ -10,12 +10,31 @@ namespace tozai_line {
 
 bool Card::answer(const std::string &answer) const
 {
+	if (answer == hiragana_ || answer == katakana_)
+		return true;
+
+	if (normalizedJapaneseCompare(answer, romaji_))
+		return true;
+
 	return false;
 }
 
-const std::string &Card::getInfo(void) const
+std::string Card::getAnswerInfo(void)
 {
-	return n_;
+	return  "Q: " + kanji_ + "\n"
+		"Station number: " + n_ + "\n"
+		"Answer: " + hiragana_ + " (" + romaji_ + ")\n";
+}
+
+std::string Card::getQuestion(void)
+{
+	return kanji_;
+}
+
+std::string Card::getQuestionInfo(void)
+{
+	return  "Scope: Tokyo Metro Tozai Line\n\n"
+		"Write the kana or romaji for the following station name!";
 }
 
 } /* namespace muika::modules::jqftu::decks::tozai_line */

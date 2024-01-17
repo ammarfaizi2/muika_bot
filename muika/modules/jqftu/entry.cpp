@@ -3,6 +3,7 @@
 #include "muika/modules/jqftu/entry.hpp"
 #include "muika/modules/jqftu/Session.hpp"
 #include "muika/modules/jqftu/Command.hpp"
+#include "muika/modules/jqftu/internal.hpp"
 
 namespace muika {
 namespace modules {
@@ -16,12 +17,21 @@ static inline bool is_space_or_null(char c)
 module_ret_t entry(muika::Muika &m, TgBot::Message::Ptr &msg)
 {
 	Session *sess = Session::getSession(msg->chat->id);
+	Command c(m, msg);
 	const char *txt;
 
 	if (sess) {
-		sess->answer(msg);
-		Session::putSession(sess);
-		return MOD_ENTRY_CONTINUE;
+		if (c.isStopCommand()) {
+			pr_debug("Stopping session for chat_id %ld\n", msg->chat->id);
+			sess->stop();
+			Session::putSession(sess);
+			return MOD_ENTRY_STOP;
+		} else {
+			pr_debug("Answering session for chat_id %ld\n", msg->chat->id);
+			sess->answer(msg);
+			Session::putSession(sess);
+			return MOD_ENTRY_CONTINUE;
+		}
 	}
 
 	if (msg->text.length() < 6)
@@ -37,7 +47,6 @@ module_ret_t entry(muika::Muika &m, TgBot::Message::Ptr &msg)
 	if (memcmp(&txt[1], "jqftu", 5) != 0 || !is_space_or_null(txt[6]))
 		return MOD_ENTRY_CONTINUE;
 
-	Command c(m, msg);
 	c.execute();
 	return MOD_ENTRY_STOP;
 }
