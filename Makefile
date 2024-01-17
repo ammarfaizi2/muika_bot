@@ -5,7 +5,7 @@ CXX = g++
 LD = $(CXX)
 CFLAGS := -Wall -Wextra -Os -ggdb3 -std=gnu11 $(CFLAGS) -I.
 CXXFLAGS := -Wall -Wextra -Os -ggdb -std=gnu++14 $(CXXFLAGS) -Ijson/include -I.
-LDFLAGS := -Os -ggdb3 $(LDFLAGS) -flto
+LDFLAGS := -Os -ggdb3 $(LDFLAGS)
 LIBS := -lcurl -lpthread -lTgBot -lcrypto -lssl
 
 MUIKA := muika.bin
