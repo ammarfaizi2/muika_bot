@@ -3,8 +3,8 @@
 CC = gcc
 CXX = g++
 LD = $(CXX)
-CFLAGS := -Wall -Wextra -Os -ggdb3 -std=gnu11 $(CFLAGS) -I.
-CXXFLAGS := -Wall -Wextra -Os -ggdb -std=gnu++14 $(CXXFLAGS) -Ijson/include -I.
+CFLAGS := -Wall -Wextra -Os -ggdb3 -std=gnu11 $(CFLAGS) -I. -Wno-deprecated
+CXXFLAGS := -Wall -Wextra -Os -ggdb -std=gnu++14 $(CXXFLAGS) -Ijson/include -I. -Wno-deprecated
 LDFLAGS := -Os -ggdb3 $(LDFLAGS)
 LIBS := -lcurl -lpthread -lTgBot -lcrypto -lssl
 
