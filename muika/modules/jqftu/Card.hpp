@@ -10,9 +10,14 @@ namespace modules {
 namespace jqftu {
 
 struct Card {
+protected:
+	bool normalizedJapaneseCompare(const std::string &a, const std::string &b) const;
+
 public:
 	Card(void) = default;
 	virtual ~Card(void) = default;
+	virtual bool answer(const std::string &answer) const = 0;
+	virtual const std::string &getInfo(void) const = 0;
 };
 
 } /* namespace muika::modules::jqftu */

@@ -11,7 +11,17 @@ namespace jqftu {
 
 class Command {
 private:
+	Muika &m_;
+	TgBot::Message::Ptr &msg_;
+	std::vector<std::string> args_;
+	void parseArgs(void);
+	void showHelp(void);
+	void start(void);
+
 public:
+	Command(Muika &m, TgBot::Message::Ptr &msg);
+	~Command(void) = default;
+	void execute(void);
 };
 
 } /* namespace muika::modules::jqftu */

@@ -5,8 +5,8 @@
 
 #include <string>
 
-#include "muika/Muika.hpp"
 #include "muika/ModuleManager.hpp"
+#include "muika/modules/jqftu/Session.hpp"
 
 namespace muika {
 namespace modules {

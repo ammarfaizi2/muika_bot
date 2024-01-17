@@ -5,7 +5,7 @@ CXX = g++
 LD = $(CXX)
 CFLAGS := -Wall -Wextra -O2 -ggdb3 -std=gnu11 $(CFLAGS) -I.
 CXXFLAGS := -Wall -Wextra -O2 -ggdb -std=gnu++14 $(CXXFLAGS) -Ijson/include -I.
-LDFLAGS := -O2 -ggdb3 $(LDFLAGS)
+LDFLAGS := -O2 -ggdb3 $(LDFLAGS) -flto
 LIBS := -lcurl -lpthread -lTgBot -lcrypto -lssl
 
 MUIKA := muika.bin
@@ -18,7 +18,8 @@ MUIKA_SOURCES_CPP := \
 	muika/modules/jqftu/Card.cpp \
 	muika/modules/jqftu/Session.cpp \
 	muika/modules/jqftu/Command.cpp \
-	muika/modules/jqftu/decks/tozai_line/Deck.cpp
+	muika/modules/jqftu/decks/tozai_line/Deck.cpp \
+	muika/modules/jqftu/decks/tozai_line/Card.cpp
 
 MUIKA_OBJECTS := $(MUIKA_SOURCES_CPP:.cpp=.o)
 MUIKA_DEPENDS := $(MUIKA_SOURCES_CPP:.cpp=.d)
