@@ -19,7 +19,12 @@ private:
 	void start(void);
 
 public:
-	Command(Muika &m, TgBot::Message::Ptr &msg);
+	inline Command(Muika &m, TgBot::Message::Ptr &msg):
+		m_(m),
+		msg_(msg)
+	{
+	}
+
 	~Command(void) = default;
 	void execute(void);
 	bool isStopCommand(void);

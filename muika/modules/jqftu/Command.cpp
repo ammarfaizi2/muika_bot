@@ -26,12 +26,6 @@ static const std::string help_str =
 	"- (JK) <code>keihin_tohoku_line</code> - JR Keihin-Tohoku Line (京浜東北線)\n"
 	"- (JA) <code>saikyo_line</code> - JR Saikyo Line (埼京線)";
 
-Command::Command(Muika &m, TgBot::Message::Ptr &msg):
-	m_(m),
-	msg_(msg)
-{
-}
-
 inline void Command::parseArgs(void)
 {
 	const char *start = msg_->text.c_str() + 6;
@@ -80,6 +74,11 @@ void Command::execute(void)
 
 	if (args_.size() != 1) {
 		showHelp();
+		return;
+	}
+
+	if (args_[0] == "stop") {
+		m_.getBot().getApi().sendMessage(msg_->chat->id, "No session to stop!");
 		return;
 	}
 
