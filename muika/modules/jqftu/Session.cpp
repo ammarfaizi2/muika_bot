@@ -260,7 +260,7 @@ inline void Session::worker(void)
 		}
 
 		if (!deck_->isFinished() && !should_stop_)
-			std::this_thread::sleep_for(std::chrono::seconds(next_delay_));
+			cond_.wait_for(lock, std::chrono::seconds(next_delay_));
 	}
 
 	sendFinishMessage();
