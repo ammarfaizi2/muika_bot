@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: GPL-2.0-only
 
-#ifndef MUIKA__ENTRY_HPP
-#define MUIKA__ENTRY_HPP
+#ifndef MUIKA__MODULES__JQFTU__ENTRY_HPP
+#define MUIKA__MODULES__JQFTU__ENTRY_HPP
 
-#include "../../ModuleManager.hpp"
+#include <string>
+
+#include "muika/Muika.hpp"
+#include "muika/ModuleManager.hpp"
 
 namespace muika {
 namespace modules {
@@ -15,4 +18,4 @@ module_ret_t entry(muika::Muika &m, TgBot::Message::Ptr &msg);
 } /* namespace muika::modules */
 } /* namespace muika */
 
-#endif /* MUIKA__ENTRY_HPP */
+#endif /* MUIKA__MODULES__JQFTU__ENTRY_HPP */

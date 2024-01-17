@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-only
 
-#ifndef MUIKA__CARD_HPP
-#define MUIKA__CARD_HPP
+#ifndef MUIKA__MODULES__JQFTU__CARD_HPP
+#define MUIKA__MODULES__JQFTU__CARD_HPP
 
 #include <string>
 
@@ -10,15 +10,13 @@ namespace modules {
 namespace jqftu {
 
 struct Card {
-	std::string kanji;
-	std::string romaji;
-	std::string hiragana;
-	std::string katakana;
-	std::string extra;
+public:
+	Card(void) = default;
+	virtual ~Card(void) = default;
 };
 
 } /* namespace muika::modules::jqftu */
 } /* namespace muika::modules */
 } /* namespace muika */
 
-#endif /* MUIKA__CARD_HPP */
+#endif /* MUIKA__MODULES__JQFTU__CARD_HPP */
