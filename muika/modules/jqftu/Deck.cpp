@@ -2,6 +2,7 @@
 
 #include "muika/modules/jqftu/Deck.hpp"
 #include "muika/modules/jqftu/decks/tozai_line/Deck.hpp"
+#include "muika/modules/jqftu/decks/jlpt_n5/Deck.hpp"
 
 #include <stdexcept>
 
@@ -13,6 +14,9 @@ std::unique_ptr<Deck> Deck::createDeck(const std::string &name)
 {
 	if (name == "tozai_line")
 		return std::make_unique<decks::tozai_line::Deck>();
+
+	if (name == "jlpt_n5")
+		return std::make_unique<decks::jlpt_n5::Deck>();
 
 	throw std::invalid_argument("Unknown deck name: " + name);
 }
