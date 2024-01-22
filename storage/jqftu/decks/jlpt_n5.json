@@ -1,11 +1,5 @@
 [
 	{
-		"kanji": "kanji",
-		"kana": "kana",
-		"romaji": "romaji",
-		"en": "en"
-	},
-	{
 		"kanji": "お兄さん",
 		"kana": "おにいさん",
 		"romaji": "oniisan",
@@ -146,7 +140,7 @@
 	{
 		"kanji": "先月",
 		"kana": "せんげつ",
-		"romaji": "sengestu",
+		"romaji": "sengetsu",
 		"en": "last month"
 	},
 	{
@@ -164,7 +158,7 @@
 	{
 		"kanji": "六つ",
 		"kana": "むっつ",
-		"romaji": "mutsu",
+		"romaji": "muttsu",
 		"en": "six (objects)"
 	},
 	{
@@ -468,7 +462,7 @@
 		"en": "to be born"
 	},
 	{
-		"kanji": "学生",
+		"kanji": "生徒",
 		"kana": "せいと",
 		"romaji": "seito",
 		"en": "student"
