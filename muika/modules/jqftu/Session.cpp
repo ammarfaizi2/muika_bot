@@ -264,6 +264,8 @@ inline void Session::worker(void)
 
 		if (!deck_->isFinished() && !should_stop_)
 			cond_.wait_for(lock, std::chrono::seconds(next_delay_));
+
+		serializeSessions(chat_id_);
 	}
 
 	sendFinishMessage();
@@ -532,6 +534,45 @@ void Session::init(Muika &m)
 	}
 
 	closedir(dir);
+}
+
+// static 
+void Session::serializeSessions(int64_t key)
+{
+	std::unique_lock<std::mutex> lock(g_sessions_mutex);
+	auto it = g_sessions.find(key);
+	std::string json_str;
+	char path[4096];
+	size_t len;
+	FILE *fp;
+	json j;
+
+	if (it == g_sessions.end())
+		return;
+
+	j["chat_id"] = it->second->chat_id_;
+	j["deck_name"] = it->second->deck_->getName();
+	j["scores"] = json::array();
+	for (auto &s: it->second->scores_) {
+		json so;
+
+		so["user_id"] = s.first;
+		so["full_name"] = s.second.full_name_;
+		so["username"] = s.second.username_;
+		so["point"] = s.second.point_;
+		j["scores"].push_back(so);
+	}
+
+	json_str = j.dump();
+	snprintf(path, sizeof(path), "./storage/jqftu/sessions/s_%lld.json", (long long)key);
+	fp = fopen(path, "wb");
+	if (!fp)
+		return;
+
+	len = fwrite(json_str.c_str(), 1, json_str.length(), fp);
+	fclose(fp);
+	if (len != json_str.length())
+		remove(path);
 }
 
 } /* namespace muika::modules::jqftu */
