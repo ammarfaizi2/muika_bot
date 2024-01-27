@@ -37,6 +37,7 @@ void Muika::start(void)
 {
 	TgBot::TgLongPoll longPoll(bot_);
 
+	ModuleManager::initModules(*this);
 	installHandlers();
 	printf("Bot username: %s\n", bot_.getApi().getMe()->username.c_str());
 

@@ -51,6 +51,7 @@ private:
 	bool sendCard(void);
 	void sendFailMessage(const std::string &msg);
 	void sendFinishMessage(void);
+	void _start(void);
 
 public:
 	Session(Muika &m, int64_t chat_id, const std::string &deck_name);
@@ -65,6 +66,8 @@ public:
 	static void putSession(Session *sess);
 	static Session *createSession(Muika &m, int64_t chat_id, const std::string &deck_name);
 	static void deleteSession(int64_t chat_id);
+	static void initSessionFromJson(Muika &m, void *json_ptr);
+	static void init(Muika &m);
 };
 
 } /* namespace muika::modules::jqftu */

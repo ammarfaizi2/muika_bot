@@ -14,6 +14,12 @@ static inline bool is_space_or_null(char c)
 	return c == ' ' || c == '\t' || c == '\n' || c == '\0';
 }
 
+module_ret_t init(muika::Muika &m)
+{
+	Session::init(m);
+	return MOD_ENTRY_CONTINUE;
+}
+
 module_ret_t entry(muika::Muika &m, TgBot::Message::Ptr &msg)
 {
 	Session *sess = Session::getSession(msg->chat->id);

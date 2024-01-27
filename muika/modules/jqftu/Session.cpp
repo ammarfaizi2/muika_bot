@@ -8,6 +8,9 @@
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 
+#include <cstdio>
+#include <dirent.h>
+
 using json = nlohmann::json;
 
 namespace muika {
@@ -270,7 +273,7 @@ inline void Session::worker(void)
 		delete this;
 }
 
-void Session::start(void)
+void Session::_start(void)
 {
 	std::unique_lock<std::mutex> lock(mutex_);
 
@@ -285,6 +288,11 @@ void Session::start(void)
 	}
 
 	worker_.detach();
+}
+
+void Session::start(void)
+{
+	_start();
 	m_.getBot().getApi().sendMessage(chat_id_, "Session started!");
 }
 
@@ -396,6 +404,134 @@ void Session::deleteSession(int64_t chat_id)
 		return;
 
 	g_sessions.erase(it);
+}
+
+static char *load_str_from_file(const char *file_handle)
+{
+	size_t size, read_size;
+	char *ret, path[4096];
+	FILE *fp;
+
+	snprintf(path, sizeof(path), "./storage/jqftu/sessions/%s", file_handle);
+	fp = fopen(path, "rb");
+	if (!fp)
+		return NULL;
+
+	fseek(fp, 0, SEEK_END);
+	size = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+
+	ret = (char *)malloc(size + 1);
+	if (!ret) {
+		fclose(fp);
+		return NULL;
+	}
+
+	read_size = fread(ret, 1, size, fp);
+	fclose(fp);
+
+	if (read_size != size) {
+		free(ret);
+		return NULL;
+	}
+
+	ret[size] = '\0';
+	return ret;
+}
+
+// static 
+void Session::initSessionFromJson(Muika &m, void *json_ptr)
+{
+	json &j = *(json *)json_ptr;
+	std::string deck_name;
+	int64_t chat_id;
+	Session *s;
+
+	if (!j.is_object())
+		return;
+
+	if (j.find("chat_id") == j.end() || !j["chat_id"].is_number_integer())
+		return;
+
+	if (j.find("deck_name") == j.end() || !j["deck_name"].is_string())
+		return;
+
+	if (j.find("scores") == j.end() || !j["scores"].is_array())
+		return;
+
+	deck_name = j["deck_name"].get<std::string>();
+	chat_id = j["chat_id"].get<int64_t>();
+	s = Session::createSession(m, chat_id, deck_name);
+	if (!s)
+		return;
+
+	for (auto &score: j["scores"].items()) {
+		auto &so = score.value();
+
+		if (!so.is_object())
+			continue;
+
+		if (so.find("user_id") == so.end() || !so["user_id"].is_number_integer())
+			continue;
+
+		if (so.find("full_name") == so.end() || !so["full_name"].is_string())
+			continue;
+
+		if (so.find("username") == so.end() || !so["username"].is_string())
+			continue;
+
+		if (so.find("point") == so.end() || !so["point"].is_number_integer())
+			continue;
+
+		s->scores_.emplace(so["user_id"].get<int64_t>(),
+				   Score{so["point"].get<uint32_t>(),
+					 so["full_name"].get<std::string>(),
+					 so["username"].get<std::string>()});
+	}
+
+	s->_start();
+}
+
+// static
+void Session::init(Muika &m)
+{
+	DIR *dir;
+
+	curl_global_init(CURL_GLOBAL_ALL);
+
+	dir = opendir("./storage/jqftu/sessions");
+	if (!dir)
+		return;
+
+	while (1) {
+		struct dirent *p;
+		char *json_str;
+		const char *n;
+		json j;
+
+		p = readdir(dir);
+		if (!p)
+			break;
+
+		n = p->d_name;
+		if (n[0] == 's' && n[1] == '_') {
+			json_str = load_str_from_file(p->d_name);
+			if (!json_str)
+				continue;
+
+			try {
+				j = json::parse(json_str);
+			} catch (json::parse_error &e) {
+				free(json_str);
+				continue;
+			}
+
+			initSessionFromJson(m, &j);
+			free(json_str);
+		}
+	}
+
+	closedir(dir);
 }
 
 } /* namespace muika::modules::jqftu */

@@ -13,6 +13,7 @@ namespace modules {
 namespace jqftu {
 
 module_ret_t entry(muika::Muika &m, TgBot::Message::Ptr &msg);
+module_ret_t init(muika::Muika &m);
 
 } /* namespace muika::modules::jqftu */
 } /* namespace muika::modules */

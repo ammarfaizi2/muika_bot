@@ -20,11 +20,13 @@ enum module_ret_t {
 };
 
 typedef std::function<module_ret_t (muika::Muika &m, TgBot::Message::Ptr &msg)> module_entry_t;
+typedef std::function<module_ret_t (muika::Muika &m)> module_init_t;
 
 namespace muika {
 
 class ModuleManager {
 public:
+	static int initModules(Muika &m);
 	static int invokeModules(Muika &m, TgBot::Message::Ptr &msg);
 };
 
