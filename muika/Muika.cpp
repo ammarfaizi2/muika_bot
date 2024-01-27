@@ -7,6 +7,8 @@
 #include <cstring>
 #include <cstdlib>
 
+#include <unistd.h>
+
 namespace muika {
 
 Muika::Muika(const std::string &token):
@@ -37,8 +39,16 @@ void Muika::start(void)
 
 	installHandlers();
 	printf("Bot username: %s\n", bot_.getApi().getMe()->username.c_str());
-	while (true)
-		longPoll.start();
+
+	while (true) {
+		try {
+			while (true)
+				longPoll.start();
+		} catch (std::exception &e) {
+			printf("Error: %s\n", e.what());
+			sleep(3);
+		}
+	}
 }
 
 } /* namespace muika */
