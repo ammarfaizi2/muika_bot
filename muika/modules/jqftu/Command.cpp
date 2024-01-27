@@ -24,7 +24,9 @@ static const std::string help_str =
 	"- (JB) <code>chuo_sobu_line</code> - JR Chuo-Sobu Line (中央・総武緩行線)\n"
 	"- (JC) <code>chuo_line</code> - JR Chuo Line (中央線快速)\n"
 	"- (JK) <code>keihin_tohoku_line</code> - JR Keihin-Tohoku Line (京浜東北線)\n"
-	"- (JA) <code>saikyo_line</code> - JR Saikyo Line (埼京線)";
+	"- (JA) <code>saikyo_line</code> - JR Saikyo Line (埼京線)\n\n"
+	"List JLPT Kotoba Decks:\n"
+	"- (N5) <code>jlpt_n5</code> - JLPT N5 Kotoba\n";
 
 inline void Command::parseArgs(void)
 {

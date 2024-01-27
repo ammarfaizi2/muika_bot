@@ -19,7 +19,9 @@ MUIKA_SOURCES_CPP := \
 	muika/modules/jqftu/Session.cpp \
 	muika/modules/jqftu/Command.cpp \
 	muika/modules/jqftu/decks/tozai_line/Deck.cpp \
-	muika/modules/jqftu/decks/tozai_line/Card.cpp
+	muika/modules/jqftu/decks/tozai_line/Card.cpp \
+	muika/modules/jqftu/decks/jlpt_n5/Deck.cpp \
+	muika/modules/jqftu/decks/jlpt_n5/Card.cpp
 
 MUIKA_OBJECTS := $(MUIKA_SOURCES_CPP:.cpp=.o)
 MUIKA_DEPENDS := $(MUIKA_SOURCES_CPP:.cpp=.d)
