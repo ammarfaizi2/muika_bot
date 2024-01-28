@@ -3,23 +3,41 @@
 #ifndef MUIKA__MODULES__JQFTU__CARD_HPP
 #define MUIKA__MODULES__JQFTU__CARD_HPP
 
-#include <string>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 namespace muika {
 namespace modules {
 namespace jqftu {
 
-struct Card {
+class Card {
+private:
+	uint8_t romaji_fault_tolerance_ = 10; /* In percent */
+	bool cmpAllowSimilarRomaji(const std::string &a, const std::string &b);
+
 protected:
-	bool normalizedJapaneseCompare(const std::string &a, const std::string &b) const;
+
+	static std::string generateLatexPng(const char *latex_code);
+	static std::string generateLatexPngUrl(const char *latex_code);
+	static void freeLatexHeap(char *ptr);
+	inline void setRomajiFaultTolerance(uint8_t tolerance) { romaji_fault_tolerance_ = tolerance; }
+	bool normalizedRomajiCompare(const std::string &a, const std::string &b);
 
 public:
 	Card(void) = default;
 	virtual ~Card(void) = default;
-	virtual bool answer(const std::string &answer) const = 0;
-	virtual std::string getAnswerInfo(void) = 0;
-	virtual std::string getQuestion(void) = 0;
-	virtual std::string getQuestionInfo(void) = 0;
+	virtual bool checkAnswer(const std::string &answer) = 0;
+	virtual std::string getCardImage(void) = 0;
+	virtual std::string getCardCaption(void) = 0;
+	virtual std::string getCardAnswer(void) = 0;
+	virtual std::string getCardDetails(void) = 0;
+	virtual json toJson(void) const = 0;
+	virtual void fromJson(const json &j) = 0;
+	inline uint8_t getRomajiFaultTolerance(void) const { return romaji_fault_tolerance_; }
+
+	static void threadInit(void);
+	static void threadFree(void);
 };
 
 } /* namespace muika::modules::jqftu */
