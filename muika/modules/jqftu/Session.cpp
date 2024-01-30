@@ -496,7 +496,7 @@ void Session::loadAllPointsFromDisk(int64_t chat_id, std::unordered_map<uint64_t
 	char path[4096];
 	DIR *dir;
 
-	snprintf(path, sizeof(path), "./storage/jqftu/s_%lld", (long long)chat_id);
+	snprintf(path, sizeof(path), "./storage/jqftu/points/s_%lld", (long long)chat_id);
 	dir = opendir(path);
 	if (!dir)
 		return;
@@ -521,6 +521,8 @@ void Session::loadAllPointsFromDisk(int64_t chat_id, std::unordered_map<uint64_t
 			continue;
 
 		try {
+			pr_debug("Loading point from disk, chat_id=%lld, user_id=%lld",
+				 (long long)chat_id, (long long)user_id);
 			Point p = Point::tryLoadFromDisk(chat_id, user_id);
 			if (p.getUserId() == user_id)
 				points.emplace(user_id, p);

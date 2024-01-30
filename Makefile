@@ -18,7 +18,10 @@ MUIKA_SOURCES_CPP := \
 	muika/modules/jqftu/Deck.cpp \
 	muika/modules/jqftu/deck_foundations/japan_eki/Card.cpp \
 	muika/modules/jqftu/deck_foundations/japan_eki/Deck.cpp \
+	muika/modules/jqftu/deck_foundations/kotoba/Card.cpp \
+	muika/modules/jqftu/deck_foundations/kotoba/Deck.cpp \
 	muika/modules/jqftu/decks/tozai_line/Deck.cpp \
+	muika/modules/jqftu/decks/jlpt_n5/Deck.cpp \
 	muika/modules/jqftu/DeckGroup.cpp \
 	muika/modules/jqftu/Point.cpp \
 	muika/modules/jqftu/Session.cpp \
