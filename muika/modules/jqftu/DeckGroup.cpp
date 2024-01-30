@@ -2,6 +2,7 @@
 
 #include "muika/modules/jqftu/DeckGroup.hpp"
 #include "muika/modules/jqftu/decks/tozai_line/Deck.hpp"
+#include "muika/modules/jqftu/decks/jlpt_n5/Deck.hpp"
 
 #include <mutex>
 #include <string>
@@ -19,6 +20,9 @@ std::unique_ptr<Deck> DeckGroup::createDeckByName(const std::string &name)
 {
 	if (name == "tozai_line")
 		return std::make_unique<muika::modules::jqftu::decks::tozai_line::Deck>();
+
+	if (name == "jlpt_n5")
+		return std::make_unique<muika::modules::jqftu::decks::jlpt_n5::Deck>();
 
 	throw std::runtime_error("Unknown deck: " + name);
 }
