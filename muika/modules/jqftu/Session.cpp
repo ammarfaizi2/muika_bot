@@ -1,401 +1,574 @@
 // SPDX-License-Identifier: GPL-2.0-only
 
 #include "muika/modules/jqftu/Session.hpp"
-#include "muika/modules/jqftu/internal.hpp"
 
-#include <unordered_map>
-#include <stdexcept>
-#include <curl/curl.h>
-#include <nlohmann/json.hpp>
+#include <cstdio>
+#include <cerrno>
 
-using json = nlohmann::json;
+#include <dirent.h>
+
+using muika::htmlspecialchars;
 
 namespace muika {
 namespace modules {
 namespace jqftu {
 
-static std::unordered_map<int64_t, Session *> g_sessions;
-static std::mutex g_sessions_mutex;
-
-struct curl_resp {
-	char	*data;
-	size_t	size;
-};
-
-static size_t curl_cb(void *data, size_t size, size_t nmemb, void *userp)
-{
-	struct curl_resp *cr = (struct curl_resp *)userp;
-	size_t real_size = size * nmemb;
-	char *tmp;
-	
-	tmp = (char *)realloc(cr->data, cr->size + real_size + 1);
-	if (!tmp)
-		return 0;
-
-	cr->data = tmp;
-	memcpy(cr->data + cr->size, data, real_size);
-	cr->size += real_size;
-	cr->data[cr->size] = '\0';
-	return real_size;
-}
-
-static char *generate_latex_text(const char *kanji)
-{
-	static const char data_template[] = "{\"content\":\"\\\\documentclass[32pt]{article}\\n\\\\usepackage{CJKutf8}\\n\\\\thispagestyle{empty}\\n\\\\begin{document}\\n\\\\begin{CJK}{UTF8}{min}\\n%s\\n\\\\end{CJK}\\n\\\\end{document}\\n\",\"d\":800,\"border\":\"100x80\",\"bcolor\":\"white\"}";
-	struct curl_slist *headers = NULL;
-	struct curl_resp cr;
-	size_t body_len;
-	char *req_body;
-	CURLcode res;
-	CURL *curl;
-
-	body_len = strlen(data_template) + strlen(kanji);
-	req_body = (char *)malloc(body_len + 1);
-	if (!req_body)
-		return NULL;
-
-	curl = curl_easy_init();
-	if (!curl) {
-		free(req_body);
-		return NULL;
-	}
-
-	cr.data = NULL;
-	cr.size = 0;
-	snprintf(req_body, body_len + 1, data_template, kanji);
-
-	headers = curl_slist_append(headers, "Content-Type: text/plain;charset=UTF-8");
-	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-	curl_easy_setopt(curl, CURLOPT_URL, "https://latex.teainside.org/api.php?action=tex2png_no_op");
-	curl_easy_setopt(curl, CURLOPT_POST, 1);
-	curl_easy_setopt(curl, CURLOPT_POSTFIELDS, req_body);
-	curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, strlen(req_body));
-	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_cb);
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &cr);
-	res = curl_easy_perform(curl);
-	curl_easy_cleanup(curl);
-	free(req_body);
-
-	if (res != CURLE_OK) {
-		free(cr.data);
-		return NULL;
-	}
-
-	return cr.data;
-}
-
-static char *generate_text_image(const char *kanji)
-{
-	static const char url_template[] = "https://latex.teainside.org/api.php?action=file&type=png&hash=";
-	char *json_str = generate_latex_text(kanji);
-	size_t len;
-	char *ret;
-	json j;
-
-	if (!json_str)
-		return NULL;
-
-	try {
-		j = json::parse(json_str);
-	} catch (json::parse_error &e) {
-		goto out_err;
-	}
-
-	if (!j.is_object())
-		goto out_err;
-
-	if (j.find("res") == j.end())
-		goto out_err;
-
-	if (!j["res"].is_string())
-		goto out_err;
-
-	len = strlen(url_template) + j["res"].get<std::string>().length();
-	ret = (char *)malloc(len + 1);
-	if (!ret)
-		goto out_err;
-
-	snprintf(ret, len + 1, "%s%s", url_template, j["res"].get<std::string>().c_str());
-	free(json_str);
-	return ret;
-
-out_err:
-	free(json_str);
-	return NULL;
-}
-
-Session::Session(Muika &m, int64_t chat_id, const std::string &deck_name):
+Session::Session(Muika &m, int64_t chat_id, uint64_t last_msg_id):
 	m_(m),
-	chat_id_(chat_id)
-{
-	ref_count_ = 0;
-	deck_ = Deck::createDeck(deck_name);
-}
-
-Session::~Session(void)
+	chat_id_(chat_id),
+	last_msg_id_(last_msg_id)
 {
 }
 
-inline bool Session::sendCard(void)
+inline uint64_t Session::sendMsg(const std::string &msg, uint64_t reply_to, bool save_last)
 {
-	std::string q, i;
-	char *url;
+	auto i = m_.getApi().sendMessage(chat_id_, msg, false, reply_to, nullptr, "HTML");
+	if (save_last)
+		last_msg_id_ = i->messageId;
 
-	q = current_card_->getQuestion();
-	url = generate_text_image(q.c_str());
-	if (!url) {
-		m_.getBot().getApi().sendMessage(chat_id_, "Failed to generate image, stopping session...");
+	return i->messageId;
+}
+
+inline std::string Session::__generateScoreBoard(void)
+	__must_hold(&mutex_)
+{
+	return generateScoreBoard(points_);
+}
+
+std::string Session::generateScoreBoard(void)
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+	return __generateScoreBoard();
+}
+
+inline void Session::__resetCurrent(void)
+	__must_hold(&mutex_)
+{
+	current_deck_ = nullptr;
+	current_card_ = nullptr;
+}
+
+inline void Session::__setCurrent(Deck *deck, Card *card)
+	__must_hold(&mutex_)
+{
+	current_deck_ = deck;
+	current_card_ = card;
+}
+
+inline bool Session::__sendCard(Deck *deck, Card *card)
+	__must_hold(&mutex_)
+{
+	try {
+		std::string img_url, caption = "";
+
+		assert(!current_deck_);
+		assert(!current_card_);
+
+		caption += "Scope: " + deck->getScope() + "\n\n";
+		caption += card->getCardCaption() + "\n\n";
+		caption += "Timeout: " + std::to_string(timeout_secs_) + " seconds\n";
+		caption += "Romaji fault tolerance: " + std::to_string(card->getRomajiFaultTolerance()) + "%\n";
+		img_url = card->getCardImage();
+
+		auto i = m_.getApi().sendPhoto(chat_id_, img_url, caption, last_msg_id_);
+		last_msg_id_ = i->messageId;
+		return true;
+	} catch (const std::exception &e) {
+		pr_debug("Send card fail, chat_id=%lld, deck=%s, card=%s: %s",
+			 (long long)chat_id_, deck->getName().c_str(),
+			 card->getCardAnswer().c_str(), e.what());
 		return false;
 	}
+}
 
-	i = current_card_->getQuestionInfo() + "\n\nTimeout: " + std::to_string(timeout_) + " seconds";
-	auto ret = m_.getBot().getApi().sendPhoto(chat_id_, url, i, last_msg_id_);
-	free(url);
-	if (!ret) {
-		m_.getBot().getApi().sendMessage(chat_id_, "Failed to send image, stopping session...");
-		return false;
+inline
+bool Session::__sendCardMayRetry(Deck *deck, Card *card, std::unique_lock<std::mutex> &lock, uint32_t try_num)
+	__must_hold(&mutex_)
+{
+	while (try_num--) {
+		if (__sendCard(deck, card))
+			return true;
+
+		sendMsg("Failed to send card, retrying in 5 seconds...", last_msg_id_);
+		cond_.wait_for(lock, std::chrono::seconds(5));
 	}
-
-	last_msg_id_ = ret->messageId;
-	return true;
-}
-
-inline void Session::sendFailMessage(const std::string &msg)
-{
-	m_.getBot().getApi().sendMessage(chat_id_,
-		msg + "\n\n" + current_card_->getAnswerInfo(),
-		false, last_msg_id_);
-}
-
-inline std::string htmlspecialchars(const std::string &str)
-{
-	std::string ret = "";
-
-	for (auto &c: str) {
-		switch (c) {
-		case '&':
-			ret += "&amp;";
-			break;
-		case '<':
-			ret += "&lt;";
-			break;
-		case '>':
-			ret += "&gt;";
-			break;
-		case '"':
-			ret += "&quot;";
-			break;
-		case '\'':
-			ret += "&apos;";
-			break;
-		default:
-			ret += c;
-			break;
-		}
-	}
-	return ret;
-}
-
-inline void Session::sendFinishMessage(void)
-{
-	std::string score;
-	uint32_t i = 1;
 
 	/*
-	 * Sort scores by point
+	 * Give up...
 	 */
-	std::vector<std::pair<int64_t, Score>> scores_vec(scores_.begin(), scores_.end());
-	std::sort(scores_vec.begin(), scores_vec.end(), [](const auto &a, const auto &b) {
-		return a.second.point_ > b.second.point_;
-	});
-
-	score = "Session finished!\n\n";
-	for (auto &s: scores_vec) {
-		std::string name_link;
-		std::string line;
-
-		name_link = "<a href=\"tg://user?id=" + std::to_string(s.first) + "\">" +
-			htmlspecialchars(s.second.full_name_) + "</a>";
-
-		score += std::to_string(i++) + ". " + name_link + ": " +
-			 std::to_string(s.second.point_) + " point";
-
-		if (s.second.point_ > 1)
-			score += "s";
-
-		score += "\n";
-	}
-
-	if (current_card_)
-		sendFailMessage("Game is stopped!");
-
-	m_.getBot().getApi().sendMessage(chat_id_, score, true, 0, nullptr, "HTML");
+	sendMsg("Failed to send card after " + std::to_string(try_num) + " retries, giving up...", last_msg_id_);
+	return false;
 }
 
-inline void Session::worker(void)
+void Session::__sendFailMessage(const std::string &reason)
+	__must_hold(&mutex_)
 {
-	ref_count_++;
-	std::unique_lock<std::mutex> lock(mutex_);
+	assert(current_deck_);
+	assert(current_card_);
+	sendMsg(reason + "\n\n" + current_card_->getCardDetails(), last_msg_id_);
+}
 
-	pr_debug("Shuffling deck...\n");
-	deck_->shuffle();
+inline void Session::__sendStartMessage(void)
+	__must_hold(&mutex_)
+{
+	sendMsg("Session started!", last_msg_id_);
+	sendMsg("Shuffling decks...", last_msg_id_);
+}
 
-	while (1) {
-		if (should_stop_)
+inline void Session::__sendEndMessage(void)
+	__must_hold(&mutex_)
+{
+	sendMsg("Session ended!\n\n" + __generateScoreBoard(), last_msg_id_);
+}
+
+inline void Session::__workerFunc(std::unique_lock<std::mutex> &lock)
+	__must_hold(&mutex_)
+{
+	bool first_card = true;
+
+	if (!silent_start_) {
+		__sendStartMessage();
+		deck_group_.shuffleAllDecks();
+		cond_.wait_for(lock, std::chrono::seconds(5));
+	}
+
+	__saveToDisk();
+	while (!should_stop_) {
+		Deck *deck;
+		Card *card;
+
+		deck = deck_group_.drawDeck();
+		if (!deck)
 			break;
 
-		if (deck_->isFinished())
-			break;
+		card = deck->drawCard();
 
-		current_card_ = deck_->draw();
-		if (!current_card_)
-			break;
-
-		if (!sendCard())
-			break;
-
-		if (cond_.wait_for(lock, std::chrono::seconds(timeout_)) == std::cv_status::timeout) {
-			sendFailMessage("Time's up!");
-			current_card_ = nullptr;
+		__saveToDisk();
+		if (first_card) {
+			first_card = false;
+		} else {
+			/*
+			 * Give some delay before sending the next card.
+			 */
+			cond_.wait_for(lock, std::chrono::seconds(next_card_delay_secs_));
 		}
 
-		if (!deck_->isFinished() && !should_stop_)
-			cond_.wait_for(lock, std::chrono::seconds(next_delay_));
+		assert(card);
+		if (!__sendCardMayRetry(deck, card, lock, 5))
+			break;
+
+		/*
+		 * The card has been sent, wait for the answer.
+		 */
+		__setCurrent(deck, card);
+		cond_.wait_for(lock, std::chrono::seconds(timeout_secs_));
+
+		if (current_card_) {
+			std::string msg;
+
+			if (should_stop_)
+				msg = "Game is stopped.";
+			else
+				msg = "Time's up!";
+
+			__sendFailMessage(msg);
+			__resetCurrent();
+		}
+
+		if (should_stop_)
+			break;
 	}
 
-	sendFinishMessage();
-	lock.unlock();
-	deleteSession(chat_id_);
-	if (ref_count_-- == 1)
-		delete this;
+	__deleteFromDisk();
+	__sendEndMessage();
 }
 
-void Session::start(void)
+void Session::giveSelfPtr(std::shared_ptr<Session> *self_ptr)
 {
 	std::unique_lock<std::mutex> lock(mutex_);
+	assert(!self_ptr_);
+	self_ptr_ = self_ptr;
+	cond_.notify_one();
 
-	try {
-		worker_ = std::thread(&Session::worker, this);
-	} catch (const std::exception &e) {
-		m_.getBot().getApi().sendMessage(
-			chat_id_,
-			"Failed to start session: " + std::string(e.what())
-		);
-		return;
+	/*
+	 * Wait until the worker thread acquires the self_ptr_.
+	 */
+	while (self_ptr_) {
+		if (should_stop_)
+			return;
+
+		cond_.wait(lock);
+	}
+}
+
+/*
+ * Keep a shared_ptr to self, so that we can be sure that
+ * the object is not destroyed before this detached thread
+ * exits.
+ */
+inline
+std::shared_ptr<Session> Session::__waitForSelfPtr(std::unique_lock<std::mutex> &lock)
+	__must_hold(&mutex_)
+{
+	std::shared_ptr<Session> ret;
+
+	/*
+	 * Wait until we get the self_ptr_.
+	 */
+	while (!self_ptr_) {
+		if (should_stop_)
+			return nullptr;
+
+		pr_debug("Worker thread of %lld is waiting for self_ptr_", (long long)chat_id_);
+		cond_.wait(lock);
 	}
 
-	worker_.detach();
-	m_.getBot().getApi().sendMessage(chat_id_, "Session started!");
+	ret = *self_ptr_;
+	assert(ret);
+	self_ptr_ = nullptr;
+	pr_debug("Worker thread of %lld acquired self_ptr_", (long long)chat_id_);
+	cond_.notify_one();
+	return ret;
+}
+
+void Session::workerFunc(void)
+{
+	std::unique_lock<std::mutex> lock(mutex_);
+	std::shared_ptr<Session> self;
+
+	try {
+		self = __waitForSelfPtr(lock);
+		__workerFunc(lock);
+	} catch (const std::exception &e) {
+		pr_debug("Session worker thread failed: %s", e.what());
+		sendMsg("Session worker thread error: " + std::string(e.what()), last_msg_id_);
+	}
+
+	should_stop_ = true;
+}
+
+void Session::start(bool silent)
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+
+	try {
+		loadAllPointsFromDisk(chat_id_, points_);
+		silent_start_ = silent;
+		thread_ = std::thread(&Session::workerFunc, this);
+		thread_.detach();
+	} catch (const std::exception &e) {
+		throw std::runtime_error("Failed to start session worker thread: " + std::string(e.what()));
+	}
 }
 
 void Session::stop(void)
 {
-	std::unique_lock<std::mutex> lock(mutex_);
+	std::lock_guard<std::mutex> lock(mutex_);
 	should_stop_ = true;
 	cond_.notify_one();
 }
 
-void Session::answer(const TgBot::Message::Ptr &msg)
+Point Session::__tryLoadPointFromDisk(uint64_t user_id, uint64_t err_reply_to)
+	__must_hold(&mutex_)
 {
-	std::unique_lock<std::mutex> lock(mutex_);
-	std::string reply, answer = msg->text;
-	Score *s = nullptr;
+	try {
+		return Point::tryLoadFromDisk(chat_id_, user_id);
+	} catch (const std::exception &e) {
+		pr_debug("Failed to load point from disk, chat_id=%lld, user_id=%lld: %s",
+			 (long long)chat_id_, (long long)user_id, e.what());
 
-	if (!current_card_ || !current_card_->answer(answer))
-		return;
+		std::string msg = "Failed to load point from disk: " + std::string(e.what()) +
+				  "\n\nYou will be treated as a new player.";
+		sendMsg(msg, err_reply_to, false);
+		return Point(user_id, 0, "", "", "");
+	}
+}
 
-	auto it = scores_.find(msg->from->id);
-	if (it == scores_.end()) {
-		std::string full_name = msg->from->firstName;
-		if (msg->from->lastName.length())
-			full_name += " " + msg->from->lastName;
-		scores_.emplace(msg->from->id, Score{1, full_name, msg->from->username});
-		s = &scores_.at(msg->from->id);
+uint64_t Session::__handleCorrectAnswerPoint(const TgBot::Message::Ptr &msg)
+	__must_hold(&mutex_)
+{
+	Point *p;
+
+	auto i = points_.find(msg->from->id);
+	if (i == points_.end()) {
+		Point tmp = __tryLoadPointFromDisk(msg->from->id, msg->messageId);
+		points_.emplace(msg->from->id, tmp);
+		p = &points_.at(msg->from->id);
 	} else {
-		s = &it->second;
-		s->point_++;
+		p = &i->second;
 	}
 
-	reply =	"Correct!\n"
-		"Your point is: " + std::to_string(s->point_) + "\n\n" +
-		current_card_->getAnswerInfo();
-
-	m_.getBot().getApi().sendMessage(chat_id_, reply, false, msg->messageId);
-	current_card_ = nullptr;
-	cond_.notify_one();
-}
-
-void Session::setTimeout(uint32_t timeout, bool skip)
-{
-	std::unique_lock<std::mutex> lock(mutex_);
-
-	timeout_ = timeout;
-	if (skip)
-		cond_.notify_one();
-}
-
-void Session::setNextDelay(uint32_t next_delay, bool skip)
-{
-	std::unique_lock<std::mutex> lock(mutex_);
-
-	next_delay_ = next_delay;
-	if (skip)
-		cond_.notify_one();
-}
-
-// static
-Session *Session::getSession(int64_t chat_id)
-{
-	std::unique_lock<std::mutex> lock(g_sessions_mutex);
-	Session *sess;
-
-	auto it = g_sessions.find(chat_id);
-	if (it == g_sessions.end())
-		return nullptr;
-
-	sess = it->second;
-	sess->ref_count_++;
-	return sess;
-}
-
-// static
-void Session::putSession(Session *sess)
-{
-	if (sess->ref_count_-- == 1)
-		delete sess;
-}
-
-// static
-Session *Session::createSession(Muika &m, int64_t chat_id, const std::string &deck_name)
-{
-	std::unique_lock<std::mutex> lock(g_sessions_mutex);
-	Session *sess = nullptr;
-
-	auto it = g_sessions.find(chat_id);
-	if (it != g_sessions.end())
-		return nullptr;
+	p->addPoint(1);
 
 	try {
-		sess = new Session(m, chat_id, deck_name);
-		g_sessions.emplace(chat_id, sess);
-		sess->ref_count_++;
+		p->saveToDisk(chat_id_);
 	} catch (const std::exception &e) {
-		delete sess;
-		sess = nullptr;
+		pr_debug("Failed to save point to disk, chat_id=%lld, user_id=%lld: %s",
+			 (long long)chat_id_, (long long)msg->from->id, e.what());
+		sendMsg("Failed to save point to disk: " + std::string(e.what()), msg->messageId, false);
 	}
-	return sess;
+
+	return p->getPoint();
+}
+
+bool Session::answer(const TgBot::Message::Ptr &msg)
+{
+	std::unique_lock<std::mutex> lock(mutex_);
+	std::string txt, reply;
+	uint64_t point;
+
+	if (!current_card_)
+		return false;
+
+	if (msg->chat->id != chat_id_) {
+		pr_debug("Session::answer: Something is wrong, chat_id=%lld, expected=%lld", (long long)msg->chat->id, (long long)chat_id_);
+		return false;
+	}
+
+	txt = msg->text;
+	if (txt.empty())
+		return false;
+
+	if (!current_card_->checkAnswer(txt))
+		return false;
+
+	point = __handleCorrectAnswerPoint(msg);
+	reply = "Correct, +1 point!\n\n"
+		"Your point is: " + std::to_string(point) + "\n\n" +
+		current_card_->getCardDetails();
+
+	sendMsg(reply, msg->messageId, false);
+	__resetCurrent();
+	cond_.notify_one();
+	return true;
+}
+
+void Session::setTimeout(uint32_t secs, bool skip_current)
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+	timeout_secs_ = secs;
+	if (skip_current)
+		cond_.notify_one();
+}
+
+void Session::setNextCardDelay(uint32_t secs, bool skip_current)
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+	next_card_delay_secs_ = secs;
+	if (skip_current)
+		cond_.notify_one();
+}
+
+Point Session::getPoint(uint64_t user_id)
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+	auto i = points_.find(user_id);
+
+	if (i == points_.end())
+		return Point(user_id, 0, "", "", "");
+
+	return i->second;
+}
+
+inline std::string Session::__toJsonString(void)
+	__must_hold(&mutex_)
+{
+	json j;
+
+	j["chat_id"] = chat_id_;
+	j["last_msg_id"] = last_msg_id_;
+	j["timeout_secs"] = timeout_secs_;
+	j["next_card_delay_secs"] = next_card_delay_secs_;
+	j["deck_group"] = deck_group_.toJson();
+	return j.dump(1, '\t');
+}
+
+std::string Session::toJsonString(void)
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+	return __toJsonString();
+}
+
+inline void Session::__deleteFromDisk(void)
+	__must_hold(&mutex_)
+{
+	char path[4096];
+
+	snprintf(path, sizeof(path), "./storage/jqftu/sessions/s_%lld.json", (long long)chat_id_);
+	remove(path);
+}
+
+void Session::__createSessionDir(void)
+	__must_hold(&mutex_)
+{
+	char path[4096];
+	int ret;
+
+	snprintf(path, sizeof(path), "./storage/jqftu/sessions");
+	ret = mkdir(path, 0755);
+	if (ret && errno != EEXIST)
+		throw std::runtime_error("Failed to create directory: " + std::string(strerror(errno)) + ": " + std::string(path));
+}
+
+inline void Session::__saveToDisk(void)
+	__must_hold(&mutex_)
+{
+	char path[4096];
+	size_t len;
+	FILE *fp;
+
+	__createSessionDir();
+	snprintf(path, sizeof(path), "./storage/jqftu/sessions/s_%lld.json", (long long)chat_id_);
+	fp = fopen(path, "wb");
+	if (!fp)
+		throw std::runtime_error("Failed to open file for writing: " + std::string(strerror(errno)) + ": " + std::string(path));
+
+	try {
+		std::string json_str = __toJsonString();
+		len = fwrite(json_str.c_str(), 1, json_str.size(), fp);
+		if (len != json_str.length())
+			throw std::runtime_error("fwrite error: " + std::string(path));
+
+		fclose(fp);
+	} catch (const std::exception &e) {
+		fclose(fp);
+		throw e;
+	}
+}
+
+inline void Session::__addDeckByName(const std::string &name)
+	__must_hold(&mutex_)
+{
+	deck_group_.addDeckByName(name);
+}
+
+void Session::saveToDisk(void)
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+	__saveToDisk();
+}
+
+void Session::addDeckByName(const std::string &name)
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+	__addDeckByName(name);
+}
+
+void Session::sendRebootMessage(void)
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+	sendMsg("The system is rebooted, trying to recover the session...", last_msg_id_);
 }
 
 // static
-void Session::deleteSession(int64_t chat_id)
+std::shared_ptr<Session> Session::fromJsonString(Muika &m, const std::string &json_str)
 {
-	std::unique_lock<std::mutex> lock(g_sessions_mutex);
+	json j = json::parse(json_str);
 
-	auto it = g_sessions.find(chat_id);
-	if (it == g_sessions.end())
+	if (!j.is_object())
+		throw std::runtime_error("The JSON is not an object");
+
+	if (!j.contains("chat_id") || !j["chat_id"].is_number_integer())
+		throw std::runtime_error("The JSON does not contain integer chat_id");
+
+	if (!j.contains("last_msg_id") || !j["last_msg_id"].is_number_unsigned())
+		throw std::runtime_error("The JSON does not contain unsigned integer last_msg_id");
+
+	if (!j.contains("timeout_secs") || !j["timeout_secs"].is_number_unsigned())
+		throw std::runtime_error("The JSON does not contain unsigned integer timeout_secs");
+
+	if (!j.contains("next_card_delay_secs") || !j["next_card_delay_secs"].is_number_unsigned())
+		throw std::runtime_error("The JSON does not contain unsigned integer next_card_delay_secs");
+
+	if (!j.contains("deck_group") || !j["deck_group"].is_object())
+		throw std::runtime_error("The JSON does not contain object deck_group");
+
+	std::shared_ptr<Session> r = std::make_shared<Session>(m, j["chat_id"], j["last_msg_id"]);
+	r->setTimeout(j["timeout_secs"]);
+	r->setNextCardDelay(j["next_card_delay_secs"]);
+	r->deck_group_.fromJson(j["deck_group"]);
+	return r;
+}
+
+// static
+void Session::loadAllPointsFromDisk(int64_t chat_id, std::unordered_map<uint64_t, Point> &points)
+{
+	char path[4096];
+	DIR *dir;
+
+	snprintf(path, sizeof(path), "./storage/jqftu/points/s_%lld", (long long)chat_id);
+	dir = opendir(path);
+	if (!dir)
 		return;
 
-	g_sessions.erase(it);
+	while (true) {
+		struct dirent *ent = readdir(dir);
+		uint64_t user_id;
+		size_t len;
+
+		if (!ent)
+			break;
+
+		if (ent->d_type != DT_REG)
+			continue;
+
+		len = strlen(ent->d_name);
+		if (len < 5 || strcmp(ent->d_name + len - 5, ".json"))
+			continue;
+
+		user_id = strtoull(ent->d_name, NULL, 10);
+		if (!user_id)
+			continue;
+
+		try {
+			pr_debug("Loading point from disk, chat_id=%lld, user_id=%lld",
+				 (long long)chat_id, (long long)user_id);
+			Point p = Point::tryLoadFromDisk(chat_id, user_id);
+			if (p.getUserId() == user_id)
+				points.emplace(user_id, p);
+		} catch (const std::exception &e) {
+			pr_debug("Failed to load point from disk, chat_id=%lld, user_id=%lld: %s",
+				 (long long)chat_id, (long long)user_id, e.what());
+		}
+	}
+
+	closedir(dir);
+}
+
+// static
+std::string Session::generateScoreBoard(std::unordered_map<uint64_t, Point> &points)
+{
+	std::vector<std::pair<int64_t, Point>> scores_vec(points.begin(), points.end());
+	std::sort(scores_vec.begin(), scores_vec.end(), [](const auto &a, const auto &b) {
+		return a.second.getPoint() > b.second.getPoint();
+	});
+	std::string ret = "";
+	uint32_t i = 1;
+
+	for (auto &s: scores_vec) {
+		Point *p = &s.second;
+		std::string name;
+		std::string line;
+
+		name = htmlspecialchars(p->getFullName());
+		name = "<a href=\"tg://user?id=" + std::to_string(p->getUserId()) + "\">" + name + "</a>";
+
+		ret += std::to_string(i++) + ". " + name + ": " + std::to_string(s.second.getPoint()) + " point";
+		if (s.second.getPoint() > 1)
+			ret += "s";
+
+		ret += "\n";
+	}
+
+	return ret;
+}
+
+// static
+std::string Session::generateScoreBoardFromDisk(int64_t chat_id)
+{
+	std::unordered_map<uint64_t, Point> points;
+	loadAllPointsFromDisk(chat_id, points);
+	return generateScoreBoard(points);
 }
 
 } /* namespace muika::modules::jqftu */

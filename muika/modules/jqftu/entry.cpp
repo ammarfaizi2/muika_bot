@@ -1,54 +1,58 @@
 // SPDX-License-Identifier: GPL-2.0-only
 
 #include "muika/modules/jqftu/entry.hpp"
-#include "muika/modules/jqftu/Session.hpp"
 #include "muika/modules/jqftu/Command.hpp"
-#include "muika/modules/jqftu/internal.hpp"
+#include "muika/modules/jqftu/SessionMap.hpp"
+
+#include <mutex>
+#include <cctype>
+#include <vector>
+#include <memory>
 
 namespace muika {
 namespace modules {
 namespace jqftu {
 
-static inline bool is_space_or_null(char c)
+mod_init_ret_t init(muika::Muika &m, void **data)
 {
-	return c == ' ' || c == '\t' || c == '\n' || c == '\0';
-}
+	SessionMap *smap;
 
-module_ret_t entry(muika::Muika &m, TgBot::Message::Ptr &msg)
-{
-	Session *sess = Session::getSession(msg->chat->id);
-	Command c(m, msg);
-	const char *txt;
-
-	if (sess) {
-		if (c.isStopCommand()) {
-			pr_debug("Stopping session for chat_id %ld\n", msg->chat->id);
-			sess->stop();
-			Session::putSession(sess);
-			return MOD_ENTRY_STOP;
-		} else {
-			pr_debug("Answering session for chat_id %ld\n", msg->chat->id);
-			sess->answer(msg);
-			Session::putSession(sess);
-			return MOD_ENTRY_CONTINUE;
-		}
+	try {
+		smap = new SessionMap();
+		smap->loadSessionsFromDisk(m);
+	} catch (std::bad_alloc &e) {
+		return MOD_INIT_RET_ERR;
 	}
 
-	if (msg->text.length() < 6)
-		return MOD_ENTRY_CONTINUE;
+	*data = static_cast<void *>(smap);
+	return MOD_INIT_RET_OK;
+}
 
-	/*
-	 * The command must start with '/' or '!' or '.'.
-	 */
-	txt = msg->text.c_str();
-	if (txt[0] != '/' && txt[0] != '!' && txt[0] != '.')
-		return MOD_ENTRY_CONTINUE;
+mod_entry_ret_t entry(muika::Muika &m, TgBot::Message::Ptr &msg, ModuleState *mod_state)
+{
+	SessionMap *smap;
 
-	if (memcmp(&txt[1], "jqftu", 5) != 0 || !is_space_or_null(txt[6]))
-		return MOD_ENTRY_CONTINUE;
+	if (mod_state->init_status != MOD_INIT_RET_OK)
+		return MOD_ENTRY_RET_CONTINUE;
 
-	c.execute();
-	return MOD_ENTRY_STOP;
+	smap = static_cast<SessionMap *>(mod_state->data);
+	Command cmd(m, msg, smap);
+	if (cmd.execute())
+		return MOD_ENTRY_RET_STOP;
+
+	return MOD_ENTRY_RET_CONTINUE;
+}
+
+void free(muika::Muika &m, ModuleState *mod_state)
+{
+	SessionMap *smap;
+
+	if (mod_state->init_status != MOD_INIT_RET_OK)
+		return;
+
+	smap = static_cast<SessionMap *>(mod_state->data);
+	delete smap;
+	(void)m;
 }
 
 } /* namespace muika::modules::jqftu */

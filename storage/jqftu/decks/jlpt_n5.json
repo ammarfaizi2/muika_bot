@@ -1,0 +1,542 @@
+[
+	{
+		"kanji": "お兄さん",
+		"kana": "おにいさん",
+		"romaji": "oniisan",
+		"en": "older brother"
+	},
+	{
+		"kanji": "お姉さん",
+		"kana": "おねえさん",
+		"romaji": "oneesan",
+		"en": "older sister"
+	},
+	{
+		"kanji": "お手洗い",
+		"kana": "おてあらい",
+		"romaji": "otearai",
+		"en": "bathroom"
+	},
+	{
+		"kanji": "お母さん",
+		"kana": "おかあさん",
+		"romaji": "okaasan",
+		"en": "mother"
+	},
+	{
+		"kanji": "お金",
+		"kana": "おかね",
+		"romaji": "okane",
+		"en": "money"
+	},
+	{
+		"kanji": "七日",
+		"kana": "なのか",
+		"romaji": "nanoka",
+		"en": "seven days"
+	},
+	{
+		"kanji": "三つ",
+		"kana": "みっつ",
+		"romaji": "mittsu",
+		"en": "three (objects)"
+	},
+	{
+		"kanji": "三分",
+		"kana": "さんぷん",
+		"romaji": "sanpun",
+		"en": "three minutes"
+	},
+	{
+		"kanji": "三日",
+		"kana": "みっか",
+		"romaji": "mikka",
+		"en": "third day of the month"
+	},
+	{
+		"kanji": "乗る",
+		"kana": "のる",
+		"romaji": "noru",
+		"en": "to ride"
+	},
+	{
+		"kanji": "九分",
+		"kana": "きゅうふん",
+		"romaji": "kyuufun",
+		"en": "nine minutes"
+	},
+	{
+		"kanji": "九日",
+		"kana": "ここのか",
+		"romaji": "kokonoka",
+		"en": "ninth day of the month"
+	},
+	{
+		"kanji": "二人",
+		"kana": "ふたり",
+		"romaji": "futari",
+		"en": "two people"
+	},
+	{
+		"kanji": "二十日",
+		"kana": "はつか",
+		"romaji": "hatsuka",
+		"en": "twentieth day of the month"
+	},
+	{
+		"kanji": "二日",
+		"kana": "ふつか",
+		"romaji": "futsuka",
+		"en": "second day of the month"
+	},
+	{
+		"kanji": "五つ",
+		"kana": "いつつ",
+		"romaji": "itsutsu",
+		"en": "five (objects)"
+	},
+	{
+		"kanji": "五日",
+		"kana": "いつか",
+		"romaji": "itsuka",
+		"en": "fifth day of the month"
+	},
+	{
+		"kanji": "今年",
+		"kana": "ことし",
+		"romaji": "kotoshi",
+		"en": "this year"
+	},
+	{
+		"kanji": "今日",
+		"kana": "きょう",
+		"romaji": "kyou",
+		"en": "today"
+	},
+	{
+		"kanji": "今週",
+		"kana": "こんしゅう",
+		"romaji": "konshuu",
+		"en": "this week"
+	},
+	{
+		"kanji": "休む",
+		"kana": "やすむ",
+		"romaji": "yasumu",
+		"en": "to rest"
+	},
+	{
+		"kanji": "会う",
+		"kana": "あう",
+		"romaji": "au",
+		"en": "to meet"
+	},
+	{
+		"kanji": "兄",
+		"kana": "あに",
+		"romaji": "ani",
+		"en": "elder brother"
+	},
+	{
+		"kanji": "先月",
+		"kana": "せんげつ",
+		"romaji": "sengetsu",
+		"en": "last month"
+	},
+	{
+		"kanji": "八分",
+		"kana": "はっぷん",
+		"romaji": "happun",
+		"en": "eight minutes"
+	},
+	{
+		"kanji": "八日",
+		"kana": "ようか",
+		"romaji": "youka",
+		"en": "eighth day of the month"
+	},
+	{
+		"kanji": "六つ",
+		"kana": "むっつ",
+		"romaji": "muttsu",
+		"en": "six (objects)"
+	},
+	{
+		"kanji": "六分",
+		"kana": "ろっぷん",
+		"romaji": "roppun",
+		"en": "six minutes"
+	},
+	{
+		"kanji": "六日",
+		"kana": "むいか",
+		"romaji": "muika",
+		"en": "sixth day of the month"
+	},
+	{
+		"kanji": "冬",
+		"kana": "ふゆ",
+		"romaji": "fuyu",
+		"en": "winter"
+	},
+	{
+		"kanji": "初めて",
+		"kana": "はじめて",
+		"romaji": "hajimete",
+		"en": "for the first time"
+	},
+	{
+		"kanji": "北",
+		"kana": "きた",
+		"romaji": "kita",
+		"en": "north"
+	},
+	{
+		"kanji": "午前",
+		"kana": "ごぜん",
+		"romaji": "gozen",
+		"en": "AM (morning)"
+	},
+	{
+		"kanji": "午後",
+		"kana": "ごご",
+		"romaji": "gogo",
+		"en": "PM (afternoon)"
+	},
+	{
+		"kanji": "半",
+		"kana": "はん",
+		"romaji": "han",
+		"en": "half"
+	},
+	{
+		"kanji": "南",
+		"kana": "みなみ",
+		"romaji": "minami",
+		"en": "south"
+	},
+	{
+		"kanji": "友達",
+		"kana": "ともだち",
+		"romaji": "tomodachi",
+		"en": "friend"
+	},
+	{
+		"kanji": "取る",
+		"kana": "とる",
+		"romaji": "toru",
+		"en": "to take"
+	},
+	{
+		"kanji": "口",
+		"kana": "くち",
+		"romaji": "kuchi",
+		"en": "mouth"
+	},
+	{
+		"kanji": "四日",
+		"kana": "よっか",
+		"romaji": "yokka",
+		"en": "fourth day of the month"
+	},
+	{
+		"kanji": "土曜日",
+		"kana": "どようび",
+		"romaji": "doyoubi",
+		"en": "Saturday"
+	},
+	{
+		"kanji": "売る",
+		"kana": "うる",
+		"romaji": "uru",
+		"en": "to sell"
+	},
+	{
+		"kanji": "夏",
+		"kana": "なつ",
+		"romaji": "natsu",
+		"en": "summer"
+	},
+	{
+		"kanji": "外国",
+		"kana": "がいこく",
+		"romaji": "gaikoku",
+		"en": "foreign country"
+	},
+	{
+		"kanji": "外国人",
+		"kana": "がいこくじん",
+		"romaji": "gaikokujin",
+		"en": "foreigner"
+	},
+	{
+		"kanji": "多い",
+		"kana": "おおい",
+		"romaji": "ooi",
+		"en": "many"
+	},
+	{
+		"kanji": "大学",
+		"kana": "だいがく",
+		"romaji": "daigaku",
+		"en": "university"
+	},
+	{
+		"kanji": "女",
+		"kana": "おんな",
+		"romaji": "onna",
+		"en": "woman"
+	},
+	{
+		"kanji": "女の子",
+		"kana": "おんなのこ",
+		"romaji": "onnanoko",
+		"en": "girl"
+	},
+	{
+		"kanji": "好き",
+		"kana": "すき",
+		"romaji": "suki",
+		"en": "like"
+	},
+	{
+		"kanji": "学校",
+		"kana": "がっこう",
+		"romaji": "gakkou",
+		"en": "school"
+	},
+	{
+		"kanji": "安い",
+		"kana": "やすい",
+		"romaji": "yasui",
+		"en": "cheap"
+	},
+	{
+		"kanji": "寒い",
+		"kana": "さむい",
+		"romaji": "samui",
+		"en": "cold"
+	},
+	{
+		"kanji": "小さな",
+		"kana": "ちいさな",
+		"romaji": "chiisana",
+		"en": "small"
+	},
+	{
+		"kanji": "少し",
+		"kana": "すこし",
+		"romaji": "sukoshi",
+		"en": "a little"
+	},
+	{
+		"kanji": "後ろ",
+		"kana": "うしろ",
+		"romaji": "ushiro",
+		"en": "behind"
+	},
+	{
+		"kanji": "忘れる",
+		"kana": "わすれる",
+		"romaji": "wasureru",
+		"en": "to forget"
+	},
+	{
+		"kanji": "忙しい",
+		"kana": "いそがしい",
+		"romaji": "isogashii",
+		"en": "busy"
+	},
+	{
+		"kanji": "新しい",
+		"kana": "あたらしい",
+		"romaji": "atarashii",
+		"en": "new"
+	},
+	{
+		"kanji": "日曜日",
+		"kana": "にちようび",
+		"romaji": "nichiyoubi",
+		"en": "Sunday"
+	},
+	{
+		"kanji": "映画",
+		"kana": "えいが",
+		"romaji": "eiga",
+		"en": "movie"
+	},
+	{
+		"kanji": "春",
+		"kana": "はる",
+		"romaji": "haru",
+		"en": "spring"
+	},
+	{
+		"kanji": "時",
+		"kana": "とき",
+		"romaji": "toki",
+		"en": "time"
+	},
+	{
+		"kanji": "書く",
+		"kana": "かく",
+		"romaji": "kaku",
+		"en": "to write"
+	},
+	{
+		"kanji": "来年",
+		"kana": "らいねん",
+		"romaji": "rainen",
+		"en": "next year"
+	},
+	{
+		"kanji": "来月",
+		"kana": "らいげつ",
+		"romaji": "raigetsu",
+		"en": "next month"
+	},
+	{
+		"kanji": "歌う",
+		"kana": "うたう",
+		"romaji": "utau",
+		"en": "to sing"
+	},
+	{
+		"kanji": "歌",
+		"kana": "うた",
+		"romaji": "uta",
+		"en": "song"
+	},
+	{
+		"kanji": "止まる",
+		"kana": "とまる",
+		"romaji": "tomaru",
+		"en": "to stop"
+	},
+	{
+		"kanji": "毎日",
+		"kana": "まいにち",
+		"romaji": "mainichi",
+		"en": "every day"
+	},
+	{
+		"kanji": "水",
+		"kana": "みず",
+		"romaji": "mizu",
+		"en": "water"
+	},
+	{
+		"kanji": "洗う",
+		"kana": "あらう",
+		"romaji": "arau",
+		"en": "to wash"
+	},
+	{
+		"kanji": "海",
+		"kana": "うみ",
+		"romaji": "umi",
+		"en": "sea"
+	},
+	{
+		"kanji": "消える",
+		"kana": "きえる",
+		"romaji": "kieru",
+		"en": "to disappear"
+	},
+	{
+		"kanji": "猫",
+		"kana": "ねこ",
+		"romaji": "neko",
+		"en": "cat"
+	},
+	{
+		"kanji": "生きる",
+		"kana": "いきる",
+		"romaji": "ikiru",
+		"en": "to live"
+	},
+	{
+		"kanji": "生まれる",
+		"kana": "うまれる",
+		"romaji": "umareru",
+		"en": "to be born"
+	},
+	{
+		"kanji": "生徒",
+		"kana": "せいと",
+		"romaji": "seito",
+		"en": "student"
+	},
+	{
+		"kanji": "男",
+		"kana": "おとこ",
+		"romaji": "otoko",
+		"en": "man"
+	},
+	{
+		"kanji": "男の子",
+		"kana": "おとこのこ",
+		"romaji": "otokonoko",
+		"en": "boy"
+	},
+	{
+		"kanji": "空",
+		"kana": "そら",
+		"romaji": "sora",
+		"en": "sky"
+	},
+	{
+		"kanji": "立つ",
+		"kana": "たつ",
+		"romaji": "tatsu",
+		"en": "to stand"
+	},
+	{
+		"kanji": "答える",
+		"kana": "こたえる",
+		"romaji": "kotaeru",
+		"en": "to answer"
+	},
+	{
+		"kanji": "花",
+		"kana": "はな",
+		"romaji": "hana",
+		"en": "flower"
+	},
+	{
+		"kanji": "見える",
+		"kana": "みえる",
+		"romaji": "mieru",
+		"en": "to be visible"
+	},
+	{
+		"kanji": "覚える",
+		"kana": "おぼえる",
+		"romaji": "oboeru",
+		"en": "to remember"
+	},
+	{
+		"kanji": "読む",
+		"kana": "よむ",
+		"romaji": "yomu",
+		"en": "to read"
+	},
+	{
+		"kanji": "買う",
+		"kana": "かう",
+		"romaji": "kau",
+		"en": "to buy"
+	},
+	{
+		"kanji": "走る",
+		"kana": "はしる",
+		"romaji": "hashiru",
+		"en": "to run"
+	},
+	{
+		"kanji": "足",
+		"kana": "あし",
+		"romaji": "ashi",
+		"en": "foot"
+	}
+]
