@@ -55,7 +55,7 @@ std::string Card::getCardImage(void)
 
 std::string Card::getCardCaption(void)
 {
-	return "Write the kana or romaji for the following station!";
+	return "Write the kana or romaji for the following word!";
 }
 
 std::string Card::getCardAnswer(void)
