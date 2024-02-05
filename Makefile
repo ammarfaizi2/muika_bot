@@ -22,6 +22,7 @@ MUIKA_SOURCES_CPP := \
 	muika/modules/jqftu/deck_foundations/kotoba/Deck.cpp \
 	muika/modules/jqftu/decks/tozai_line/Deck.cpp \
 	muika/modules/jqftu/decks/yamanote_line/Deck.cpp \
+	muika/modules/jqftu/decks/keikyu_line/Deck.cpp \
 	muika/modules/jqftu/decks/jlpt_n5/Deck.cpp \
 	muika/modules/jqftu/DeckGroup.cpp \
 	muika/modules/jqftu/Point.cpp \

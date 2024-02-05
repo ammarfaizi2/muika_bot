@@ -1,0 +1,520 @@
+[
+	{
+		"n": "KK01",
+		"romaji": "shinagawa",
+		"kanji": "品川",
+		"hiragana": "しながわ",
+		"katakana": "シナガワ"
+	},
+	{
+		"n": "KK02",
+		"romaji": "kitashinagawa",
+		"kanji": "北品川",
+		"hiragana": "きたしながわ",
+		"katakana": "キタシナガワ"
+	},
+	{
+		"n": "KK03",
+		"romaji": "shimbamba",
+		"kanji": "新馬場",
+		"hiragana": "しんばんば",
+		"katakana": "シンバンバ"
+	},
+	{
+		"n": "KK04",
+		"romaji": "aomono-yokochō",
+		"kanji": "青物横丁",
+		"hiragana": "あおものよこちょう",
+		"katakana": "アオモノヨコチョウ"
+	},
+	{
+		"n": "KK05",
+		"romaji": "samezu",
+		"kanji": "鮫洲",
+		"hiragana": "さめず",
+		"katakana": "サメズ"
+	},
+	{
+		"n": "KK06",
+		"romaji": "tachiaigawa",
+		"kanji": "立会川",
+		"hiragana": "たちあいがわ",
+		"katakana": "タチアイガワ"
+	},
+	{
+		"n": "KK07",
+		"romaji": "ōmorikaigan",
+		"kanji": "大森海岸",
+		"hiragana": "おおもりかいがん",
+		"katakana": "オオモリカイガン"
+	},
+	{
+		"n": "KK08",
+		"romaji": "heiwajima",
+		"kanji": "平和島",
+		"hiragana": "へいわじま",
+		"katakana": "ヘイワジマ"
+	},
+	{
+		"n": "KK09",
+		"romaji": "ōmorimachi",
+		"kanji": "大森町",
+		"hiragana": "おおもりまち",
+		"katakana": "オオモリマチ"
+	},
+	{
+		"n": "KK10",
+		"romaji": "umeyashiki",
+		"kanji": "梅屋敷",
+		"hiragana": "うめやしき",
+		"katakana": "ウメヤシキ"
+	},
+	{
+		"n": "KK11",
+		"romaji": "keikyū kamata",
+		"kanji": "京急蒲田",
+		"hiragana": "けいきゅうかまた",
+		"katakana": "ケイキュウカマタ"
+	},
+	{
+		"n": "KK12",
+		"romaji": "kōjiya",
+		"kanji": "糀谷",
+		"hiragana": "こうじや",
+		"katakana": "コウジヤ"
+	},
+	{
+		"n": "KK13",
+		"romaji": "ōtorii",
+		"kanji": "大鳥居",
+		"hiragana": "おおとりい",
+		"katakana": "オオトリイ"
+	},
+	{
+		"n": "KK14",
+		"romaji": "anamori-inari",
+		"kanji": "穴守稲荷",
+		"hiragana": "あなもりいなり",
+		"katakana": "アナモリイナリ"
+	},
+	{
+		"n": "KK15",
+		"romaji": "tenkūbashi",
+		"kanji": "天空橋",
+		"hiragana": "てんくうばし",
+		"katakana": "テンクウバシ"
+	},
+	{
+		"n": "KK16",
+		"romaji": "haneda kuukou dai san taaminaru",
+		"kanji": "羽田空港第3ターミナル",
+		"hiragana": "はねだくうこうだい3ターミナル",
+		"katakana": "ハネダクウコウダイ3ターミナル",
+		"alt": [
+			"haneda kuukou dai 3 taaminaru",
+			"haneda airport terminal 3",
+			"haneda kuukou terminal 3"
+		]
+	},
+	{
+		"n": "KK17",
+		"romaji": "haneda kuukou dai ichi dai ni taaminaru",
+		"kanji": "羽田空港第1・第2ターミナル",
+		"hiragana": "はねだくうこうだい1・だい2ターミナル",
+		"katakana": "ハネダクウコウダイ1・ダイ2ターミナル",
+		"alt": [
+			"haneda kuukou dai 1 dai 2 taaminaru",
+			"haneda airport terminal 1.2",
+			"haneda airport terminal 1",
+			"haneda airport terminal 2",
+			"haneda kuukou terminal 1.2",
+			"haneda kuukou terminal 1",
+			"haneda kuukou terminal 2"
+		]
+	},
+	{
+		"n": "KK18",
+		"romaji": "zōshiki",
+		"kanji": "雑色",
+		"hiragana": "ぞうしき",
+		"katakana": "ゾウシキ"
+	},
+	{
+		"n": "KK19",
+		"romaji": "rokugōdote",
+		"kanji": "六郷土手",
+		"hiragana": "ろくごうどて",
+		"katakana": "ロクゴウドテ"
+	},
+	{
+		"n": "KK20",
+		"romaji": "keikyū kawasaki",
+		"kanji": "京急川崎",
+		"hiragana": "けいきゅうかわさき",
+		"katakana": "ケイキュウカワサキ"
+	},
+	{
+		"n": "KK21",
+		"romaji": "minatochō",
+		"kanji": "港町",
+		"hiragana": "みなとちょう",
+		"katakana": "ミナトチョウ"
+	},
+	{
+		"n": "KK22",
+		"romaji": "suzukichō",
+		"kanji": "鈴木町",
+		"hiragana": "すずきちょう",
+		"katakana": "スズキチョウ"
+	},
+	{
+		"n": "KK23",
+		"romaji": "kawasaki-daishi",
+		"kanji": "川崎大師",
+		"hiragana": "かわさきだいし",
+		"katakana": "カワサキダイシ"
+	},
+	{
+		"n": "KK24",
+		"romaji": "higashi-monzen",
+		"kanji": "東門前",
+		"hiragana": "ひがしもんぜん",
+		"katakana": "ヒガシモンゼン"
+	},
+	{
+		"n": "KK25",
+		"romaji": "daishibashi",
+		"kanji": "大師橋",
+		"hiragana": "だいしばし",
+		"katakana": "ダイシバシ"
+	},
+	{
+		"n": "KK26",
+		"romaji": "kojimashinden",
+		"kanji": "小島新田",
+		"hiragana": "こじましんでん",
+		"katakana": "コジマシンデン"
+	},
+	{
+		"n": "KK27",
+		"romaji": "hatchō-nawate",
+		"kanji": "八丁畷",
+		"hiragana": "はっちょうなわて",
+		"katakana": "ハッチョウナワテ"
+	},
+	{
+		"n": "KK28",
+		"romaji": "tsurumi-ichiba",
+		"kanji": "鶴見市場",
+		"hiragana": "つるみいちば",
+		"katakana": "ツルミイチバ"
+	},
+	{
+		"n": "KK29",
+		"romaji": "keikyū tsurumi",
+		"kanji": "京急鶴見",
+		"hiragana": "けいきゅうつるみ",
+		"katakana": "ケイキュウツルミ"
+	},
+	{
+		"n": "KK30",
+		"romaji": "kagetsu-sōjiji",
+		"kanji": "花月総持寺",
+		"hiragana": "かげつそうじじ",
+		"katakana": "カゲツソウジジ"
+	},
+	{
+		"n": "KK31",
+		"romaji": "namamugi",
+		"kanji": "生麦",
+		"hiragana": "なまむぎ",
+		"katakana": "ナマムギ"
+	},
+	{
+		"n": "KK32",
+		"romaji": "keikyū shinkoyasu",
+		"kanji": "京急新子安",
+		"hiragana": "けいきゅうしんこやす",
+		"katakana": "ケイキュウシンコヤス"
+	},
+	{
+		"n": "KK33",
+		"romaji": "koyasu",
+		"kanji": "子安",
+		"hiragana": "こやす",
+		"katakana": "コヤス"
+	},
+	{
+		"n": "KK34",
+		"romaji": "kanagawa-shimmachi",
+		"kanji": "神奈川新町",
+		"hiragana": "かながわしんまち",
+		"katakana": "カナガワシンマチ"
+	},
+	{
+		"n": "KK35",
+		"romaji": "keikyū higashi-kanagawa",
+		"kanji": "京急東神奈川",
+		"hiragana": "けいきゅうひがしかながわ",
+		"katakana": "ケイキュウヒガシカナガワ"
+	},
+	{
+		"n": "KK36",
+		"romaji": "kanagawa",
+		"kanji": "神奈川",
+		"hiragana": "かながわ",
+		"katakana": "カナガワ"
+	},
+	{
+		"n": "KK37",
+		"romaji": "yokohama",
+		"kanji": "横浜",
+		"hiragana": "よこはま",
+		"katakana": "ヨコハマ"
+	},
+	{
+		"n": "KK38",
+		"romaji": "tobe",
+		"kanji": "戸部",
+		"hiragana": "とべ",
+		"katakana": "トベ"
+	},
+	{
+		"n": "KK39",
+		"romaji": "hinodechō",
+		"kanji": "日ノ出町",
+		"hiragana": "ひのでちょう",
+		"katakana": "ヒノデチョウ"
+	},
+	{
+		"n": "KK40",
+		"romaji": "koganechō",
+		"kanji": "黄金町",
+		"hiragana": "こがねちょう",
+		"katakana": "コガネチョウ"
+	},
+	{
+		"n": "KK41",
+		"romaji": "minamiōta",
+		"kanji": "南太田",
+		"hiragana": "みなみおおた",
+		"katakana": "ミナミオオタ"
+	},
+	{
+		"n": "KK42",
+		"romaji": "idogaya",
+		"kanji": "井土ヶ谷",
+		"hiragana": "いどがや",
+		"katakana": "イドガヤ"
+	},
+	{
+		"n": "KK43",
+		"romaji": "gumyōji",
+		"kanji": "弘明寺",
+		"hiragana": "ぐみょうじ",
+		"katakana": "グミョウジ"
+	},
+	{
+		"n": "KK44",
+		"romaji": "kamiōoka",
+		"kanji": "上大岡",
+		"hiragana": "かみおおか",
+		"katakana": "カミオオカ"
+	},
+	{
+		"n": "KK45",
+		"romaji": "byōbugaura",
+		"kanji": "屏風浦",
+		"hiragana": "びょうぶがうら",
+		"katakana": "ビョウブガウラ"
+	},
+	{
+		"n": "KK46",
+		"romaji": "sugita",
+		"kanji": "杉田",
+		"hiragana": "すぎた",
+		"katakana": "スギタ"
+	},
+	{
+		"n": "KK47",
+		"romaji": "keikyū tomioka",
+		"kanji": "京急富岡",
+		"hiragana": "けいきゅうとみおか",
+		"katakana": "ケイキュウトミオカ"
+	},
+	{
+		"n": "KK48",
+		"romaji": "nōkendai",
+		"kanji": "能見台",
+		"hiragana": "のうけんだい",
+		"katakana": "ノウケンダイ"
+	},
+	{
+		"n": "KK49",
+		"romaji": "kanazawa-bunko",
+		"kanji": "金沢文庫",
+		"hiragana": "かなざわぶんこ",
+		"katakana": "カナザワブンコ"
+	},
+	{
+		"n": "KK50",
+		"romaji": "kanazawa-hakkei",
+		"kanji": "金沢八景",
+		"hiragana": "かなざわはっけい",
+		"katakana": "カナザワハッケイ"
+	},
+	{
+		"n": "KK51",
+		"romaji": "mutsuura",
+		"kanji": "六浦",
+		"hiragana": "むつうら",
+		"katakana": "ムツウラ"
+	},
+	{
+		"n": "KK52",
+		"romaji": "jimmuji",
+		"kanji": "神武寺",
+		"hiragana": "じんむじ",
+		"katakana": "ジンムジ"
+	},
+	{
+		"n": "KK53",
+		"romaji": "zushi·hayama",
+		"kanji": "逗子・葉山",
+		"hiragana": "ずしひやま",
+		"katakana": "ズシヒヤマ"
+	},
+	{
+		"n": "KK54",
+		"romaji": "oppama",
+		"kanji": "追浜",
+		"hiragana": "おっぱま",
+		"katakana": "オッパマ"
+	},
+	{
+		"n": "KK55",
+		"romaji": "keikyū taura",
+		"kanji": "京急田浦",
+		"hiragana": "けいきゅうたうら",
+		"katakana": "ケイキュウタウラ"
+	},
+	{
+		"n": "KK56",
+		"romaji": "anjinzuka",
+		"kanji": "安針塚",
+		"hiragana": "あんじんづか",
+		"katakana": "アンジンヅカ"
+	},
+	{
+		"n": "KK57",
+		"romaji": "hemi",
+		"kanji": "逸見",
+		"hiragana": "へみ",
+		"katakana": "ヘミ"
+	},
+	{
+		"n": "KK58",
+		"romaji": "shioiri",
+		"kanji": "汐入",
+		"hiragana": "しおいり",
+		"katakana": "シオイリ"
+	},
+	{
+		"n": "KK59",
+		"romaji": "yokosuka-chūō",
+		"kanji": "横須賀中央",
+		"hiragana": "よこすかちゅうおう",
+		"katakana": "ヨコスカチュウオウ"
+	},
+	{
+		"n": "KK60",
+		"romaji": "kenritsudaigaku",
+		"kanji": "県立大学",
+		"hiragana": "けんりつだいがく",
+		"katakana": "ケンリツダイガク"
+	},
+	{
+		"n": "KK61",
+		"romaji": "horinouchi",
+		"kanji": "堀ノ内",
+		"hiragana": "ほりのうち",
+		"katakana": "ホリノウチ"
+	},
+	{
+		"n": "KK62",
+		"romaji": "keikyū ōtsu",
+		"kanji": "京急大津",
+		"hiragana": "けいきゅうおおつ",
+		"katakana": "ケイキュウオオツ"
+	},
+	{
+		"n": "KK63",
+		"romaji": "maborikaigan",
+		"kanji": "馬堀海岸",
+		"hiragana": "まぼりかいがん",
+		"katakana": "マボリカイガン"
+	},
+	{
+		"n": "KK64",
+		"romaji": "uraga",
+		"kanji": "浦賀",
+		"hiragana": "うらが",
+		"katakana": "ウラガ"
+	},
+	{
+		"n": "KK65",
+		"romaji": "shin-ōtsu",
+		"kanji": "新大津",
+		"hiragana": "しんおおつ",
+		"katakana": "シンオオツ"
+	},
+	{
+		"n": "KK66",
+		"romaji": "kitakurihama",
+		"kanji": "北久里浜",
+		"hiragana": "きたくりはま",
+		"katakana": "キタクリハマ"
+	},
+	{
+		"n": "KK67",
+		"romaji": "keikyū kurihama",
+		"kanji": "京急久里浜",
+		"hiragana": "けいきゅうくりはま",
+		"katakana": "ケイキュウクリハマ"
+	},
+	{
+		"n": "KK68",
+		"romaji": "yrp nobi",
+		"kanji": "YRP野比",
+		"hiragana": "ワイアーピーのび",
+		"katakana": "ワイアーピーノビ"
+	},
+	{
+		"n": "KK69",
+		"romaji": "keikyū nagasawa",
+		"kanji": "京急長沢",
+		"hiragana": "けいきゅうながさわ",
+		"katakana": "ケイキュウナガサワ"
+	},
+	{
+		"n": "KK70",
+		"romaji": "tsukuihama",
+		"kanji": "津久井浜",
+		"hiragana": "つくいはま",
+		"katakana": "ツクイハマ"
+	},
+	{
+		"n": "KK71",
+		"romaji": "miurakaigan",
+		"kanji": "三浦海岸",
+		"hiragana": "みうらかいがん",
+		"katakana": "ミウラカイガン"
+	},
+	{
+		"n": "KK72",
+		"romaji": "misakiguchi",
+		"kanji": "三崎口",
+		"hiragana": "みさきぐち",
+		"katakana": "ミサキグチ"
+	}
+]
