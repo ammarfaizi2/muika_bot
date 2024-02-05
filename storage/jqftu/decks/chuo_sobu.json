@@ -1,0 +1,275 @@
+[
+	{
+		"n": "JB01",
+		"romaji": "mitaka",
+		"kanji": "三鷹",
+		"hiragana": "みたか",
+		"katakana": "ミタカ"
+	},
+	{
+		"n": "JB02",
+		"romaji": "kichijōji",
+		"kanji": "吉祥寺",
+		"hiragana": "きちじょうじ",
+		"katakana": "キチジョウジ"
+	},
+	{
+		"n": "JB03",
+		"romaji": "nishi-ogikubo",
+		"kanji": "西荻窪",
+		"hiragana": "にしおぎくぼ",
+		"katakana": "ニシオギクボ"
+	},
+	{
+		"n": "JB04",
+		"romaji": "ogikubo",
+		"kanji": "荻窪",
+		"hiragana": "おぎくぼ",
+		"katakana": "オギクボ"
+	},
+	{
+		"n": "JB05",
+		"romaji": "asagaya",
+		"kanji": "阿佐ケ谷",
+		"hiragana": "あさがや",
+		"katakana": "アサガヤ"
+	},
+	{
+		"n": "JB06",
+		"romaji": "kōenji",
+		"kanji": "高円寺",
+		"hiragana": "こうえんじ",
+		"katakana": "コウエンジ"
+	},
+	{
+		"n": "JB07",
+		"romaji": "nakano",
+		"kanji": "中野",
+		"hiragana": "なかの",
+		"katakana": "ナカノ"
+	},
+	{
+		"n": "JB08",
+		"romaji": "higashi-nakano",
+		"kanji": "東中野",
+		"hiragana": "ひがし-なかの",
+		"katakana": "ヒガシ-ナカノ"
+	},
+	{
+		"n": "JB09",
+		"romaji": "ōkubo",
+		"kanji": "大久保",
+		"hiragana": "おおくぼ",
+		"katakana": "オオクボ"
+	},
+	{
+		"n": "JB10",
+		"romaji": "shinjuku",
+		"kanji": "新宿",
+		"hiragana": "しんじゅく",
+		"katakana": "シンジュク"
+	},
+	{
+		"n": "JB11",
+		"romaji": "yoyogi",
+		"kanji": "代々木",
+		"hiragana": "よよぎ",
+		"katakana": "ヨヨギ"
+	},
+	{
+		"n": "JB12",
+		"romaji": "sendagaya",
+		"kanji": "千駄ケ谷",
+		"hiragana": "せんだがや",
+		"katakana": "センダガヤ"
+	},
+	{
+		"n": "JB13",
+		"romaji": "shinanomachi",
+		"kanji": "信濃町",
+		"hiragana": "しなのまち",
+		"katakana": "シナノマチ"
+	},
+	{
+		"n": "JB14",
+		"romaji": "yotsuya",
+		"kanji": "四ツ谷",
+		"hiragana": "よつや",
+		"katakana": "ヨツヤ"
+	},
+	{
+		"n": "JB15",
+		"romaji": "ichigaya",
+		"kanji": "市ケ谷",
+		"hiragana": "いちがや",
+		"katakana": "イチガヤ"
+	},
+	{
+		"n": "JB16",
+		"romaji": "iidabashi",
+		"kanji": "飯田橋",
+		"hiragana": "いいだばし",
+		"katakana": "イイダバシ"
+	},
+	{
+		"n": "JB17",
+		"romaji": "suidōbashi",
+		"kanji": "水道橋",
+		"hiragana": "すいどうばし",
+		"katakana": "スイドウバシ"
+	},
+	{
+		"n": "JB18",
+		"romaji": "ochanomizu",
+		"kanji": "御茶ノ水",
+		"hiragana": "おちゃのみず",
+		"katakana": "オチャノミズ"
+	},
+	{
+		"n": "JB19",
+		"romaji": "akihabara",
+		"kanji": "秋葉原",
+		"hiragana": "あきはばら",
+		"katakana": "アキハバラ"
+	},
+	{
+		"n": "JB20",
+		"romaji": "asakusabashi",
+		"kanji": "浅草橋",
+		"hiragana": "あさくさばし",
+		"katakana": "アサクサバシ"
+	},
+	{
+		"n": "JB21",
+		"romaji": "ryōgoku",
+		"kanji": "両国",
+		"hiragana": "りょうごく",
+		"katakana": "リョウゴク"
+	},
+	{
+		"n": "JB22",
+		"romaji": "kinshichō",
+		"kanji": "錦糸町",
+		"hiragana": "きんしちょう",
+		"katakana": "キンシチョウ"
+	},
+	{
+		"n": "JB23",
+		"romaji": "kameido",
+		"kanji": "亀戸",
+		"hiragana": "かめいど",
+		"katakana": "カメイド"
+	},
+	{
+		"n": "JB24",
+		"romaji": "hirai",
+		"kanji": "平井",
+		"hiragana": "ひらい",
+		"katakana": "ヒライ"
+	},
+	{
+		"n": "JB25",
+		"romaji": "shin-koiwa",
+		"kanji": "新小岩",
+		"hiragana": "しんこいわ",
+		"katakana": "シンコイワ"
+	},
+	{
+		"n": "JB26",
+		"romaji": "koiwa",
+		"kanji": "小岩",
+		"hiragana": "こいわ",
+		"katakana": "コイワ"
+	},
+	{
+		"n": "JB27",
+		"romaji": "ichikawa",
+		"kanji": "市川",
+		"hiragana": "いちかわ",
+		"katakana": "イチカワ"
+	},
+	{
+		"n": "JB28",
+		"romaji": "moto-yawata",
+		"kanji": "本八幡",
+		"hiragana": "もとやわた",
+		"katakana": "モトヤワタ"
+	},
+	{
+		"n": "JB29",
+		"romaji": "shimōsa-nakayama",
+		"kanji": "下総中山",
+		"hiragana": "しもうさなかやま",
+		"katakana": "シモウサナカヤマ"
+	},
+	{
+		"n": "JB30",
+		"romaji": "nishi-funabashi",
+		"kanji": "西船橋",
+		"hiragana": "にしふなばし",
+		"katakana": "ニシフナバシ"
+	},
+	{
+		"n": "JB31",
+		"romaji": "funabashi",
+		"kanji": "船橋",
+		"hiragana": "ふなばし",
+		"katakana": "フナバシ"
+	},
+	{
+		"n": "JB32",
+		"romaji": "higashi-funabashi",
+		"kanji": "東船橋",
+		"hiragana": "ひがしふなばし",
+		"katakana": "ヒガシフナバシ"
+	},
+	{
+		"n": "JB33",
+		"romaji": "tsudanuma",
+		"kanji": "津田沼",
+		"hiragana": "つだぬま",
+		"katakana": "ツダヌマ"
+	},
+	{
+		"n": "JB34",
+		"romaji": "makuharihongō",
+		"kanji": "幕張本郷",
+		"hiragana": "まくはりほんごう",
+		"katakana": "マクハリホンゴウ"
+	},
+	{
+		"n": "JB35",
+		"romaji": "makuhari",
+		"kanji": "幕張",
+		"hiragana": "まくはり",
+		"katakana": "マクハリ"
+	},
+	{
+		"n": "JB36",
+		"romaji": "shin-kemigawa",
+		"kanji": "新検見川",
+		"hiragana": "しんけみがわ",
+		"katakana": "シンケミガワ"
+	},
+	{
+		"n": "JB37",
+		"romaji": "inage",
+		"kanji": "稲毛",
+		"hiragana": "いなげ",
+		"katakana": "イナゲ"
+	},
+	{
+		"n": "JB38",
+		"romaji": "nishi-chiba",
+		"kanji": "西千葉",
+		"hiragana": "にしちば",
+		"katakana": "ニシチバ"
+	},
+	{
+		"n": "JB39",
+		"romaji": "chiba",
+		"kanji": "千葉",
+		"hiragana": "ちば",
+		"katakana": "チバ"
+	}
+]

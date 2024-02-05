@@ -4,6 +4,7 @@
 #include "muika/modules/jqftu/decks/tozai_line/Deck.hpp"
 #include "muika/modules/jqftu/decks/yamanote_line/Deck.hpp"
 #include "muika/modules/jqftu/decks/keikyu_line/Deck.hpp"
+#include "muika/modules/jqftu/decks/chuo_sobu/Deck.hpp"
 #include "muika/modules/jqftu/decks/jlpt_n5/Deck.hpp"
 
 #include <mutex>
@@ -28,6 +29,9 @@ std::unique_ptr<Deck> DeckGroup::createDeckByName(const std::string &name)
 
 	if (name == "keikyu_line")
 		return std::make_unique<muika::modules::jqftu::decks::keikyu_line::Deck>();
+
+	if (name == "chuo_sobu")
+		return std::make_unique<muika::modules::jqftu::decks::chuo_sobu::Deck>();
 
 	if (name == "jlpt_n5")
 		return std::make_unique<muika::modules::jqftu::decks::jlpt_n5::Deck>();
