@@ -1,0 +1,212 @@
+[
+	{
+		"n": "JY01",
+		"romaji": "tokyo",
+		"kanji": "東京",
+		"hiragana": "とうきょう",
+		"katakana": "トウキョウ"
+	},
+	{
+		"n": "JY02",
+		"romaji": "kanda",
+		"kanji": "神田",
+		"hiragana": "かんだ",
+		"katakana": "カンダ"
+	},
+	{
+		"n": "JY03",
+		"romaji": "akihabara",
+		"kanji": "秋葉原",
+		"hiragana": "あきはばら",
+		"katakana": "アキハバラ"
+	},
+	{
+		"n": "JY04",
+		"romaji": "okachimachi",
+		"kanji": "御徒町",
+		"hiragana": "おかちまち",
+		"katakana": "オカチマチ"
+	},
+	{
+		"n": "JY05",
+		"romaji": "ueno",
+		"kanji": "上野",
+		"hiragana": "うえの",
+		"katakana": "ウエノ"
+	},
+	{
+		"n": "JY06",
+		"romaji": "uguisudani",
+		"kanji": "鶯谷",
+		"hiragana": "うぐいすだに",
+		"katakana": "ウグイスダニ"
+	},
+	{
+		"n": "JY07",
+		"romaji": "nippori",
+		"kanji": "日暮里",
+		"hiragana": "にっぽり",
+		"katakana": "ニッポリ"
+	},
+	{
+		"n": "JY08",
+		"romaji": "nishi-nippori",
+		"kanji": "西日暮里",
+		"hiragana": "にしにっぽり",
+		"katakana": "ニシニッポリ"
+	},
+	{
+		"n": "JY09",
+		"romaji": "tabata",
+		"kanji": "田端",
+		"hiragana": "たばた",
+		"katakana": "タバタ"
+	},
+	{
+		"n": "JY10",
+		"romaji": "komagome",
+		"kanji": "駒込",
+		"hiragana": "こまごめ",
+		"katakana": "コマゴメ"
+	},
+	{
+		"n": "JY11",
+		"romaji": "sugamo",
+		"kanji": "巣鴨",
+		"hiragana": "すがも",
+		"katakana": "スガモ"
+	},
+	{
+		"n": "JY12",
+		"romaji": "ōtsuka",
+		"kanji": "大塚",
+		"hiragana": "おおつか",
+		"katakana": "オオツカ"
+	},
+	{
+		"n": "JY13",
+		"romaji": "ikebukuro",
+		"kanji": "池袋",
+		"hiragana": "いけぶくろ",
+		"katakana": "イケブクロ"
+	},
+	{
+		"n": "JY14",
+		"romaji": "mejiro",
+		"kanji": "目白",
+		"hiragana": "めじろ",
+		"katakana": "メジロ"
+	},
+	{
+		"n": "JY15",
+		"romaji": "takadanobaba",
+		"kanji": "高田馬場",
+		"hiragana": "たかだのばば",
+		"katakana": "タカダノババ"
+	},
+	{
+		"n": "JY16",
+		"romaji": "shin-ōkubo",
+		"kanji": "新大久保",
+		"hiragana": "しんおおくぼ",
+		"katakana": "シンオオクボ"
+	},
+	{
+		"n": "JY17",
+		"romaji": "shinjuku",
+		"kanji": "新宿",
+		"hiragana": "しんじゅく",
+		"katakana": "シンジュク"
+	},
+	{
+		"n": "JY18",
+		"romaji": "yoyogi",
+		"kanji": "代々木",
+		"hiragana": "よよぎ",
+		"katakana": "ヨヨギ"
+	},
+	{
+		"n": "JY19",
+		"romaji": "harajuku",
+		"kanji": "原宿",
+		"hiragana": "はらじゅく",
+		"katakana": "ハラジュク"
+	},
+	{
+		"n": "JY20",
+		"romaji": "shibuya",
+		"kanji": "渋谷",
+		"hiragana": "しぶや",
+		"katakana": "シブヤ"
+	},
+	{
+		"n": "JY21",
+		"romaji": "ebisu",
+		"kanji": "恵比寿",
+		"hiragana": "えびす",
+		"katakana": "エビス"
+	},
+	{
+		"n": "JY22",
+		"romaji": "meguro",
+		"kanji": "目黒",
+		"hiragana": "めぐろ",
+		"katakana": "メグロ"
+	},
+	{
+		"n": "JY23",
+		"romaji": "gotanda",
+		"kanji": "五反田",
+		"hiragana": "ごたんだ",
+		"katakana": "ゴタンダ"
+	},
+	{
+		"n": "JY24",
+		"romaji": "ōsaki",
+		"kanji": "大崎",
+		"hiragana": "おおさき",
+		"katakana": "オオサキ"
+	},
+	{
+		"n": "JY25",
+		"romaji": "shinagawa",
+		"kanji": "品川",
+		"hiragana": "しながわ",
+		"katakana": "シナガワ"
+	},
+	{
+		"n": "JY26",
+		"romaji": "takanawa gateway",
+		"kanji": "高輪ゲートウェイ",
+		"hiragana": "たかなわげーとうぇい",
+		"katakana": "タカナワゲートウェイ"
+	},
+	{
+		"n": "JY27",
+		"romaji": "tamachi",
+		"kanji": "田町",
+		"hiragana": "たまち",
+		"katakana": "タマチ"
+	},
+	{
+		"n": "JY28",
+		"romaji": "hamamatsuchō",
+		"kanji": "浜松町",
+		"hiragana": "はままつちょう",
+		"katakana": "ハママツチョウ"
+	},
+	{
+		"n": "JY29",
+		"romaji": "shimbashi",
+		"kanji": "新橋",
+		"hiragana": "しんばし",
+		"katakana": "シンバシ"
+	},
+	{
+		"n": "JY30",
+		"romaji": "yūrakuchō",
+		"kanji": "有楽町",
+		"hiragana": "ゆうらくちょう",
+		"katakana": "ユウラクチョウ"
+	}
+]
