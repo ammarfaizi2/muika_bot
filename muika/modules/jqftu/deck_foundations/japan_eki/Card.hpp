@@ -21,16 +21,18 @@ private:
 	std::string romaji_;
 	std::string hiragana_;
 	std::string katakana_;
+	std::vector<std::string> alt_;
 
 public:
 	inline Card(const std::string &n, const std::string &kanji,
 		    const std::string &romaji, const std::string &hiragana,
-		    const std::string &katakana):
+		    const std::string &katakana, std::vector<std::string> alt = {}):
 		n_(n),
 		kanji_(kanji),
 		romaji_(romaji),
 		hiragana_(hiragana),
-		katakana_(katakana)
+		katakana_(katakana),
+		alt_(alt)
 	{
 	}
 

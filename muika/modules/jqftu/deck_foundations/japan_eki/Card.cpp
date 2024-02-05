@@ -27,6 +27,13 @@ bool Card::checkAnswer(const std::string &answer_ref)
 	if (normalizedRomajiCompare(answer, romaji_))
 		return true;
 
+	if (alt_.size() > 0) {
+		for (const auto &alt: alt_) {
+			if (normalizedRomajiCompare(answer, alt))
+				return true;
+		}
+	}
+
 	return false;
 }
 
@@ -65,9 +72,18 @@ std::string Card::getCardAnswer(void)
 
 std::string Card::getCardDetails(void)
 {
-	return  "<b>Q:</b> " + kanji_ + "\n" +
+	std::string ret =
+		"<b>Q:</b> " + kanji_ + "\n" +
 		"<b>Station Number:</b> " + n_ + "\n" +
 		"<b>Answer: </b>" + hiragana_ + " (" + romaji_ + ")\n";
+
+	if (alt_.size() > 0) {
+		ret += "\n<b>Alternate Answers:</b>\n";
+		for (const auto &alt: alt_)
+			ret += alt + "\n";
+	}
+
+	return ret;
 }
 
 json Card::toJson(void) const
@@ -79,6 +95,13 @@ json Card::toJson(void) const
 	j["romaji"] = romaji_;
 	j["hiragana"] = hiragana_;
 	j["katakana"] = katakana_;
+
+	if (alt_.size() > 0) {
+		j["alt"] = json::array();
+		for (const auto &alt: alt_)
+			j["alt"].push_back(alt);
+	}
+
 	return j;
 }
 
@@ -98,6 +121,20 @@ void Card::fromJson(const json &j)
 
 	if (!j.contains("katakana") || !j["katakana"].is_string())
 		throw std::runtime_error("No string \"katakana\" key in JSON");
+
+	if (j.contains("alt")) {
+		if (!j["alt"].is_array())
+			throw std::runtime_error("\"alt\" key is not an array");
+
+		for (const auto &alt: j["alt"]) {
+			if (!alt.is_string())
+				throw std::runtime_error("Non-string value in \"alt\" array");
+		}
+
+		alt_.clear();
+		for (const auto &alt: j["alt"])
+			alt_.push_back(alt);
+	}
 
 	n_ = j["n"];
 	kanji_ = j["kanji"];

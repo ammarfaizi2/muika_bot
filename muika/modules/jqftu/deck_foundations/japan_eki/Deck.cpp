@@ -13,6 +13,7 @@ namespace japan_eki {
 std::unique_ptr<Card> Deck::loadCardFromJson(const json &j)
 {
 	std::string n, kanji, romaji, hiragana, katakana;
+	std::vector<std::string> alternatives = {};
 
 	if (!j.is_object())
 		throw std::runtime_error("Card JSON is not an object");
@@ -32,12 +33,25 @@ std::unique_ptr<Card> Deck::loadCardFromJson(const json &j)
 	if (!j.contains("katakana") || !j["katakana"].is_string())
 		throw std::runtime_error("Card JSON is missing or invalid \"katakana\" field");
 
+	if (j.contains("alt")) {
+		if (!j["alt"].is_array())
+			throw std::runtime_error("\"alt\" key is not an array");
+
+		for (const auto &alt: j["alt"]) {
+			if (!alt.is_string())
+				throw std::runtime_error("Non-string value in \"alt\" array");
+		}
+
+		for (const auto &alt: j["alt"])
+			alternatives.push_back(alt);
+	}
+
 	n = j["n"];
 	kanji = j["kanji"];
 	romaji = j["romaji"];
 	hiragana = j["hiragana"];
 	katakana = j["katakana"];
-	return std::make_unique<Card>(n, kanji, romaji, hiragana, katakana);
+	return std::make_unique<Card>(n, kanji, romaji, hiragana, katakana, alternatives);
 }
 
 void Deck::loadDeckFromJsonFile(const char *file_path)
