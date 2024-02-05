@@ -178,8 +178,11 @@
 		"n": "JY26",
 		"romaji": "takanawa gateway",
 		"kanji": "高輪ゲートウェイ",
-		"hiragana": "たかなわげーとうぇい",
-		"katakana": "タカナワゲートウェイ"
+		"hiragana": "たかなわゲートウェイ",
+		"katakana": "タカナワゲートウェイ",
+		"alt": [
+			"takanawa geetouei"
+		]
 	},
 	{
 		"n": "JY27",
