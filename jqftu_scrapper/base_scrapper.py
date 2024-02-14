@@ -295,7 +295,7 @@ class BaseJqftuStation:
 			photo_filename = os.path.join(photo_dir, md5_hash)
 			with open(photo_filename, 'wb') as file:
 				file.write(contents)
-			self.photos.append(f"{self.n}/{photo_filename}")
+			self.photos.append(f"{self.n}/{md5_hash}")
 
 
 	def construct_kana(self):
