@@ -28,22 +28,50 @@ client = httpx.AsyncClient(headers={
 	'upgrade-insecure-requests': '1',
 	'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0',
 })
-html_to_img = Html2Image(size=(1920, 1080), custom_flags=['--virtual-time-budget=10000', '--hide-scrollbars']) # '--no-sandbox' (for linux)
+
+if os.name == 'nt':
+	# For Windows.
+	html_to_img = Html2Image(
+		size=(1920, 1080),
+		custom_flags=[
+			'--virtual-time-budget=10000',
+			'--hide-scrollbars',
+			'--no-sandbox'
+		]
+	)
+else:
+	# For Linux.
+	html_to_img = Html2Image(
+		size=(1920, 1080),
+		browser='chrome',
+		browser_executable='/usr/bin/google-chrome',
+		custom_flags=[
+			'--virtual-time-budget=10000',
+			'--hide-scrollbars',
+			'--no-sandbox',
+			'--enable-chrome-browser-cloud-management',
+		]
+	)
+
+
 
 
 async def http_get_text(url: str) -> str:
 	return (await client.get(url)).text
 
 def aiowrap(func: Callable) -> Callable:
-    @wraps(func)
-    async def run(*args, loop=None, executor=None, **kwargs):
-        if loop is None:
-            loop = asyncio.get_event_loop()
-        pfunc = partial(func, *args, **kwargs)
-        return await loop.run_in_executor(executor, pfunc)
+	@wraps(func)
 
-    return run
+	async def run(*args, loop=None, executor=None, **kwargs):
+		if loop is None:
+			loop = asyncio.get_event_loop()
 
+		pfunc = partial(func, *args, **kwargs)
+		return await loop.run_in_executor(executor, pfunc)
+
+	return run
+
+#
 # For every <tr> tag in the station list table, there exists a BaseJqftuRawStation
 # object that will extract the station name, romaji, and kanji from the <tr> tag
 # and store it in a dictionary.
@@ -150,18 +178,22 @@ class BaseJqftuStation:
 		self.st_num_html = []
 		self.is_valid = False
 
+
 	@aiowrap
 	def _take_screenshot(self, html, zoom_level):
 		html_to_img.output_path = self.save_path
 		html_to_img.screenshot(html_str='<center>' + str(html) + '</center>', css_str=f'body {{ zoom:{zoom_level}% }}', save_as=self.q_img)
-	
+
+
 	@aiowrap
 	def _smart_downloader(self, photo_url, photo_path):
 		downloading = SmartDL(photo_url, photo_path, progress_bar=False, request_args={'headers': {'User-Agent': 'jqftu/1.0 (https://www.teainside.org/; admin@teainside.org)'}}, verify=False)
 		downloading.start(blocking=False)
 	
+
 	async def scrape(self):
 		self.html = bs(await http_get_text(self.wiki_url), 'html.parser')
+
 
 	#
 	# The JSON result will be taken from to_dict() method.
@@ -180,17 +212,11 @@ class BaseJqftuStation:
 
 
 	def parse_station_number_images(self) -> list:
-		#
-		# TODO(@sunda005): Collect the station number images (HTML string)
-		#                  from the wiki page.
-		#
 		elements = self.html.find_all('div', class_='ib-station-name')
 		return [elem for elem in elements if elem.find('span', attrs={'style': re.compile('display:inline-block')})]
 
+
 	def parse_photos_url(self) -> list:
-		#
-		# TODO(@sunda005): Collect the photos URL from the wiki page.
-		#
 		selectors = {
 			'default-size': ('figure', 'mw-default-size'),
 			'gallerybox': ('li', 'gallerybox'),
@@ -207,14 +233,8 @@ class BaseJqftuStation:
 					fixed_urls.append(full_fixed_url)
 		return fixed_urls
 
+
 	async def construct_q_img(self):
-		#
-		# TODO(@sunda005): Construct the q_img from the station number
-		#                  HTML string (self.st_num_html).
-		#
-		#                  Then save the constructed image to:
-		#                  f"{self.save_path}/{self.q_img}".
-		#
 		all_lines = self.st_num_html
 		if len(all_lines) > 1:
 			fix_duplicated = []
@@ -270,21 +290,8 @@ class BaseJqftuStation:
 		new.find(class_='nickname').decompose()
 		await self._take_screenshot(html=new, zoom_level=zoom_level)
 
-	async def download_photos(self):
-		#
-		# TODO(@sunda005):
-		#
-		#  - mkdir f"{self.save_path}/photos" (if not exists).
-		#
-		#  - mkdir f"{self.save_path}/photos/{self.n}".
-		#
-		#  - Download all photos in self.photos_url, save it to:
-		#    f"{self.save_path}/photos/{self.n}/{uuid4().hex}.jpg".
-		#
-		#  - For each saved photo, append f"{self.n}/{uuid4().hex}.jpg"
-		#    to self.photos.
-		#
 
+	async def download_photos(self):
 		photos_path = f"{self.save_path}/photos"
 		os.makedirs(f"{self.save_path}/photos", exist_ok=True)
 		
@@ -297,6 +304,7 @@ class BaseJqftuStation:
 			await self._smart_downloader(photo_url, photo_path)
 			self.photos.append(f"{self.n}/{photo_filename}")
 
+
 	def construct_kana(self):
 		k = pykakasi.kakasi()
 		self.hiragana = self.katakana = ""
@@ -307,10 +315,6 @@ class BaseJqftuStation:
 
 	def parse(self):
 		try:
-			#
-			# TODO(@ammarfaizi2): Revisit this, make sure everything
-			#                     is properly integrated.
-			#
 			self.st_num_html = self.parse_station_number_images()
 			self.photos_url = self.parse_photos_url()
 		except BaseException as e:
@@ -439,8 +443,6 @@ class BaseJqftuLine:
 		fn = f"{self.save_path}/{fn}.json"
 		with open(fn, 'w', encoding='utf-8') as f:
 			json.dump(j, f, indent=4, ensure_ascii=False)
-
-		print(f"{self.ln}Saved to {fn}")
 
 
 	async def scrape_all_stations(self):
