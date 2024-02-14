@@ -158,6 +158,11 @@ class BaseJqftuStation:
 		html_to_img.output_path = self.save_path
 		html_to_img.screenshot(html_str='<center>' + str(html) + '</center>', css_str=f'body {{ zoom:{zoom_level}% }}', save_as=self.q_img)
 	
+	@aiowrap
+	def _smart_downloader(self, photo_url, photo_path):
+		downloading = SmartDL(photo_url, photo_path, progress_bar=False, request_args={'headers': {'User-Agent': 'jqftu/1.0 (https://www.teainside.org/; admin@teainside.org)'}}, verify=False)
+		downloading.start(blocking=False)
+	
 	async def scrape(self):
 		self.html = bs(await http_get_text(self.wiki_url), 'html.parser')
 
@@ -267,8 +272,7 @@ class BaseJqftuStation:
 		new.find(class_='nickname').decompose()
 		await self._take_screenshot(html=new, zoom_level=zoom_level)
 
-	@aiowrap
-	def download_photos(self):
+	async def download_photos(self):
 		#
 		# TODO(@sunda005):
 		#
@@ -292,8 +296,7 @@ class BaseJqftuStation:
 		for photo_url in self.photos_url:
 			photo_filename = f"{uuid4().hex}.jpg"
 			photo_path = f"{photo_dir}/{photo_filename}"
-			downloading = SmartDL(photo_url, photo_path, progress_bar=False, request_args={'headers': {'User-Agent': 'jqftu/1.0 (https://www.teainside.org/; admin@teainside.org)'}}, verify=False)
-			downloading.start(blocking=True)
+			await self._smart_downloader(photo_url, photo_path)
 			self.photos.append(f"{self.n}/{photo_filename}")
 
 	def construct_kana(self):
