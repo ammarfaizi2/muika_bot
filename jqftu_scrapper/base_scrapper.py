@@ -3,8 +3,6 @@
 from html2image import Html2Image
 from bs4 import BeautifulSoup as bs
 from bs4.element import Tag
-from uuid import uuid4
-from pysmartdl2 import SmartDL
 from functools import partial, wraps
 from typing import Callable
 import os, json
@@ -13,6 +11,7 @@ import pykakasi
 import asyncio
 import httpx
 import re
+import hashlib
 
 client = httpx.AsyncClient(headers={
 	'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -35,8 +34,7 @@ if os.name == 'nt':
 		size=(1920, 1080),
 		custom_flags=[
 			'--virtual-time-budget=10000',
-			'--hide-scrollbars',
-			'--no-sandbox'
+			'--hide-scrollbars'
 		]
 	)
 else:
@@ -52,9 +50,6 @@ else:
 			'--enable-chrome-browser-cloud-management',
 		]
 	)
-
-
-
 
 async def http_get_text(url: str) -> str:
 	return (await client.get(url)).text
@@ -184,12 +179,21 @@ class BaseJqftuStation:
 		html_to_img.output_path = self.save_path
 		html_to_img.screenshot(html_str='<center>' + str(html) + '</center>', css_str=f'body {{ zoom:{zoom_level}% }}', save_as=self.q_img)
 
-
-	@aiowrap
-	def _smart_downloader(self, photo_url, photo_path):
-		downloading = SmartDL(photo_url, photo_path, progress_bar=False, request_args={'headers': {'User-Agent': 'jqftu/1.0 (https://www.teainside.org/; admin@teainside.org)'}}, verify=False)
-		downloading.start(blocking=False)
-	
+	@staticmethod
+	async def _download_file_as_md5(url, save_path):
+		md5_hash = hashlib.md5(url.encode('utf-8')).hexdigest() + '.jpg'
+		file_path = os.path.join(save_path, md5_hash)
+		
+		try:
+			response = await client.get(url)
+			response.raise_for_status()  
+			file_content = response.content
+			with open(file_path, 'wb') as file:
+				file.write(file_content)				
+		except Exception as e:
+			print(f"An error occurred: {e}")	
+		else:
+			return md5_hash
 
 	async def scrape(self):
 		self.html = bs(await http_get_text(self.wiki_url), 'html.parser')
@@ -299,9 +303,7 @@ class BaseJqftuStation:
 		os.makedirs(photo_dir, exist_ok=True)
 
 		for photo_url in self.photos_url:
-			photo_filename = f"{uuid4().hex}.jpg"
-			photo_path = f"{photo_dir}/{photo_filename}"
-			await self._smart_downloader(photo_url, photo_path)
+			photo_filename = await self._download_file_as_md5(photo_url, photo_dir)
 			self.photos.append(f"{self.n}/{photo_filename}")
 
 
