@@ -1,5 +1,5 @@
 html2image==2.0.4.3
 beautifulsoup4==4.12.3
 pykakasi==2.2.1
-pySmartDL==1.3.4
 httpx==0.26.0
+pysmartdl2==2.0.0
