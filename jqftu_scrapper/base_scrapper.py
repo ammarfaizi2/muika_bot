@@ -287,13 +287,14 @@ class BaseJqftuStation:
 		os.makedirs(photo_dir, exist_ok=True)
 
 		for photo_url in self.photos_url:
-			md5_hash = hashlib.md5(photo_url.encode('utf-8')).hexdigest() + '.jpg'
-			photo_filename = os.path.join(photo_dir, md5_hash)
-			
 			response = await client.get(photo_url)
 			response.raise_for_status()  
+			contents = response.content 
+			
+			md5_hash = hashlib.md5(contents).hexdigest() + '.jpg'
+			photo_filename = os.path.join(photo_dir, md5_hash)
 			with open(photo_filename, 'wb') as file:
-				file.write(response.content)
+				file.write(contents)
 			self.photos.append(f"{self.n}/{photo_filename}")
 
 
