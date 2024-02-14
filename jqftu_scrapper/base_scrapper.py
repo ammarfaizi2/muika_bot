@@ -30,13 +30,23 @@ client = httpx.AsyncClient(headers={
 	'upgrade-insecure-requests': '1',
 	'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0',
 })
+html_to_img = Html2Image(size=(1920, 1080), custom_flags=['--virtual-time-budget=10000', '--hide-scrollbars']) # '--no-sandbox' (for linux)
 
 
 async def http_get_text(url: str) -> str:
 	return (await client.get(url)).text
 
+def aiowrap(func: Callable) -> Callable:
+    @wraps(func)
+    async def run(*args, loop=None, executor=None, **kwargs):
+        if loop is None:
+            loop = asyncio.get_event_loop()
+        pfunc = partial(func, *args, **kwargs)
+        return await loop.run_in_executor(executor, pfunc)
 
-#
+    return run
+
+
 # For every <tr> tag in the station list table, there exists a BaseJqftuRawStation
 # object that will extract the station name, romaji, and kanji from the <tr> tag
 # and store it in a dictionary.
@@ -143,10 +153,13 @@ class BaseJqftuStation:
 		self.st_num_html = []
 		self.is_valid = False
 
-
+	@aiowrap
+	def _take_screenshot(self, html, zoom_level):
+		html_to_img.output_path = self.save_path
+		html_to_img.screenshot(html_str='<center>' + str(html) + '</center>', css_str=f'body {{ zoom:{zoom_level}% }}', save_as=self.q_img)
+	
 	async def scrape(self):
 		self.html = bs(await http_get_text(self.wiki_url), 'html.parser')
-
 
 	#
 	# The JSON result will be taken from to_dict() method.
@@ -169,17 +182,30 @@ class BaseJqftuStation:
 		# TODO(@sunda005): Collect the station number images (HTML string)
 		#                  from the wiki page.
 		#
-		return []
-
+		elements = self.html.find_all('div', class_='ib-station-name')
+		return [elem for elem in elements if elem.find('span', attrs={'style': re.compile('display:inline-block')})]
 
 	def parse_photos_url(self) -> list:
 		#
 		# TODO(@sunda005): Collect the photos URL from the wiki page.
 		#
-		return []
+		selectors = {
+			'default-size': ('figure', 'mw-default-size'),
+			'gallerybox': ('li', 'gallerybox'),
+			'infobox-image': ('td', 'infobox-image')
+		}
+		fixed_urls = []    
+		for _, (tag, class_name) in selectors.items():
+			elements = self.html.find_all(tag, class_=class_name)
+			for element in elements:
+				if element.find('img'):
+					img_src = element.find('img')['src']
+					fixed_url = re.sub(r"/(\d+)px-", "/1200px-", img_src)
+					full_fixed_url = f"https:{fixed_url}"
+					fixed_urls.append(full_fixed_url)
+		return fixed_urls
 
-
-	def construct_q_img(self):
+	async def construct_q_img(self):
 		#
 		# TODO(@sunda005): Construct the q_img from the station number
 		#                  HTML string (self.st_num_html).
@@ -187,9 +213,61 @@ class BaseJqftuStation:
 		#                  Then save the constructed image to:
 		#                  f"{self.save_path}/{self.q_img}".
 		#
-		pass
+		all_lines = self.st_num_html
+		if len(all_lines) > 1:
+			fix_duplicated = []
+			total_line = len(self.st_num_html[0].find('span', attrs={'style': re.compile('display:inline-block')}).find_all('span', attrs={'style': re.compile('vertical-align:middle')}))
+			target_div = self.st_num_html[0].find('div', class_='fn org')
+			for elem in self.st_num_html[1:]:
+				spans = elem.find_all('span', attrs={'style': re.compile('display:inline-block')})
+				for item in spans:
+					_fall = item.find_all('span')
+					alpha, num = _fall[0].text, _fall[1].text 
+					total_line += 1  
+					if total_line % 8 == 0:
+						br_tag = self.html.new_tag("br")
+						target_div.insert(1, br_tag)
+					if f"{alpha}{num}" not in fix_duplicated:
+						target_div.insert(1, item)
+						fix_duplicated.append(f"{alpha}{num}")
+			find_all_br = target_div.find_all('br')
+			if len(find_all_br) > 1:
+				last_br_tag = find_all_br[-2]  
+				last_br_tag.extract()
+				
+		html = all_lines[0]
+		_fn_org = html.find(class_='fn org')
+		_br = _fn_org.find_all('br')
+		_bg_black = _fn_org.find('span', attrs={'style': re.compile('background:black')})
+		stas = html.find('br').next_sibling
+		two_lines = 0
+		if _br:
+			two_lines += len([x for x in _br if x.next_sibling.text.endswith('Station')])
+			for n, br in enumerate(_br):				
+				if ((two_lines < 2 and len(_br) > 1 and n == len(_br) - 1) or (two_lines > 1 and n == 0)):
+					stas = br.next_sibling
 
+			if stas.name == 'big':
+				stas = stas.text
+		else:
+			stas = html.find('br').next_sibling
 
+		jepun = html.find(class_='nickname').get_text(strip=True)
+
+		fsize = 60
+
+		zoom_level = 470 if (two_lines > 1 or _bg_black or len(jepun) >=5) else 650
+
+		if _bg_black and len(jepun) >= 8:
+			zoom_level = 450
+
+		jap = f'''<div class="kanji" style="font-size:{fsize}px">{jepun}</div>'''
+
+		new = bs(str(html).replace(stas, jap).replace('駅', '').replace('//upload.', 'https://upload.'), 'html.parser')
+		new.find(class_='nickname').decompose()
+		await self._take_screenshot(html=new, zoom_level=zoom_level)
+
+	@aiowrap
 	def download_photos(self):
 		#
 		# TODO(@sunda005):
@@ -199,13 +277,24 @@ class BaseJqftuStation:
 		#  - mkdir f"{self.save_path}/photos/{self.n}".
 		#
 		#  - Download all photos in self.photos_url, save it to:
-		#    f"{self.save_path}/photos/{self.n}/{uuid4()}.jpg".
+		#    f"{self.save_path}/photos/{self.n}/{uuid4().hex}.jpg".
 		#
-		#  - For each saved photo, append f"{self.n}/{uuid4()}.jpg"
+		#  - For each saved photo, append f"{self.n}/{uuid4().hex}.jpg"
 		#    to self.photos.
 		#
-		pass
 
+		photos_path = f"{self.save_path}/photos"
+		os.makedirs(f"{self.save_path}/photos", exist_ok=True)
+		
+		photo_dir = f"{photos_path}/{self.n}"
+		os.makedirs(photo_dir, exist_ok=True)
+
+		for photo_url in self.photos_url:
+			photo_filename = f"{uuid4().hex}.jpg"
+			photo_path = f"{photo_dir}/{photo_filename}"
+			downloading = SmartDL(photo_url, photo_path, progress_bar=False, request_args={'headers': {'User-Agent': 'jqftu/1.0 (https://www.teainside.org/; admin@teainside.org)'}}, verify=False)
+			downloading.start(blocking=True)
+			self.photos.append(f"{self.n}/{photo_filename}")
 
 	def construct_kana(self):
 		k = pykakasi.kakasi()
@@ -227,11 +316,11 @@ class BaseJqftuStation:
 			print("BaseJqftuStation: Failed to parse station:", e)
 
 
-	def save(self):
+	async def save(self):
 		try:
 			self.construct_kana()
-			self.construct_q_img()
-			self.download_photos()
+			await self.construct_q_img()
+			await self.download_photos()
 
 			#
 			# Success to save the station, very good!
@@ -332,10 +421,10 @@ class BaseJqftuLine:
 
 
 	async def scrape_station(self, station: BaseJqftuRawStation) -> BaseJqftuStation:
-		st = BaseJqftuStation(self.line_name, station)
+		st = BaseJqftuStation(self.save_path, station)
 		await st.scrape()
 		st.parse()
-		st.save()
+		await st.save()
 		return st
 
 
