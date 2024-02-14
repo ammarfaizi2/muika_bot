@@ -179,22 +179,6 @@ class BaseJqftuStation:
 		html_to_img.output_path = self.save_path
 		html_to_img.screenshot(html_str='<center>' + str(html) + '</center>', css_str=f'body {{ zoom:{zoom_level}% }}', save_as=self.q_img)
 
-	@staticmethod
-	async def _download_file_as_md5(url, save_path):
-		md5_hash = hashlib.md5(url.encode('utf-8')).hexdigest() + '.jpg'
-		file_path = os.path.join(save_path, md5_hash)
-		
-		try:
-			response = await client.get(url)
-			response.raise_for_status()  
-			file_content = response.content
-			with open(file_path, 'wb') as file:
-				file.write(file_content)				
-		except Exception as e:
-			print(f"An error occurred: {e}")	
-		else:
-			return md5_hash
-
 	async def scrape(self):
 		self.html = bs(await http_get_text(self.wiki_url), 'html.parser')
 
@@ -303,7 +287,13 @@ class BaseJqftuStation:
 		os.makedirs(photo_dir, exist_ok=True)
 
 		for photo_url in self.photos_url:
-			photo_filename = await self._download_file_as_md5(photo_url, photo_dir)
+			md5_hash = hashlib.md5(photo_url.encode('utf-8')).hexdigest() + '.jpg'
+			photo_filename = os.path.join(photo_dir, md5_hash)
+			
+			response = await client.get(photo_url)
+			response.raise_for_status()  
+			with open(photo_filename, 'wb') as file:
+				file.write(response.content)
 			self.photos.append(f"{self.n}/{photo_filename}")
 
 
