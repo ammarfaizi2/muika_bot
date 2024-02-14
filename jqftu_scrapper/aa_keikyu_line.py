@@ -21,6 +21,12 @@ class KeikyuLine(BaseJqftuLine):
 		self.add_url("https://en.wikipedia.org/wiki/Keiky%C5%AB_Airport_Line")
 
 		#
+		# - KK20 (transit point with KK01 to KK11)
+		# - KK21 to KK26
+		#
+		self.add_url("https://en.wikipedia.org/wiki/Keiky%C5%AB_Daishi_Line")
+
+		#
 		# - KK61 (transit point with KK27 to KK64)
 		# - KK65 to KK72
 		#
