@@ -11,3 +11,8 @@
 *.diff
 *.patch
 *.orig
+__pycache__
+*.pyc
+*.pyo
+*.rej
+/output/
