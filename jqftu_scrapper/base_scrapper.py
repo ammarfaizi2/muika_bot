@@ -4,7 +4,7 @@ from html2image import Html2Image
 from bs4 import BeautifulSoup as bs
 from bs4.element import Tag
 from uuid import uuid4
-from pySmartDL import SmartDL
+from pysmartdl2 import SmartDL
 from functools import partial, wraps
 from typing import Callable
 import os, json
@@ -243,7 +243,7 @@ class BaseJqftuStation:
 		_bg_black = _fn_org.find('span', attrs={'style': re.compile('background:black')})
 		stas = html.find('br').next_sibling
 		two_lines = 0
-		
+
 		if _br:
 			two_lines += len([x for x in _br if x.next_sibling.text.endswith('Station')])
 			for n, br in enumerate(_br):				
