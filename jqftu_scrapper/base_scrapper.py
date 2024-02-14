@@ -3,15 +3,13 @@
 from html2image import Html2Image
 from bs4 import BeautifulSoup as bs
 from bs4.element import Tag
-from pypdl import Downloader
-import os, json
-import httpx
-import pykakasi
 from uuid import uuid4
-import shutil
 from pySmartDL import SmartDL
 from functools import partial, wraps
 from typing import Callable
+import os, json
+import httpx
+import pykakasi
 import asyncio
 import httpx
 import re
@@ -45,7 +43,6 @@ def aiowrap(func: Callable) -> Callable:
         return await loop.run_in_executor(executor, pfunc)
 
     return run
-
 
 # For every <tr> tag in the station list table, there exists a BaseJqftuRawStation
 # object that will extract the station name, romaji, and kanji from the <tr> tag
