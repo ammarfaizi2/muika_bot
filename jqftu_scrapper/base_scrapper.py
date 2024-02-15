@@ -152,7 +152,7 @@ class BaseJqftuRawStation:
 # BaseJqftuStation always needs BaseJqftuRawStation object to be initialized.
 #
 class BaseJqftuStation:
-	def __init__(self, save_path, raw_station: BaseJqftuRawStation):
+	def __init__(self, save_path, line_name, raw_station: BaseJqftuRawStation):
 		#
 		# For JSON end result.
 		#
@@ -171,6 +171,7 @@ class BaseJqftuStation:
 		self.save_path = save_path
 		self.photos_url = []
 		self.st_num_html = []
+		self.line_name = line_name
 		self.is_valid = False
 
 
@@ -194,7 +195,7 @@ class BaseJqftuStation:
 			"romaji": self.romaji,
 			"hiragana": self.hiragana,
 			"katakana": self.katakana,
-			"q_img": self.q_img,
+			"q_img": f"{self.line_name}/{self.q_img}",
 			"photos": self.photos,
 			"wiki_url": self.wiki_url
 		}
@@ -296,7 +297,7 @@ class BaseJqftuStation:
 			photo_filename = os.path.join(photo_dir, md5_hash)
 			with open(photo_filename, 'wb') as file:
 				file.write(contents)
-			self.photos.append(f"{self.n}/{md5_hash}")
+			self.photos.append(f"{self.line_name}/{self.n}/{md5_hash}")
 
 
 	def construct_kana(self):
@@ -420,7 +421,7 @@ class BaseJqftuLine:
 
 
 	async def scrape_station(self, station: BaseJqftuRawStation) -> BaseJqftuStation:
-		st = BaseJqftuStation(self.save_path, station)
+		st = BaseJqftuStation(self.save_path, self.line_name, station)
 		await st.scrape()
 		st.parse()
 		await st.save()
@@ -436,7 +437,7 @@ class BaseJqftuLine:
 		fn = self.line_name.lower().replace(' ', '_')
 		fn = f"{self.save_path}/{fn}.json"
 		with open(fn, 'w', encoding='utf-8') as f:
-			json.dump(j, f, indent=4, ensure_ascii=False)
+			json.dump(j, f, indent='\t', ensure_ascii=False, separators=(',', ': '))
 
 
 	async def scrape_all_stations(self):

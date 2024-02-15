@@ -46,7 +46,7 @@ class YamanoteLine(BaseJqftuLine):
 
 
 	async def handle_special_case(self, station: BaseJqftuRawStation) -> BaseJqftuStation:
-		st = SpecialStation(self.save_path, station)
+		st = SpecialStation(self.save_path, self.line_name, station)
 		await st.scrape()
 		st.parse()
 		await st.save()
