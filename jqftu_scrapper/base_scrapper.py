@@ -179,6 +179,7 @@ class BaseJqftuStation:
 		html_to_img.output_path = self.save_path
 		html_to_img.screenshot(html_str='<center>' + str(html) + '</center>', css_str=f'body {{ zoom:{zoom_level}% }}', save_as=self.q_img)
 
+
 	async def scrape(self):
 		self.html = bs(await http_get_text(self.wiki_url), 'html.parser')
 
@@ -290,7 +291,7 @@ class BaseJqftuStation:
 			response = await client.get(photo_url)
 			response.raise_for_status()  
 			contents = response.content 
-			
+
 			md5_hash = hashlib.md5(contents).hexdigest() + '.jpg'
 			photo_filename = os.path.join(photo_dir, md5_hash)
 			with open(photo_filename, 'wb') as file:
