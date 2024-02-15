@@ -382,9 +382,9 @@ class BaseJqftuLine:
 		html = html.find('tbody')
 		ret = []
 
-		for i in html.find_all('tr')[1:-1]:
+		for i in html.find_all('tr')[1:]:
 
-			if len(i.find_all('td')) <= 1:
+			if len(i.find_all('td')) <= 1 or i.find('td', attrs={'colspan': '10'}):
 				# Not a station row.
 				continue
 
