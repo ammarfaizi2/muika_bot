@@ -15,7 +15,7 @@ class SpecialStation(BaseJqftuStation):
 				"haneda airport terminal 3",
 				"haneda kuukou terminal 3"
 			]
-		elif self.n == "KK61":
+		elif self.n == "KK17":
 			r["alt"] = [
 				"haneda kuukou dai 1 dai 2 taaminaru",
 				"haneda airport terminal 1.2",
@@ -61,10 +61,7 @@ class KeikyuLine(BaseJqftuLine):
 
 
 	async def scrape_station(self, station: BaseJqftuRawStation) -> BaseJqftuStation:
-		if station.n == "KK16":
-			return await self.handle_special_case(station)
-
-		return await super().scrape_station(station)
+		return await self.handle_special_case(station)
 
 
 	async def handle_special_case(self, station: BaseJqftuRawStation) -> BaseJqftuStation:
