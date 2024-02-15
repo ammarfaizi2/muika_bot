@@ -344,8 +344,9 @@ bool Session::answer(const TgBot::Message::Ptr &msg)
 		std::vector<TgBot::InputMedia::Ptr> media;
 
 		for (auto &photo: photos) {
-			TgBot::InputMediaPhoto::Ptr m = std::make_shared<TgBot::InputMediaPhoto>();
+			TgBot::InputMedia::Ptr m = std::make_shared<TgBot::InputMediaPhoto>();
 			m->media = photo;
+			m->caption = "";
 			media.push_back(m);
 		}
 
@@ -361,7 +362,7 @@ bool Session::answer(const TgBot::Message::Ptr &msg)
 			for (auto &m: media)
 				pr_debug("Sending photo: %s", m->media.c_str());
 
-			auto i = m_.getApi().sendMediaGroup(chat_id_, media, false, msg->messageId);
+			auto i = m_.getApi().sendMediaGroup(chat_id_, media, false, last_msg_id_);
 			last_msg_id_ = i[0]->messageId;
 		}
 	} catch (const std::exception &e) {

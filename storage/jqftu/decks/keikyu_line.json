@@ -7,7 +7,7 @@
 		"katakana": "センガクジ",
 		"q_img": "Keikyu/A07.png",
 		"photos": [
-			"A07/64f61bfa0f70cc9bcd3f3a37090ada98.jpg"
+			"Keikyu/A07/64f61bfa0f70cc9bcd3f3a37090ada98.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Sengakuji_Station"
 	},
@@ -19,12 +19,12 @@
 		"katakana": "シナガワ",
 		"q_img": "Keikyu/KK01.png",
 		"photos": [
-			"Keikyu/photos/KK01/64cdda734aa06fd3323966425705cd72.jpg",
-			"Keikyu/photos/KK01/2163719749d73b0ef83fb48e53986e23.jpg",
-			"Keikyu/photos/KK01/b2ada243719eacbb73a7480cb4f7bea8.jpg",
-			"Keikyu/photos/KK01/3cca93b4d2660ce998589fb99e846d7d.jpg",
-			"Keikyu/photos/KK01/d90510da452606f395be68e9b4d52e0b.jpg",
-			"Keikyu/photos/KK01/4b2986699a3b88422b16526d1204f2a2.jpg"
+			"Keikyu/KK01/64cdda734aa06fd3323966425705cd72.jpg",
+			"Keikyu/KK01/2163719749d73b0ef83fb48e53986e23.jpg",
+			"Keikyu/KK01/b2ada243719eacbb73a7480cb4f7bea8.jpg",
+			"Keikyu/KK01/a29ba7b73356def59b38dff67202f442.jpg",
+			"Keikyu/KK01/fcccf5597b052a85438bd4afaef8a96d.jpg",
+			"Keikyu/KK01/4b2986699a3b88422b16526d1204f2a2.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Shinagawa_Station"
 	},
@@ -36,8 +36,8 @@
 		"katakana": "キタシナガワ",
 		"q_img": "Keikyu/KK02.png",
 		"photos": [
-			"Keikyu/photos/KK02/7a2ec06ad8f44afd44e4bdf445b0b851.jpg",
-			"Keikyu/photos/KK02/f327f13bc629db51effee34a6f27ee0b.jpg"
+			"Keikyu/KK02/7a2ec06ad8f44afd44e4bdf445b0b851.jpg",
+			"Keikyu/KK02/f327f13bc629db51effee34a6f27ee0b.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Kitashinagawa_Station"
 	},
@@ -49,8 +49,8 @@
 		"katakana": "シンババ",
 		"q_img": "Keikyu/KK03.png",
 		"photos": [
-			"Keikyu/photos/KK03/2a8bff678ea798036af7c49b3653eb37.jpg",
-			"Keikyu/photos/KK03/d0dfe6edd088942c465c3d1f2b96ac4f.jpg"
+			"Keikyu/KK03/2a8bff678ea798036af7c49b3653eb37.jpg",
+			"Keikyu/KK03/d0dfe6edd088942c465c3d1f2b96ac4f.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Shimbamba_Station"
 	},
@@ -62,8 +62,8 @@
 		"katakana": "アオモノヨコチョウ",
 		"q_img": "Keikyu/KK04.png",
 		"photos": [
-			"Keikyu/photos/KK04/39cf119bde49a73a97384682187525fa.jpg",
-			"Keikyu/photos/KK04/b963bbcf7405fcaeed8dbe7df2392550.jpg"
+			"Keikyu/KK04/39cf119bde49a73a97384682187525fa.jpg",
+			"Keikyu/KK04/b963bbcf7405fcaeed8dbe7df2392550.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Aomono-yokoch%C5%8D_Station"
 	},
@@ -75,8 +75,8 @@
 		"katakana": "サメズ",
 		"q_img": "Keikyu/KK05.png",
 		"photos": [
-			"Keikyu/photos/KK05/a0d7a0bfa31d197e6b8116483fac903f.jpg",
-			"Keikyu/photos/KK05/24880f7b0f6ddc22ff2710ce74119123.jpg"
+			"Keikyu/KK05/a0d7a0bfa31d197e6b8116483fac903f.jpg",
+			"Keikyu/KK05/24880f7b0f6ddc22ff2710ce74119123.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Samezu_Station"
 	},
@@ -88,9 +88,9 @@
 		"katakana": "タチアイガワ",
 		"q_img": "Keikyu/KK06.png",
 		"photos": [
-			"Keikyu/photos/KK06/5bd7e0a786ba1e1ce0be45ef2981d782.jpg",
-			"Keikyu/photos/KK06/3914bfea67e26db747ec6e63217c68d4.jpg",
-			"Keikyu/photos/KK06/aa164e413cbd1ca9200453e282bcd75d.jpg"
+			"Keikyu/KK06/5bd7e0a786ba1e1ce0be45ef2981d782.jpg",
+			"Keikyu/KK06/e2fe44495e8ef434955478b43bd899e7.jpg",
+			"Keikyu/KK06/aa164e413cbd1ca9200453e282bcd75d.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Tachiaigawa_Station"
 	},
@@ -102,7 +102,7 @@
 		"katakana": "オオモリカイガン",
 		"q_img": "Keikyu/KK07.png",
 		"photos": [
-			"Keikyu/photos/KK07/372de47f241125e3eb802ce961366b4f.jpg"
+			"Keikyu/KK07/372de47f241125e3eb802ce961366b4f.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/%C5%8Cmorikaigan_Station"
 	},
@@ -114,7 +114,7 @@
 		"katakana": "ヘイワシマ",
 		"q_img": "Keikyu/KK08.png",
 		"photos": [
-			"Keikyu/photos/KK08/7e38fe71d87067670d8bf44ebe6f44e4.jpg"
+			"Keikyu/KK08/7e38fe71d87067670d8bf44ebe6f44e4.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Heiwajima_Station"
 	},
@@ -126,8 +126,8 @@
 		"katakana": "オオモリマチ",
 		"q_img": "Keikyu/KK09.png",
 		"photos": [
-			"Keikyu/photos/KK09/726de486730f667b534e94644124f827.jpg",
-			"Keikyu/photos/KK09/d408caa13fa794bbefd017306bfec4e6.jpg"
+			"Keikyu/KK09/726de486730f667b534e94644124f827.jpg",
+			"Keikyu/KK09/d408caa13fa794bbefd017306bfec4e6.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/%C5%8Cmorimachi_Station"
 	},
@@ -139,13 +139,13 @@
 		"katakana": "ウメヤシキ",
 		"q_img": "Keikyu/KK10.png",
 		"photos": [
-			"Keikyu/photos/KK10/76ce78396c94243fc94ec4d0e23c1bd4.jpg",
-			"Keikyu/photos/KK10/421ce689647605e55e81fb2078cf64ac.jpg",
-			"Keikyu/photos/KK10/eaf9d688dea4f23dc8aeca31971756b7.jpg",
-			"Keikyu/photos/KK10/0072de24559772420fe4eee3412dbdb8.jpg",
-			"Keikyu/photos/KK10/87af5dee1cc1cfd43d87b87785bdac00.jpg",
-			"Keikyu/photos/KK10/22ba83fb7832dfaf1371415a36c8ddc6.jpg",
-			"Keikyu/photos/KK10/c3c078db900e484408dab52a5469f748.jpg"
+			"Keikyu/KK10/76ce78396c94243fc94ec4d0e23c1bd4.jpg",
+			"Keikyu/KK10/421ce689647605e55e81fb2078cf64ac.jpg",
+			"Keikyu/KK10/eaf9d688dea4f23dc8aeca31971756b7.jpg",
+			"Keikyu/KK10/0072de24559772420fe4eee3412dbdb8.jpg",
+			"Keikyu/KK10/ec7d4b059a4abf57915dfdc803f07804.jpg",
+			"Keikyu/KK10/22ba83fb7832dfaf1371415a36c8ddc6.jpg",
+			"Keikyu/KK10/c3c078db900e484408dab52a5469f748.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Umeyashiki_Station_(Tokyo)"
 	},
@@ -157,13 +157,13 @@
 		"katakana": "ケイキュウカマタ",
 		"q_img": "Keikyu/KK11.png",
 		"photos": [
-			"Keikyu/photos/KK11/653628d23e0770bea61b5cc93aa64b0a.jpg",
-			"Keikyu/photos/KK11/93912d31d6fee785df89b99e36ec642a.jpg",
-			"Keikyu/photos/KK11/1a9ab71b240c65507fbbf3dc568c5462.jpg",
-			"Keikyu/photos/KK11/87bc85ac365b346c10a04e201981606a.jpg",
-			"Keikyu/photos/KK11/8cd8718a494b420169d97e91ed25c508.jpg",
-			"Keikyu/photos/KK11/9650f59d7a62c1b602fe19f6e30eea9b.jpg",
-			"Keikyu/photos/KK11/93912d31d6fee785df89b99e36ec642a.jpg"
+			"Keikyu/KK11/653628d23e0770bea61b5cc93aa64b0a.jpg",
+			"Keikyu/KK11/93912d31d6fee785df89b99e36ec642a.jpg",
+			"Keikyu/KK11/1a9ab71b240c65507fbbf3dc568c5462.jpg",
+			"Keikyu/KK11/87bc85ac365b346c10a04e201981606a.jpg",
+			"Keikyu/KK11/8cd8718a494b420169d97e91ed25c508.jpg",
+			"Keikyu/KK11/9650f59d7a62c1b602fe19f6e30eea9b.jpg",
+			"Keikyu/KK11/93912d31d6fee785df89b99e36ec642a.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Keiky%C5%AB_Kamata_Station"
 	},
@@ -175,13 +175,13 @@
 		"katakana": "コウジヤ",
 		"q_img": "Keikyu/KK12.png",
 		"photos": [
-			"Keikyu/photos/KK12/5022f4f34ca2c7263dd92a58f6370659.jpg",
-			"Keikyu/photos/KK12/220c78e6572b7a630a35088efe8a76ee.jpg",
-			"Keikyu/photos/KK12/e9d57b2cdf735c3a06c4f726b37a75d4.jpg",
-			"Keikyu/photos/KK12/9be94ed6b6e4c566622dc43a2ad45a3b.jpg",
-			"Keikyu/photos/KK12/dd37b4f8f30da65595ea7a1eeb4359d6.jpg",
-			"Keikyu/photos/KK12/c1c55436929d0c0be91795467677b79e.jpg",
-			"Keikyu/photos/KK12/220c78e6572b7a630a35088efe8a76ee.jpg"
+			"Keikyu/KK12/5022f4f34ca2c7263dd92a58f6370659.jpg",
+			"Keikyu/KK12/220c78e6572b7a630a35088efe8a76ee.jpg",
+			"Keikyu/KK12/e9d57b2cdf735c3a06c4f726b37a75d4.jpg",
+			"Keikyu/KK12/9be94ed6b6e4c566622dc43a2ad45a3b.jpg",
+			"Keikyu/KK12/dd37b4f8f30da65595ea7a1eeb4359d6.jpg",
+			"Keikyu/KK12/c1c55436929d0c0be91795467677b79e.jpg",
+			"Keikyu/KK12/220c78e6572b7a630a35088efe8a76ee.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/K%C5%8Djiya_Station"
 	},
@@ -193,8 +193,8 @@
 		"katakana": "オオトリイ",
 		"q_img": "Keikyu/KK13.png",
 		"photos": [
-			"Keikyu/photos/KK13/996ec6dff3089988d6a36ffdf1e5abc9.jpg",
-			"Keikyu/photos/KK13/92ce414c1d2c5d205b64a73c4dedb4a4.jpg"
+			"Keikyu/KK13/996ec6dff3089988d6a36ffdf1e5abc9.jpg",
+			"Keikyu/KK13/92ce414c1d2c5d205b64a73c4dedb4a4.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/%C5%8Ctorii_Station_(Tokyo)"
 	},
@@ -206,8 +206,8 @@
 		"katakana": "アナモリイナリ",
 		"q_img": "Keikyu/KK14.png",
 		"photos": [
-			"Keikyu/photos/KK14/2f7e618da1c2bf2d28e18cb6571729a4.jpg",
-			"Keikyu/photos/KK14/db44de47473de2af6a956e90599f02d5.jpg"
+			"Keikyu/KK14/2f7e618da1c2bf2d28e18cb6571729a4.jpg",
+			"Keikyu/KK14/db44de47473de2af6a956e90599f02d5.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Anamori-inari_Station"
 	},
@@ -219,9 +219,9 @@
 		"katakana": "テンクウハシ",
 		"q_img": "Keikyu/KK15.png",
 		"photos": [
-			"Keikyu/photos/KK15/c1e0d1a6ceead33ac76722db4e5eb02d.jpg",
-			"Keikyu/photos/KK15/64a420199fb7822bd5118e5b42e231ab.jpg",
-			"Keikyu/photos/KK15/ac348295c825b9b446e9f5858a06688c.jpg"
+			"Keikyu/KK15/c1e0d1a6ceead33ac76722db4e5eb02d.jpg",
+			"Keikyu/KK15/64a420199fb7822bd5118e5b42e231ab.jpg",
+			"Keikyu/KK15/ac348295c825b9b446e9f5858a06688c.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Tenk%C5%ABbashi_Station"
 	},
@@ -233,9 +233,9 @@
 		"katakana": "ハネダクウコウダイ3ターミナル",
 		"q_img": "Keikyu/KK16.png",
 		"photos": [
-			"Keikyu/photos/KK16/5c47ba75d65e76205cdff3cf13349a5c.jpg",
-			"Keikyu/photos/KK16/830414d4f77a7fc052f7caffea0e2dd4.jpg",
-			"Keikyu/photos/KK16/29a93187648c2aa7005595819035d103.jpg"
+			"Keikyu/KK16/5c47ba75d65e76205cdff3cf13349a5c.jpg",
+			"Keikyu/KK16/830414d4f77a7fc052f7caffea0e2dd4.jpg",
+			"Keikyu/KK16/29a93187648c2aa7005595819035d103.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Haneda_Airport_Terminal_3_Station",
 		"alt": [
@@ -252,7 +252,7 @@
 		"katakana": "ハネダクウコウダイ1・ダイ2ターミナル",
 		"q_img": "Keikyu/KK17.png",
 		"photos": [
-			"Keikyu/photos/KK17/0fb82804b470f1dd166618f5af4fcdaf.jpg"
+			"Keikyu/KK17/0fb82804b470f1dd166618f5af4fcdaf.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Haneda_Airport_Terminal_1%C2%B72_Station",
 		"alt": [
@@ -273,7 +273,7 @@
 		"katakana": "ゾウシキ",
 		"q_img": "Keikyu/KK18.png",
 		"photos": [
-			"Keikyu/photos/KK18/cdd995b0568029e54d3b4684d7e6d876.jpg"
+			"Keikyu/KK18/cdd995b0568029e54d3b4684d7e6d876.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Z%C5%8Dshiki_Station"
 	},
@@ -285,7 +285,7 @@
 		"katakana": "ロクゴウドテ",
 		"q_img": "Keikyu/KK19.png",
 		"photos": [
-			"Keikyu/photos/KK19/3d0dbeb69b747b0f75292dd5a9fceca6.jpg"
+			"Keikyu/KK19/3d0dbeb69b747b0f75292dd5a9fceca6.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Rokug%C5%8Ddote_Station"
 	},
@@ -297,11 +297,11 @@
 		"katakana": "ケイキュウカワサキ",
 		"q_img": "Keikyu/KK20.png",
 		"photos": [
-			"Keikyu/photos/KK20/0cfd18e06434718e0f8eddc437592000.jpg",
-			"Keikyu/photos/KK20/8f7ee2a4c8e16ebeeb31f6f6d43a8524.jpg",
-			"Keikyu/photos/KK20/511bc5196c80fac83f46561ca3ad630f.jpg",
-			"Keikyu/photos/KK20/ffff4444bb193d8d7460c1d1d75a559f.jpg",
-			"Keikyu/photos/KK20/3c89aefbd015d3b5ce66891d52c343fc.jpg"
+			"Keikyu/KK20/0cfd18e06434718e0f8eddc437592000.jpg",
+			"Keikyu/KK20/8f7ee2a4c8e16ebeeb31f6f6d43a8524.jpg",
+			"Keikyu/KK20/511bc5196c80fac83f46561ca3ad630f.jpg",
+			"Keikyu/KK20/ffff4444bb193d8d7460c1d1d75a559f.jpg",
+			"Keikyu/KK20/3c89aefbd015d3b5ce66891d52c343fc.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Keikyu_Kawasaki_Station"
 	},
@@ -313,7 +313,7 @@
 		"katakana": "ミナトマチ",
 		"q_img": "Keikyu/KK21.png",
 		"photos": [
-			"Keikyu/photos/KK21/148c325dabb6b10d883e5b9918de6276.jpg"
+			"Keikyu/KK21/148c325dabb6b10d883e5b9918de6276.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Minatoch%C5%8D_Station"
 	},
@@ -325,7 +325,7 @@
 		"katakana": "スズキチョウ",
 		"q_img": "Keikyu/KK22.png",
 		"photos": [
-			"Keikyu/photos/KK22/35697ecc65d7e2975e643e12b3cd1dc4.jpg"
+			"Keikyu/KK22/35697ecc65d7e2975e643e12b3cd1dc4.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Suzukich%C5%8D_Station"
 	},
@@ -337,7 +337,7 @@
 		"katakana": "カワサキダイシ",
 		"q_img": "Keikyu/KK23.png",
 		"photos": [
-			"Keikyu/photos/KK23/aa0f1851666f7a3342484f7a95891a83.jpg"
+			"Keikyu/KK23/aa0f1851666f7a3342484f7a95891a83.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Kawasaki-Daishi_Station"
 	},
@@ -349,7 +349,7 @@
 		"katakana": "ヒガシモンマエ",
 		"q_img": "Keikyu/KK24.png",
 		"photos": [
-			"Keikyu/photos/KK24/a260efb432fa7b041deae936b46890f5.jpg"
+			"Keikyu/KK24/a260efb432fa7b041deae936b46890f5.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Higashi-Monzen_Station"
 	},
@@ -361,8 +361,8 @@
 		"katakana": "タイシハシ (Formerly: サンギョウドウロ)",
 		"q_img": "Keikyu/KK25.png",
 		"photos": [
-			"Keikyu/photos/KK25/df65a3b029a790aa157a2c73cba701e2.jpg",
-			"Keikyu/photos/KK25/1549e5050dd9eda287e5f82f8b450ba4.jpg"
+			"Keikyu/KK25/df65a3b029a790aa157a2c73cba701e2.jpg",
+			"Keikyu/KK25/1549e5050dd9eda287e5f82f8b450ba4.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Daishibashi_Station"
 	},
@@ -374,8 +374,8 @@
 		"katakana": "コジマニッタ",
 		"q_img": "Keikyu/KK26.png",
 		"photos": [
-			"Keikyu/photos/KK26/cb1753409d63390afe2ce6a09ebd5d53.jpg",
-			"Keikyu/photos/KK26/52d4e916f4289b032ca29356d9005651.jpg"
+			"Keikyu/KK26/cb1753409d63390afe2ce6a09ebd5d53.jpg",
+			"Keikyu/KK26/52d4e916f4289b032ca29356d9005651.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Kojimashinden_Station"
 	},
@@ -387,7 +387,7 @@
 		"katakana": "ハッチョウナワテ",
 		"q_img": "Keikyu/KK27.png",
 		"photos": [
-			"Keikyu/photos/KK27/522dd5b91588cec713288c2ef312c25e.jpg"
+			"Keikyu/KK27/522dd5b91588cec713288c2ef312c25e.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Hatch%C5%8D-nawate_Station"
 	},
@@ -399,7 +399,7 @@
 		"katakana": "ツルミシジョウ",
 		"q_img": "Keikyu/KK28.png",
 		"photos": [
-			"Keikyu/photos/KK28/baf4aba84394ede216903caadb60eb03.jpg"
+			"Keikyu/KK28/baf4aba84394ede216903caadb60eb03.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Tsurumi-ichiba_Station"
 	},
@@ -411,7 +411,7 @@
 		"katakana": "ケイキュウツルミ",
 		"q_img": "Keikyu/KK29.png",
 		"photos": [
-			"Keikyu/photos/KK29/efa0986322c35dbc454083e222fc413f.jpg"
+			"Keikyu/KK29/efa0986322c35dbc454083e222fc413f.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Keiky%C5%AB_Tsurumi_Station"
 	},
@@ -423,8 +423,8 @@
 		"katakana": "カゲツソウジデラ",
 		"q_img": "Keikyu/KK30.png",
 		"photos": [
-			"Keikyu/photos/KK30/d48629fd4af12c7449c4cb826260d8db.jpg",
-			"Keikyu/photos/KK30/9587fb232bf19a28fd4e6aa921de2bf0.jpg"
+			"Keikyu/KK30/d48629fd4af12c7449c4cb826260d8db.jpg",
+			"Keikyu/KK30/9587fb232bf19a28fd4e6aa921de2bf0.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Kagetsu-s%C5%8Djiji_Station"
 	},
@@ -436,8 +436,8 @@
 		"katakana": "ナマムギ",
 		"q_img": "Keikyu/KK31.png",
 		"photos": [
-			"Keikyu/photos/KK31/88d544eecdd2151c70e3de1c6496aa03.jpg",
-			"Keikyu/photos/KK31/b0e87cd821dade52345c379856aea568.jpg"
+			"Keikyu/KK31/88d544eecdd2151c70e3de1c6496aa03.jpg",
+			"Keikyu/KK31/b0e87cd821dade52345c379856aea568.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Namamugi_Station"
 	},
@@ -449,7 +449,7 @@
 		"katakana": "ケイキュウシンコヤス",
 		"q_img": "Keikyu/KK32.png",
 		"photos": [
-			"Keikyu/photos/KK32/fad305ccc6125d097a0b7c6c07b2840b.jpg"
+			"Keikyu/KK32/fad305ccc6125d097a0b7c6c07b2840b.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Keiky%C5%AB_Shinkoyasu_Station"
 	},
@@ -461,8 +461,8 @@
 		"katakana": "コヤス",
 		"q_img": "Keikyu/KK33.png",
 		"photos": [
-			"Keikyu/photos/KK33/6b8f327e4258baaf8d0fbe90547aff0a.jpg",
-			"Keikyu/photos/KK33/ae6ed46d886d2dcc2c896189046c0c96.jpg"
+			"Keikyu/KK33/6b8f327e4258baaf8d0fbe90547aff0a.jpg",
+			"Keikyu/KK33/ae6ed46d886d2dcc2c896189046c0c96.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Koyasu_Station"
 	},
@@ -474,7 +474,7 @@
 		"katakana": "カナガワシンマチ",
 		"q_img": "Keikyu/KK34.png",
 		"photos": [
-			"Keikyu/photos/KK34/43e74cbf1e8ee5dc901d9175d6cccf5b.jpg"
+			"Keikyu/KK34/43e74cbf1e8ee5dc901d9175d6cccf5b.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Kanagawa-shimmachi_Station"
 	},
@@ -486,9 +486,9 @@
 		"katakana": "ケイキュウヒガシカナガワ",
 		"q_img": "Keikyu/KK35.png",
 		"photos": [
-			"Keikyu/photos/KK35/05d2426492dca9783cfc727ede3c37bd.jpg",
-			"Keikyu/photos/KK35/54dd2203d92db57af424d3759de258e9.jpg",
-			"Keikyu/photos/KK35/8c6157cc8a875bed8a3b787900fd5c8f.jpg"
+			"Keikyu/KK35/05d2426492dca9783cfc727ede3c37bd.jpg",
+			"Keikyu/KK35/54dd2203d92db57af424d3759de258e9.jpg",
+			"Keikyu/KK35/8c6157cc8a875bed8a3b787900fd5c8f.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Keiky%C5%AB_Higashi-kanagawa_Station"
 	},
@@ -500,7 +500,7 @@
 		"katakana": "カナガワ",
 		"q_img": "Keikyu/KK36.png",
 		"photos": [
-			"Keikyu/photos/KK36/594a9499a2377cfae20e7dce4a6778fa.jpg"
+			"Keikyu/KK36/594a9499a2377cfae20e7dce4a6778fa.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Kanagawa_Station_(Kanagawa)"
 	},
@@ -512,26 +512,26 @@
 		"katakana": "ヨコハマ",
 		"q_img": "Keikyu/KK37.png",
 		"photos": [
-			"Keikyu/photos/KK37/a1c3de1ee0b90259b6efbb6d66f9e085.jpg",
-			"Keikyu/photos/KK37/4e12533d074df008ba992ed88e09550e.jpg",
-			"Keikyu/photos/KK37/154ef819ef8236581b616e2537b209b2.jpg",
-			"Keikyu/photos/KK37/862e1db32721e763cc0eb097cdea4764.jpg",
-			"Keikyu/photos/KK37/41c850839449c75a49c73e0663e6ecd6.jpg",
-			"Keikyu/photos/KK37/04a032b0dbaf468368704f61d246b04a.jpg",
-			"Keikyu/photos/KK37/fe401f3d089aed745f77631619d19191.jpg",
-			"Keikyu/photos/KK37/8ccfed77311846218773ac078499d1df.jpg",
-			"Keikyu/photos/KK37/33264b76cb41cf73f78747df98328fce.jpg",
-			"Keikyu/photos/KK37/44242420b7c08b219bdb7e6d67915b3a.jpg",
-			"Keikyu/photos/KK37/7b8a8458790ff9cf8d219c65937f2d8d.jpg",
-			"Keikyu/photos/KK37/2e7a9b4b04d76b132d7b882d31960270.jpg",
-			"Keikyu/photos/KK37/01d0d968d377b07e1e88ee7c5be91ccd.jpg",
-			"Keikyu/photos/KK37/dcc5c10d3ae5f7e08cde98a3e1866dd4.jpg",
-			"Keikyu/photos/KK37/83a8a28615de747f64cf172f6e5239f9.jpg",
-			"Keikyu/photos/KK37/bf94da222178c972b8bc0e0699ba8e52.jpg",
-			"Keikyu/photos/KK37/895c3e6541bebbb7dec2d365c73e2119.jpg",
-			"Keikyu/photos/KK37/8987cc8d7bc4a76acee0034c7fe48d20.jpg",
-			"Keikyu/photos/KK37/099277b89dcae306a5faa5e9e37fcb6a.jpg",
-			"Keikyu/photos/KK37/10e39401baf518fd639ce1e7933b0748.jpg"
+			"Keikyu/KK37/5dab6c85b691edc920a51cd2c4726b1d.jpg",
+			"Keikyu/KK37/4e12533d074df008ba992ed88e09550e.jpg",
+			"Keikyu/KK37/154ef819ef8236581b616e2537b209b2.jpg",
+			"Keikyu/KK37/862e1db32721e763cc0eb097cdea4764.jpg",
+			"Keikyu/KK37/41c850839449c75a49c73e0663e6ecd6.jpg",
+			"Keikyu/KK37/62230db8efcd7c9503a2434f7bc8aec5.jpg",
+			"Keikyu/KK37/fe401f3d089aed745f77631619d19191.jpg",
+			"Keikyu/KK37/8ccfed77311846218773ac078499d1df.jpg",
+			"Keikyu/KK37/33264b76cb41cf73f78747df98328fce.jpg",
+			"Keikyu/KK37/44242420b7c08b219bdb7e6d67915b3a.jpg",
+			"Keikyu/KK37/7b8a8458790ff9cf8d219c65937f2d8d.jpg",
+			"Keikyu/KK37/2e7a9b4b04d76b132d7b882d31960270.jpg",
+			"Keikyu/KK37/01d0d968d377b07e1e88ee7c5be91ccd.jpg",
+			"Keikyu/KK37/dcc5c10d3ae5f7e08cde98a3e1866dd4.jpg",
+			"Keikyu/KK37/83a8a28615de747f64cf172f6e5239f9.jpg",
+			"Keikyu/KK37/bf94da222178c972b8bc0e0699ba8e52.jpg",
+			"Keikyu/KK37/895c3e6541bebbb7dec2d365c73e2119.jpg",
+			"Keikyu/KK37/8987cc8d7bc4a76acee0034c7fe48d20.jpg",
+			"Keikyu/KK37/099277b89dcae306a5faa5e9e37fcb6a.jpg",
+			"Keikyu/KK37/10e39401baf518fd639ce1e7933b0748.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Yokohama_Station"
 	},
@@ -543,8 +543,8 @@
 		"katakana": "トベ",
 		"q_img": "Keikyu/KK38.png",
 		"photos": [
-			"Keikyu/photos/KK38/a3d1bd88a1c5d97312ad06ea8a8ac11c.jpg",
-			"Keikyu/photos/KK38/8688f517c8a3f3197a109286be9279ac.jpg"
+			"Keikyu/KK38/a3d1bd88a1c5d97312ad06ea8a8ac11c.jpg",
+			"Keikyu/KK38/8688f517c8a3f3197a109286be9279ac.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Tobe_Station"
 	},
@@ -556,8 +556,8 @@
 		"katakana": "ニチノデマチ",
 		"q_img": "Keikyu/KK39.png",
 		"photos": [
-			"Keikyu/photos/KK39/ca707e4aad95af3006c7a6db08acc1ac.jpg",
-			"Keikyu/photos/KK39/e86f0c0e52df62a019c2cba6bb6bc2cf.jpg"
+			"Keikyu/KK39/ca707e4aad95af3006c7a6db08acc1ac.jpg",
+			"Keikyu/KK39/e86f0c0e52df62a019c2cba6bb6bc2cf.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Hinodech%C5%8D_Station"
 	},
@@ -569,8 +569,8 @@
 		"katakana": "コガネチョウ",
 		"q_img": "Keikyu/KK40.png",
 		"photos": [
-			"Keikyu/photos/KK40/25afc342c2027698cf2ad0e7b53fda10.jpg",
-			"Keikyu/photos/KK40/5c73cac77b28eb7b05b3c6806c9a0cfd.jpg"
+			"Keikyu/KK40/25afc342c2027698cf2ad0e7b53fda10.jpg",
+			"Keikyu/KK40/5c73cac77b28eb7b05b3c6806c9a0cfd.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Koganech%C5%8D_Station"
 	},
@@ -582,7 +582,7 @@
 		"katakana": "ミナミオオタ",
 		"q_img": "Keikyu/KK41.png",
 		"photos": [
-			"Keikyu/photos/KK41/117cc373dcab4ab6fd8b224a269095fa.jpg"
+			"Keikyu/KK41/117cc373dcab4ab6fd8b224a269095fa.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Minami%C5%8Dta_Station"
 	},
@@ -594,7 +594,7 @@
 		"katakana": "イドヶタニ",
 		"q_img": "Keikyu/KK42.png",
 		"photos": [
-			"Keikyu/photos/KK42/08d046763e57aa2b2577b9b73e638126.jpg"
+			"Keikyu/KK42/08d046763e57aa2b2577b9b73e638126.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Idogaya_Station"
 	},
@@ -606,8 +606,8 @@
 		"katakana": "ヒロアキテラ",
 		"q_img": "Keikyu/KK43.png",
 		"photos": [
-			"Keikyu/photos/KK43/eded78aec3645b92e08101ac5f7fbfd3.jpg",
-			"Keikyu/photos/KK43/75d261f3a0b7265362e5922437b81de0.jpg"
+			"Keikyu/KK43/eded78aec3645b92e08101ac5f7fbfd3.jpg",
+			"Keikyu/KK43/75d261f3a0b7265362e5922437b81de0.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Gumy%C5%8Dji_Station_(Keiky%C5%AB)"
 	},
@@ -619,11 +619,11 @@
 		"katakana": "カミオオオカ",
 		"q_img": "Keikyu/KK44.png",
 		"photos": [
-			"Keikyu/photos/KK44/580df77ccc472b87a4551f52ccffc328.jpg",
-			"Keikyu/photos/KK44/e3ab19c50995341ec699167d1bfd7893.jpg",
-			"Keikyu/photos/KK44/850dfcba5c8974eb714a4707b9367f11.jpg",
-			"Keikyu/photos/KK44/da0dc4a4d5cd2b673222efa183c8df95.jpg",
-			"Keikyu/photos/KK44/9b99c6e8c0295ba3e2e204c57ce33e39.jpg"
+			"Keikyu/KK44/580df77ccc472b87a4551f52ccffc328.jpg",
+			"Keikyu/KK44/e3ab19c50995341ec699167d1bfd7893.jpg",
+			"Keikyu/KK44/850dfcba5c8974eb714a4707b9367f11.jpg",
+			"Keikyu/KK44/da0dc4a4d5cd2b673222efa183c8df95.jpg",
+			"Keikyu/KK44/9b99c6e8c0295ba3e2e204c57ce33e39.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Kami%C5%8Doka_Station"
 	},
@@ -635,7 +635,7 @@
 		"katakana": "ビョウブウラ",
 		"q_img": "Keikyu/KK45.png",
 		"photos": [
-			"Keikyu/photos/KK45/efa3808f43d3cf57f27136bcdf54f730.jpg"
+			"Keikyu/KK45/efa3808f43d3cf57f27136bcdf54f730.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/By%C5%8Dbugaura_Station"
 	},
@@ -647,7 +647,7 @@
 		"katakana": "スギタ",
 		"q_img": "Keikyu/KK46.png",
 		"photos": [
-			"Keikyu/photos/KK46/c3e2f76a0d13f63fbac56dd12c53a414.jpg"
+			"Keikyu/KK46/c3e2f76a0d13f63fbac56dd12c53a414.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Sugita_Station_(Kanagawa)"
 	},
@@ -659,7 +659,7 @@
 		"katakana": "ケイキュウトミオカ",
 		"q_img": "Keikyu/KK47.png",
 		"photos": [
-			"Keikyu/photos/KK47/8c5ef7eda9a4ebcf26e8ebaeb7710f6f.jpg"
+			"Keikyu/KK47/8c5ef7eda9a4ebcf26e8ebaeb7710f6f.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Keiky%C5%AB_Tomioka_Station"
 	},
@@ -671,7 +671,7 @@
 		"katakana": "ノウケンダイ",
 		"q_img": "Keikyu/KK48.png",
 		"photos": [
-			"Keikyu/photos/KK48/7dcb4e3ff87612d6f2121f85db2d22de.jpg"
+			"Keikyu/KK48/7dcb4e3ff87612d6f2121f85db2d22de.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/N%C5%8Dkendai_Station"
 	},
@@ -683,9 +683,9 @@
 		"katakana": "カナザワブンコ",
 		"q_img": "Keikyu/KK49.png",
 		"photos": [
-			"Keikyu/photos/KK49/81fdbddbd3ade5cd0ec37544313df177.jpg",
-			"Keikyu/photos/KK49/749a97548bb35bbf33a32827fa36a031.jpg",
-			"Keikyu/photos/KK49/cc287173595a99508792ca844a141614.jpg"
+			"Keikyu/KK49/81fdbddbd3ade5cd0ec37544313df177.jpg",
+			"Keikyu/KK49/749a97548bb35bbf33a32827fa36a031.jpg",
+			"Keikyu/KK49/cc287173595a99508792ca844a141614.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Kanazawa-bunko_Station"
 	},
@@ -697,12 +697,12 @@
 		"katakana": "カナザワハッケイ",
 		"q_img": "Keikyu/KK50.png",
 		"photos": [
-			"Keikyu/photos/KK50/0c6a77dce7b9f9ec274eb33a9a2484e7.jpg",
-			"Keikyu/photos/KK50/3e899b89cdd23b6dce670d6abc061327.jpg",
-			"Keikyu/photos/KK50/f287ad5304d2b8746184ca6b0f992754.jpg",
-			"Keikyu/photos/KK50/f9c49f1ac7df11658358e5ce23fb6c45.jpg",
-			"Keikyu/photos/KK50/971e2fcb820e506c458c131800763f8b.jpg",
-			"Keikyu/photos/KK50/974e9ecbc2218238146c5643cf8782a9.jpg"
+			"Keikyu/KK50/0c6a77dce7b9f9ec274eb33a9a2484e7.jpg",
+			"Keikyu/KK50/3e899b89cdd23b6dce670d6abc061327.jpg",
+			"Keikyu/KK50/f287ad5304d2b8746184ca6b0f992754.jpg",
+			"Keikyu/KK50/f9c49f1ac7df11658358e5ce23fb6c45.jpg",
+			"Keikyu/KK50/971e2fcb820e506c458c131800763f8b.jpg",
+			"Keikyu/KK50/974e9ecbc2218238146c5643cf8782a9.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Kanazawa-hakkei_Station"
 	},
@@ -714,7 +714,7 @@
 		"katakana": "オッパマ",
 		"q_img": "Keikyu/KK54.png",
 		"photos": [
-			"Keikyu/photos/KK54/df33ae981ead9e53e225faeec076ed59.jpg"
+			"Keikyu/KK54/df33ae981ead9e53e225faeec076ed59.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Oppama_Station"
 	},
@@ -726,7 +726,7 @@
 		"katakana": "ケイキュウタウラ",
 		"q_img": "Keikyu/KK55.png",
 		"photos": [
-			"Keikyu/photos/KK55/7855988dbfeb39addda4d6c4e1eaa8cd.jpg"
+			"Keikyu/KK55/7855988dbfeb39addda4d6c4e1eaa8cd.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Keiky%C5%AB_Taura_Station"
 	},
@@ -738,7 +738,7 @@
 		"katakana": "アンジンツカ",
 		"q_img": "Keikyu/KK56.png",
 		"photos": [
-			"Keikyu/photos/KK56/49e2b55e75333062056757edd5e23eea.jpg"
+			"Keikyu/KK56/49e2b55e75333062056757edd5e23eea.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Anjinzuka_Station"
 	},
@@ -750,7 +750,7 @@
 		"katakana": "イツミ",
 		"q_img": "Keikyu/KK57.png",
 		"photos": [
-			"Keikyu/photos/KK57/282fdb680d0c85317f048551eea9e2a1.jpg"
+			"Keikyu/KK57/282fdb680d0c85317f048551eea9e2a1.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Hemi_Station"
 	},
@@ -762,7 +762,7 @@
 		"katakana": "シオイリ",
 		"q_img": "Keikyu/KK58.png",
 		"photos": [
-			"Keikyu/photos/KK58/706af721b6f2c5e86c836ecaa03e73ec.jpg"
+			"Keikyu/KK58/706af721b6f2c5e86c836ecaa03e73ec.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Shioiri_Station_(Kanagawa)"
 	},
@@ -774,8 +774,8 @@
 		"katakana": "ヨコスカチュウオウ",
 		"q_img": "Keikyu/KK59.png",
 		"photos": [
-			"Keikyu/photos/KK59/6e21327f903a531ce3a969d28c7789fb.jpg",
-			"Keikyu/photos/KK59/70cd52c9f6c5a105d90d45ce0d1d05c2.jpg"
+			"Keikyu/KK59/6e21327f903a531ce3a969d28c7789fb.jpg",
+			"Keikyu/KK59/70cd52c9f6c5a105d90d45ce0d1d05c2.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Yokosuka-ch%C5%AB%C5%8D_Station"
 	},
@@ -787,7 +787,7 @@
 		"katakana": "ケンリツダイガク",
 		"q_img": "Keikyu/KK60.png",
 		"photos": [
-			"Keikyu/photos/KK60/22f39e2398ee89385e6998c8ae0d673f.jpg"
+			"Keikyu/KK60/22f39e2398ee89385e6998c8ae0d673f.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Kenritsudaigaku_Station"
 	},
@@ -799,7 +799,7 @@
 		"katakana": "ホリノナイ",
 		"q_img": "Keikyu/KK61.png",
 		"photos": [
-			"Keikyu/photos/KK61/6d9c1c608821c7b24bd9fe2648c6877d.jpg"
+			"Keikyu/KK61/6d9c1c608821c7b24bd9fe2648c6877d.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Horinouchi_Station"
 	},
@@ -811,7 +811,7 @@
 		"katakana": "ケイキュウオオツ",
 		"q_img": "Keikyu/KK62.png",
 		"photos": [
-			"Keikyu/photos/KK62/5255cdf7f02dcd88b314a53d3740d773.jpg"
+			"Keikyu/KK62/5255cdf7f02dcd88b314a53d3740d773.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Keiky%C5%AB_%C5%8Ctsu_Station"
 	},
@@ -823,7 +823,7 @@
 		"katakana": "ウマホリカイガン",
 		"q_img": "Keikyu/KK63.png",
 		"photos": [
-			"Keikyu/photos/KK63/78f32c413d110c9e5eeb59b87df58e8a.jpg"
+			"Keikyu/KK63/78f32c413d110c9e5eeb59b87df58e8a.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Maborikaigan_Station"
 	},
@@ -835,7 +835,7 @@
 		"katakana": "ウラガ",
 		"q_img": "Keikyu/KK64.png",
 		"photos": [
-			"Keikyu/photos/KK64/5048337490d5f849f4329cf2ceb7b0be.jpg"
+			"Keikyu/KK64/5048337490d5f849f4329cf2ceb7b0be.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Uraga_Station"
 	},
@@ -847,7 +847,7 @@
 		"katakana": "シンダイツ",
 		"q_img": "Keikyu/KK65.png",
 		"photos": [
-			"Keikyu/photos/KK65/feb37a4117fdc544771ea693749cb2d1.jpg"
+			"Keikyu/KK65/feb37a4117fdc544771ea693749cb2d1.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Shin-%C5%8Dtsu_Station"
 	},
@@ -859,7 +859,7 @@
 		"katakana": "キタクリハマ",
 		"q_img": "Keikyu/KK66.png",
 		"photos": [
-			"Keikyu/photos/KK66/8544a40deb086280e1f7713a98eb792b.jpg"
+			"Keikyu/KK66/8544a40deb086280e1f7713a98eb792b.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Kitakurihama_Station"
 	},
@@ -871,7 +871,7 @@
 		"katakana": "ケイキュウクリハマ",
 		"q_img": "Keikyu/KK67.png",
 		"photos": [
-			"Keikyu/photos/KK67/b2508c511748da81a8382d9fd13bc66f.jpg"
+			"Keikyu/KK67/b2508c511748da81a8382d9fd13bc66f.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Keiky%C5%AB_Kurihama_Station"
 	},
@@ -883,7 +883,7 @@
 		"katakana": "YRPノビ",
 		"q_img": "Keikyu/KK68.png",
 		"photos": [
-			"Keikyu/photos/KK68/ff29c9f5ca95693b785e18e398c5e981.jpg"
+			"Keikyu/KK68/ff29c9f5ca95693b785e18e398c5e981.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/YRP_Nobi_Station"
 	},
@@ -895,7 +895,7 @@
 		"katakana": "ケイキュウナガサワ",
 		"q_img": "Keikyu/KK69.png",
 		"photos": [
-			"Keikyu/photos/KK69/916b1a138af4436373f9baad3269abbb.jpg"
+			"Keikyu/KK69/916b1a138af4436373f9baad3269abbb.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Keiky%C5%AB_Nagasawa_Station"
 	},
@@ -907,7 +907,7 @@
 		"katakana": "ツクイハマ",
 		"q_img": "Keikyu/KK70.png",
 		"photos": [
-			"Keikyu/photos/KK70/312168ebf8cc7d323926901356200303.jpg"
+			"Keikyu/KK70/312168ebf8cc7d323926901356200303.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Tsukuihama_Station"
 	},
@@ -919,10 +919,10 @@
 		"katakana": "ミウラカイガン",
 		"q_img": "Keikyu/KK71.png",
 		"photos": [
-			"Keikyu/photos/KK71/2266987b50462b2de8b7c2bb7bc644fe.jpg",
-			"Keikyu/photos/KK71/729796a9284e6fe16b0133d9ded7de0e.jpg",
-			"Keikyu/photos/KK71/d6c6b81a68786f2f387870f10642d3ff.jpg",
-			"Keikyu/photos/KK71/cbe8f692b1caa73ceda93b0072c81167.jpg"
+			"Keikyu/KK71/2266987b50462b2de8b7c2bb7bc644fe.jpg",
+			"Keikyu/KK71/729796a9284e6fe16b0133d9ded7de0e.jpg",
+			"Keikyu/KK71/d6c6b81a68786f2f387870f10642d3ff.jpg",
+			"Keikyu/KK71/cbe8f692b1caa73ceda93b0072c81167.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Miurakaigan_Station"
 	},
@@ -934,7 +934,7 @@
 		"katakana": "ミサキグチ",
 		"q_img": "Keikyu/KK72.png",
 		"photos": [
-			"Keikyu/photos/KK72/92ee1fbd9649c3ecd74b025640c8a0c4.jpg"
+			"Keikyu/KK72/92ee1fbd9649c3ecd74b025640c8a0c4.jpg"
 		],
 		"wiki_url": "https://en.wikipedia.org/wiki/Misakiguchi_Station_(Kanagawa)"
 	}
