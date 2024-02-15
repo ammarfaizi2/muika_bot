@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <string>
 #include <cstdio>
+#include <cerrno>
+#include <sys/stat.h>
 
 using json = ::nlohmann::json;
 
@@ -69,6 +71,10 @@ void Point::saveToDisk(int64_t chat_id) const
 	char path[4096];
 	size_t len;
 	FILE *fp;
+
+	snprintf(path, sizeof(path), "./storage/jqftu/points/s_%lld", (long long)chat_id);
+	if (mkdir(path, 0755) == -1 && errno != EEXIST)
+		throw std::runtime_error("Failed to create directory: " + std::string(strerror(errno)));
 
 	snprintf(path, sizeof(path), "./storage/jqftu/points/s_%lld/%llu.json",
 		 (long long)chat_id, (unsigned long long)user_id_);
