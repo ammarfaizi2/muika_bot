@@ -338,6 +338,36 @@ bool Session::answer(const TgBot::Message::Ptr &msg)
 		current_card_->getCardDetails();
 
 	sendMsg(reply, msg->messageId, false);
+
+	try {
+		const std::vector<std::string> &photos = current_card_->getCardPhotos();
+		std::vector<TgBot::InputMedia::Ptr> media;
+
+		for (auto &photo: photos) {
+			TgBot::InputMediaPhoto::Ptr m = std::make_shared<TgBot::InputMediaPhoto>();
+			m->media = photo;
+			media.push_back(m);
+		}
+
+		if (!media.empty()) {
+
+			// Shuffle the photos.
+			std::random_shuffle(media.begin(), media.end());
+
+			// Max num of photos is 5.
+			if (media.size() > 5)
+				media.resize(5);
+
+			for (auto &m: media)
+				pr_debug("Sending photo: %s", m->media.c_str());
+
+			auto i = m_.getApi().sendMediaGroup(chat_id_, media, false, msg->messageId);
+			last_msg_id_ = i[0]->messageId;
+		}
+	} catch (const std::exception &e) {
+		pr_debug("Failed to send media group: %s", e.what());
+	}
+
 	__resetCurrent();
 	cond_.notify_one();
 	return true;

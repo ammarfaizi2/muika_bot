@@ -212,6 +212,12 @@ std::string Card::generateLatexPngUrl(const char *latex_code)
 	return "https://latex.teainside.org/api.php?action=file&type=png&hash=" + j["res"].get<std::string>();
 }
 
+const std::vector<std::string> &Card::getCardPhotos(void)
+{
+	static std::vector<std::string> empty = {};
+	return empty;
+}
+
 } /* namespace muika::modules::jqftu */
 } /* namespace muika::modules */
 } /* namespace muika */

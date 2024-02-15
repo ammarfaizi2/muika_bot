@@ -12,8 +12,9 @@ namespace japan_eki {
 // static
 std::unique_ptr<Card> Deck::loadCardFromJson(const json &j)
 {
-	std::string n, kanji, romaji, hiragana, katakana;
+	std::string n, kanji, romaji, hiragana, katakana, q_img = "";
 	std::vector<std::string> alternatives = {};
+	std::vector<std::string> photos = {};
 
 	if (!j.is_object())
 		throw std::runtime_error("Card JSON is not an object");
@@ -46,12 +47,29 @@ std::unique_ptr<Card> Deck::loadCardFromJson(const json &j)
 			alternatives.push_back(alt);
 	}
 
+	if (j.contains("q_img") && j["q_img"].is_string()) {
+		q_img = j["q_img"];
+	}
+
+	if (j.contains("photos") && j["photos"].is_array()) {
+		for (const auto &photo: j["photos"]) {
+			if (!photo.is_string())
+				throw std::runtime_error("Non-string value in \"photos\" array");
+
+			std::string tmp = photo.get<std::string>();
+			if (tmp.find("https://telegram-bot.teainside.org/output/") == 0)
+				photos.push_back(tmp);
+			else
+				photos.push_back("https://telegram-bot.teainside.org/output/" + tmp);
+		}
+	}
+
 	n = j["n"];
 	kanji = j["kanji"];
 	romaji = j["romaji"];
 	hiragana = j["hiragana"];
 	katakana = j["katakana"];
-	return std::make_unique<Card>(n, kanji, romaji, hiragana, katakana, alternatives);
+	return std::make_unique<Card>(n, kanji, romaji, hiragana, katakana, alternatives, q_img, photos);
 }
 
 void Deck::loadDeckFromJsonFile(const char *file_path)

@@ -32,6 +32,7 @@ public:
 	virtual std::string getCardCaption(void) = 0;
 	virtual std::string getCardAnswer(void) = 0;
 	virtual std::string getCardDetails(void) = 0;
+	virtual const std::vector<std::string> &getCardPhotos(void);
 	virtual json toJson(void) const = 0;
 	virtual void fromJson(const json &j) = 0;
 	inline uint8_t getRomajiFaultTolerance(void) const { return romaji_fault_tolerance_; }

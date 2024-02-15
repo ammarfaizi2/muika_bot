@@ -39,6 +39,9 @@ bool Card::checkAnswer(const std::string &answer_ref)
 
 std::string Card::getCardImage(void)
 {
+	if (!q_img_.empty())
+		return "https://telegram-bot.teainside.org/output/" + q_img_;
+
 	std::string img_url;
 	size_t len;
 	char *tmp;
@@ -95,11 +98,18 @@ json Card::toJson(void) const
 	j["romaji"] = romaji_;
 	j["hiragana"] = hiragana_;
 	j["katakana"] = katakana_;
+	j["q_img"] = q_img_;
+	j["photos"] = json::array();
 
 	if (alt_.size() > 0) {
 		j["alt"] = json::array();
 		for (const auto &alt: alt_)
 			j["alt"].push_back(alt);
+	}
+
+	if (photos_.size() > 0) {
+		for (const auto &photo: photos_)
+			j["photos"].push_back(photo);
 	}
 
 	return j;
@@ -136,11 +146,30 @@ void Card::fromJson(const json &j)
 			alt_.push_back(alt);
 	}
 
+	q_img_ = "";
+	if (j.contains("q_img") && j["q_img"].is_string())
+		q_img_ = j["q_img"];
+
+	photos_.clear();
+	if (j.contains("photos") && j["photos"].is_array()) {
+		for (const auto &photo: j["photos"]) {
+			if (!photo.is_string())
+				throw std::runtime_error("Non-string value in \"photos\" array");
+			photos_.push_back(photo);
+		}
+	}
+
+
 	n_ = j["n"];
 	kanji_ = j["kanji"];
 	romaji_ = j["romaji"];
 	hiragana_ = j["hiragana"];
 	katakana_ = j["katakana"];
+}
+
+const std::vector<std::string> &Card::getCardPhotos(void)
+{
+	return photos_;
 }
 
 } /* namespace muika::modules::jqftu::deck_foundations::japan_eki */

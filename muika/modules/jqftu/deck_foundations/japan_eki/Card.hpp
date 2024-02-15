@@ -23,16 +23,24 @@ private:
 	std::string katakana_;
 	std::vector<std::string> alt_;
 
+	std::string q_img_;
+	std::vector<std::string> photos_;
+
 public:
 	inline Card(const std::string &n, const std::string &kanji,
 		    const std::string &romaji, const std::string &hiragana,
-		    const std::string &katakana, std::vector<std::string> alt = {}):
+		    const std::string &katakana,
+		    std::vector<std::string> alt = {},
+		    const std::string &q_img = "",
+		    std::vector<std::string> photos = {}):
 		n_(n),
 		kanji_(kanji),
 		romaji_(romaji),
 		hiragana_(hiragana),
 		katakana_(katakana),
-		alt_(alt)
+		alt_(alt),
+		q_img_(q_img),
+		photos_(photos)
 	{
 	}
 
@@ -45,6 +53,7 @@ public:
 	virtual std::string getCardDetails(void) override;
 	virtual json toJson(void) const override;
 	virtual void fromJson(const json &j) override;
+	virtual const std::vector<std::string> &getCardPhotos(void) override;
 };
 
 } /* namespace muika::modules::jqftu::deck_foundations::japan_eki */
