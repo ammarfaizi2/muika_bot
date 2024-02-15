@@ -5,9 +5,11 @@ from bs4 import BeautifulSoup as bs
 from bs4.element import Tag
 from functools import partial, wraps
 from typing import Callable
-import os, json
+import os
+import json
+import wanakana
 import httpx
-import pykakasi
+import unicodedata
 import asyncio
 import httpx
 import re
@@ -121,12 +123,12 @@ class BaseJqftuRawStation:
 			raise Exception("Cannot parse the kanji")
 
 		kanji = td.find_previous_sibling('td')
-
+		
 		# Remove the <sup> tag if exists.
 		sup = kanji.find('sup')
 		if sup:
 			sup.extract()
-
+		
 		return kanji.get_text(strip=True)
 
 
@@ -300,11 +302,22 @@ class BaseJqftuStation:
 
 
 	def construct_kana(self):
-		k = pykakasi.kakasi()
-		self.hiragana = self.katakana = ""
-		for i in k.convert(self.kanji):
-			self.hiragana += i['hira']
-			self.katakana += i['kana']
+		normalized = unicodedata.normalize('NFD', self.romaji)
+		stripped = ''.join(c for c in normalized if not unicodedata.combining(c))
+		replacements = {
+			'ā': 'a',
+			'ī': 'i',
+			'ū': 'u',
+			'ē': 'e',
+			'ō': 'o',
+			'Ā': 'A',
+			'Ī': 'I',
+			'Ū': 'U',
+			'Ē': 'E',
+			'Ō': 'O'
+		}
+		result = ''.join(replacements.get(c, c) for c in stripped)
+		self.hiragana, self.katakana = wanakana.to_hiragana(result), wanakana.to_katakana(result)
 
 
 	def parse(self):
