@@ -1,6 +1,33 @@
 # SPDX-License-Identifier: GPL-2.0
 
-from base_scrapper import BaseJqftuLine
+from base_scrapper import BaseJqftuLine, BaseJqftuRawStation, BaseJqftuStation
+
+
+class SpecialStation(BaseJqftuStation):
+	#
+	# The JSON result will be taken from to_dict() method.
+	#
+	def to_dict(self):
+		r = super().to_dict()
+		if self.n == "KK16":
+			r["alt"] = [
+				"haneda kuukou dai 3 taaminaru",
+				"haneda airport terminal 3",
+				"haneda kuukou terminal 3"
+			]
+		elif self.n == "KK61":
+			r["alt"] = [
+				"haneda kuukou dai 1 dai 2 taaminaru",
+				"haneda airport terminal 1.2",
+				"haneda airport terminal 1",
+				"haneda airport terminal 2",
+				"haneda kuukou terminal 1.2",
+				"haneda kuukou terminal 1",
+				"haneda kuukou terminal 2"
+			]
+
+		return r
+
 
 class KeikyuLine(BaseJqftuLine):
 	def __init__(self):
@@ -31,3 +58,18 @@ class KeikyuLine(BaseJqftuLine):
 		# - KK65 to KK72
 		#
 		self.add_url("https://en.wikipedia.org/wiki/Keiky%C5%AB_Kurihama_Line")
+
+
+	async def scrape_station(self, station: BaseJqftuRawStation) -> BaseJqftuStation:
+		if station.n == "KK16":
+			return await self.handle_special_case(station)
+
+		return await super().scrape_station(station)
+
+
+	async def handle_special_case(self, station: BaseJqftuRawStation) -> BaseJqftuStation:
+		st = SpecialStation(self.save_path, station)
+		await st.scrape()
+		st.parse()
+		await st.save()
+		return st
