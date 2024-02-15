@@ -1,163 +1,337 @@
 [
 	{
 		"n": "T01",
-		"romaji": "nakano",
 		"kanji": "中野",
+		"romaji": "nakano",
 		"hiragana": "なかの",
-		"katakana": "ナカノ"
+		"katakana": "ナカノ",
+		"q_img": "T01.png",
+		"photos": [
+			"T01/7cb0fa147add61bf9593613485c0ab60.jpg",
+			"T01/0652e4f6a26ce8d8c3d7043e9aecd2e7.jpg",
+			"T01/d77535700a8f5589ecb546fdfd0e2aea.jpg",
+			"T01/503b95b8f26b400f9d18eb65703d8182.jpg",
+			"T01/cb82f25e94d237ceda771e40979aa176.jpg",
+			"T01/1767e76724146e523b6636df85fef932.jpg",
+			"T01/7e553f679330113933dd1cb4fe8e24f7.jpg",
+			"T01/bfdd17e1503fed89ebeb880ea00184a3.jpg",
+			"T01/01844b5173ab24c16d34ff060ecb9bdd.jpg",
+			"T01/0ddf226a9548a5a6415816dc1350d955.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Nakano_Station_(Tokyo)"
 	},
 	{
 		"n": "T02",
-		"romaji": "ochiai",
 		"kanji": "落合",
+		"romaji": "ochiai",
 		"hiragana": "おちあい",
-		"katakana": "オチアイ"
+		"katakana": "オチアイ",
+		"q_img": "T02.png",
+		"photos": [
+			"T02/5a11b071d9b183b1f7705ce82d86bea7.jpg",
+			"T02/ebb60259d159e92106a11e77ef76e7ec.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Ochiai_Station_(Tokyo)"
 	},
 	{
 		"n": "T03",
-		"romaji": "takadanobaba",
 		"kanji": "高田馬場",
+		"romaji": "takadanobaba",
 		"hiragana": "たかだのばば",
-		"katakana": "タカダノババ"
+		"katakana": "タカダノババ",
+		"q_img": "T03.png",
+		"photos": [
+			"T03/6eb65034764f06e0a0934e888e513101.jpg",
+			"T03/1583afd64ec15d18ef9f98a6b2b4d06e.jpg",
+			"T03/85408407ab5371fd07964d2678762c90.jpg",
+			"T03/cd126d0b5def8b7b5fed6446ebb80208.jpg",
+			"T03/a22cf6687298f21db914404d5ade143e.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Takadanobaba_Station"
 	},
 	{
 		"n": "T04",
-		"romaji": "waseda",
 		"kanji": "早稲田",
+		"romaji": "waseda",
 		"hiragana": "わせだ",
-		"katakana": "ワセダ"
+		"katakana": "ワセダ",
+		"q_img": "T04.png",
+		"photos": [
+			"T04/140fafc6d940a334135a193a5b8f2409.jpg",
+			"T04/f8a765c7fc860c86f99e71039d066db7.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Waseda_Station_(Tokyo_Metro)"
 	},
 	{
 		"n": "T05",
-		"romaji": "kagurazaka",
 		"kanji": "神楽坂",
+		"romaji": "kagurazaka",
 		"hiragana": "かぐらざか",
-		"katakana": "カグラザカ"
+		"katakana": "カグラザカ",
+		"q_img": "T05.png",
+		"photos": [
+			"T05/2493031a2d5ea09783e2b240fe731219.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Kagurazaka_Station"
 	},
 	{
 		"n": "T06",
-		"romaji": "iidabashi",
 		"kanji": "飯田橋",
+		"romaji": "iidabashi",
 		"hiragana": "いいだばし",
-		"katakana": "イイダバシ"
+		"katakana": "イイダバシ",
+		"q_img": "T06.png",
+		"photos": [
+			"T06/054d9ce957d480377420fe2255164c63.jpg",
+			"T06/72fa1d6d13a2eba70d53784486210266.jpg",
+			"T06/47af2f7504d486b5e9afd188b36b9ed6.jpg",
+			"T06/6b98a112581f350240dbc91276c365e7.jpg",
+			"T06/57ccd335e60a7dae68f4394f20acd756.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Iidabashi_Station"
 	},
 	{
 		"n": "T07",
-		"romaji": "kudanshita",
 		"kanji": "九段下",
+		"romaji": "kudanshita",
 		"hiragana": "くだんした",
-		"katakana": "クダンシタ"
+		"katakana": "クダンシタ",
+		"q_img": "T07.png",
+		"photos": [
+			"T07/e4bc7fad00fef85bf7c38c1769e31ec2.jpg",
+			"T07/575f93181512f0694dad74ccba40bfa7.jpg",
+			"T07/7067ef91c40536e403c4413b4af74826.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Kudanshita_Station"
 	},
 	{
 		"n": "T08",
-		"romaji": "takebashi",
 		"kanji": "竹橋",
+		"romaji": "takebashi",
 		"hiragana": "たけばし",
-		"katakana": "タケバシ"
+		"katakana": "タケバシ",
+		"q_img": "T08.png",
+		"photos": [
+			"T08/3773353afe0fd4fa34cd82e64585bf8c.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Takebashi_Station"
 	},
 	{
 		"n": "T09",
-		"romaji": "otemachi",
 		"kanji": "大手町",
+		"romaji": "ōtemachi",
 		"hiragana": "おおてまち",
-		"katakana": "オオテマチ"
+		"katakana": "オオテマチ",
+		"q_img": "T09.png",
+		"photos": [
+			"T09/18f33d0b032d993ac222d85c69169ecb.jpg",
+			"T09/7b5108f86dc95a3bcae336548a0c2f13.jpg",
+			"T09/78a27f8af96d6310ad9c1aa1a27f5c59.jpg",
+			"T09/260c63660f264a02310590a1cc2f48bd.jpg",
+			"T09/188bcbdad2936a9f01f24cb612ad11c5.jpg",
+			"T09/e3a74077da74b3a219557a5e048cdebc.jpg",
+			"T09/ec114ce1f9d7cb509f4af9121bbcd24b.jpg",
+			"T09/62b311d5f5e70169e28f8cbf4d1b5a3a.jpg",
+			"T09/ef143453d3b960d3efcf185d6cead39a.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/%C5%8Ctemachi_Station_(Tokyo)"
 	},
 	{
 		"n": "T10",
-		"romaji": "nihombashi",
 		"kanji": "日本橋",
+		"romaji": "nihombashi",
 		"hiragana": "にほんばし",
-		"katakana": "ニホンバシ"
+		"katakana": "ニホンバシ",
+		"q_img": "T10.png",
+		"photos": [
+			"T10/eea79f41c7fcd878d9f30a6683d2ac47.jpg",
+			"T10/d5223ed0517198570cec1bf0cb78698c.jpg",
+			"T10/6f72dd186db59e45249b7eeed725f989.jpg",
+			"T10/01a768ad88181aaf932b103993b2ef0b.jpg",
+			"T10/41e7b76e9e53eccbc63251077940b582.jpg",
+			"T10/3c964ec3ea97a9b644a16e217acfd28c.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Nihombashi_Station"
 	},
 	{
 		"n": "T11",
-		"romaji": "kayabachō",
 		"kanji": "茅場町",
+		"romaji": "kayabachō",
 		"hiragana": "かやばちょう",
-		"katakana": "カヤバチョウ"
+		"katakana": "カヤバチョウ",
+		"q_img": "T11.png",
+		"photos": [
+			"T11/2d474a685017fabc9761bb69c32393e8.jpg",
+			"T11/2748d14698f0b653febbbb1f6093c6a1.jpg",
+			"T11/4d122ab1ce8bdcd40c36827fd74731b8.jpg",
+			"T11/1ebc341f443a8a0c35c559391f097783.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Kayabach%C5%8D_Station"
 	},
 	{
 		"n": "T12",
-		"romaji": "monzen-nakachō",
 		"kanji": "門前仲町",
-		"hiragana": "もんぜんなかちょう",
-		"katakana": "モンゼンナカチョウ"
+		"romaji": "monzen-nakachō",
+		"hiragana": "もんぜんなかまち",
+		"katakana": "モンゼンナカマチ",
+		"q_img": "T12.png",
+		"photos": [
+			"T12/f908582ac18ce10837f65ee22f8d294a.jpg",
+			"T12/b8b993ecad50186a24335b84fca78e24.jpg",
+			"T12/56853999224d44da98c276397cc528d8.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Monzen-Nakach%C5%8D_Station"
 	},
 	{
 		"n": "T13",
-		"romaji": "kiba",
 		"kanji": "木場",
+		"romaji": "kiba",
 		"hiragana": "きば",
-		"katakana": "キバ"
+		"katakana": "キバ",
+		"q_img": "T13.png",
+		"photos": [
+			"T13/116f55993fbb60638b864efcced707dc.jpg",
+			"T13/c3eb468754125b06213bce54055c1080.jpg",
+			"T13/ee953fa862c8f236f9867cd3961201a8.jpg",
+			"T13/f6aeb41e67e7dba807b9a3c630a13537.jpg",
+			"T13/0ca4122f46637998d4967d5838e5604b.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Kiba_Station"
 	},
 	{
 		"n": "T14",
-		"romaji": "toyōchō",
 		"kanji": "東陽町",
+		"romaji": "tōyōchō",
 		"hiragana": "とうようちょう",
-		"katakana": "トウヨウチョウ"
+		"katakana": "トウヨウチョウ",
+		"q_img": "T14.png",
+		"photos": [
+			"T14/400b6405dc86096baaa8c55d6662d17a.jpg",
+			"T14/aeef5015b1a4069218646acd915822ca.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/T%C5%8Dy%C5%8Dch%C5%8D_Station"
 	},
 	{
 		"n": "T15",
-		"romaji": "minami-sunamachi",
 		"kanji": "南砂町",
+		"romaji": "minami-sunamachi",
 		"hiragana": "みなみすなまち",
-		"katakana": "ミナミスナマチ"
+		"katakana": "ミナミスナマチ",
+		"q_img": "T15.png",
+		"photos": [
+			"T15/c4bc59cfb7a509db78a9c57edc2c5ba3.jpg",
+			"T15/284d9181fa836c53661c433986707fea.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Minami-Sunamachi_Station"
 	},
 	{
 		"n": "T16",
-		"romaji": "nishi-kasai",
 		"kanji": "西葛西",
+		"romaji": "nishi-kasai",
 		"hiragana": "にしかさい",
-		"katakana": "ニシケッサイ"
+		"katakana": "ニシカサイ",
+		"q_img": "T16.png",
+		"photos": [
+			"T16/ce291fb4b1be29926c177955f26ca7e5.jpg",
+			"T16/19d6e1090185a3329b93e017991dfb4a.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Nishi-Kasai_Station"
 	},
 	{
 		"n": "T17",
-		"romaji": "kasai",
 		"kanji": "葛西",
+		"romaji": "kasai",
 		"hiragana": "かさい",
-		"katakana": "カサイ"
+		"katakana": "カサイ",
+		"q_img": "T17.png",
+		"photos": [
+			"T17/efe78310c4a35e32459f412995507f8a.jpg",
+			"T17/68313be7d272e1f0f3544eb06749409a.jpg",
+			"T17/0e89f689726b77a3c43c73e8c1735193.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Kasai_Station"
 	},
 	{
 		"n": "T18",
-		"romaji": "urayasu",
 		"kanji": "浦安",
+		"romaji": "urayasu",
 		"hiragana": "うらやす",
-		"katakana": "ウラヤス"
+		"katakana": "ウラヤス",
+		"q_img": "T18.png",
+		"photos": [
+			"T18/c9138fa18c8629405b37110d4f219c95.jpg",
+			"T18/5302b8f28e60ed22b157427792cb4ab0.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Urayasu_Station_(Chiba)"
 	},
 	{
 		"n": "T19",
-		"romaji": "minami-gyōtoku",
 		"kanji": "南行徳",
-		"hiragana": "みなみぎょうとく",
-		"katakana": "ミナミギョウトク"
+		"romaji": "minami-gyōtoku",
+		"hiragana": "みなみゆきとく",
+		"katakana": "ミナミユキトク",
+		"q_img": "T19.png",
+		"photos": [
+			"T19/59dcacea8630d6c7fd8413692908a5bd.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Minami-Gy%C5%8Dtoku_Station"
 	},
 	{
 		"n": "T20",
-		"romaji": "gyōtoku",
 		"kanji": "行徳",
-		"hiragana": "ぎょうとく",
-		"katakana": "ギョウトク"
+		"romaji": "gyōtoku",
+		"hiragana": "ゆきのり",
+		"katakana": "ユキノリ",
+		"q_img": "T20.png",
+		"photos": [
+			"T20/179b2e6e013fff1c4003277c6fbf0fbf.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Gy%C5%8Dtoku_Station"
 	},
 	{
 		"n": "T21",
-		"romaji": "myōden",
 		"kanji": "妙典",
+		"romaji": "myōden",
 		"hiragana": "みょうでん",
-		"katakana": "ミョウデン"
+		"katakana": "ミョウデン",
+		"q_img": "T21.png",
+		"photos": [
+			"T21/eac9c8281cbf2653ce6d180f21b16421.jpg",
+			"T21/9ece9f45bc4ddba754ea5aaed7455975.jpg",
+			"T21/5d078f236a8b5623dc2e6d8caad67b64.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/My%C5%8Dden_Station"
 	},
 	{
 		"n": "T22",
-		"romaji": "baraki-nakayama",
 		"kanji": "原木中山",
+		"romaji": "baraki-nakayama",
 		"hiragana": "ばらきなかやま",
-		"katakana": "バラキナカヤマ"
+		"katakana": "バラキナカヤマ",
+		"q_img": "T22.png",
+		"photos": [
+			"T22/0797ffe2c7d8c085e5e1948c0bc4ed78.jpg",
+			"T22/1f0fb55ea5a417df7ebde717e0cd6718.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Baraki-Nakayama_Station"
 	},
 	{
 		"n": "T23",
-		"romaji": "nishi-funabashi",
 		"kanji": "西船橋",
+		"romaji": "nishi-funabashi",
 		"hiragana": "にしふなばし",
-		"katakana": "ニシフナバシ"
+		"katakana": "ニシフナバシ",
+		"q_img": "T23.png",
+		"photos": [
+			"T23/215eabaa7af94993c5ad85d65d965e3b.jpg",
+			"T23/0c9dba6b4353d4a25c1a88eeacf9baa7.jpg",
+			"T23/829c5454a3572f05bc1d4df4b9ea9fc6.jpg",
+			"T23/8f3c6d7e7982b60b000f032907241896.jpg",
+			"T23/012cdc5316dc10e65fd90284cdc71df4.jpg",
+			"T23/3f25ab44dd2f04a0b3d964587c86dd95.jpg",
+			"T23/53715863b01c223df05ded5dd0db5faf.jpg",
+			"T23/d64eeb0700944a17bdc68c1993156f63.jpg"
+		],
+		"wiki_url": "https://en.wikipedia.org/wiki/Nishi-Funabashi_Station"
 	}
 ]
