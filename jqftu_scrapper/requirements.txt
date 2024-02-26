@@ -2,3 +2,4 @@ html2image==2.0.4.3
 beautifulsoup4==4.12.3
 httpx==0.26.0
 wanakana==1.0.1
+tqdm==4.66.2

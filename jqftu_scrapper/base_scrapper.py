@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup as bs
 from bs4.element import Tag
 from functools import partial, wraps
 from typing import Callable
+from async_downloader import AsyncDownloader
+from urllib.parse import urlparse
 import os
 import json
 import wanakana
@@ -290,14 +292,8 @@ class BaseJqftuStation:
 		os.makedirs(photo_dir, exist_ok=True)
 
 		for photo_url in self.photos_url:
-			response = await client.get(photo_url)
-			response.raise_for_status()  
-			contents = response.content 
-
-			md5_hash = hashlib.md5(contents).hexdigest() + '.jpg'
-			photo_filename = os.path.join(photo_dir, md5_hash)
-			with open(photo_filename, 'wb') as file:
-				file.write(contents)
+			downloader = AsyncDownloader(photo_url, 16)
+			md5_hash = await downloader.download_file(f"{photos_path}/{self.n}/{urlparse(photo_url).path.rsplit('/', 1)[-1]}")	
 			self.photos.append(f"{self.n}/{md5_hash}")
 
 
