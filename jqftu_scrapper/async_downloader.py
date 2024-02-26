@@ -212,7 +212,7 @@ class AsyncDownloaders:
         self.connections = connections
         self.session = session
     
-    async def download_file(self, added):
+    async def download_file(self, added, photo_dir):
         for url in self.urls:
             name = urlparse(url).path.rsplit('/', 1)[-1]
             progress_bar = tqdm(
@@ -249,6 +249,11 @@ class AsyncDownloaders:
             progress_bar.close()
             io_object.seek(0)
 
-            md5_hash = hashlib.md5(io_object.getvalue()).hexdigest()
-
+            md5_hash = hashlib.md5(io_object.getvalue()).hexdigest() + '.jpg'
+            final = f"{photo_dir}/{md5_hash}"
+            if os.path.exists(final):
+                os.remove(final)
+            
+            with open(final, 'wb') as file:
+                file.write(io_object.read())
             added.photos.append(f"{added.n}/{md5_hash}")

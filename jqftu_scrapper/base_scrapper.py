@@ -297,7 +297,7 @@ class BaseJqftuStation:
             },
         )
 		downloader = AsyncDownloaders(self.photos_url, 16, session)
-		await downloader.download_file(self)
+		await downloader.download_file(self, photo_dir)
 
 
 	def construct_kana(self):
