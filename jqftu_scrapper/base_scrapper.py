@@ -5,8 +5,7 @@ from bs4 import BeautifulSoup as bs
 from bs4.element import Tag
 from functools import partial, wraps
 from typing import Callable
-from async_downloader import AsyncDownloader
-from urllib.parse import urlparse
+from async_downloader import AsyncDownloaders
 import os
 import json
 import wanakana
@@ -15,7 +14,6 @@ import unicodedata
 import asyncio
 import httpx
 import re
-import hashlib
 
 client = httpx.AsyncClient(headers={
 	'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -291,10 +289,15 @@ class BaseJqftuStation:
 		photo_dir = f"{photos_path}/{self.n}"
 		os.makedirs(photo_dir, exist_ok=True)
 
-		for photo_url in self.photos_url:
-			downloader = AsyncDownloader(photo_url, 16)
-			md5_hash = await downloader.download_file(f"{photos_path}/{self.n}/{urlparse(photo_url).path.rsplit('/', 1)[-1]}")	
-			self.photos.append(f"{self.n}/{md5_hash}")
+		session = httpx.AsyncClient(
+            timeout=None,
+            follow_redirects=True,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
+            },
+        )
+		downloader = AsyncDownloaders(self.photos_url, 16, session)
+		await downloader.download_file(self)
 
 
 	def construct_kana(self):

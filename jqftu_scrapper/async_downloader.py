@@ -1,4 +1,6 @@
 from tqdm.auto import tqdm
+from io import BytesIO
+from urllib.parse import urlparse
 import asyncio
 import httpx
 import shutil
@@ -203,3 +205,50 @@ class AsyncDownloader:
             # Close the progress bar after the download completes
             progress_bar.close()
             return md5_hash
+        
+class AsyncDownloaders:
+    def __init__(self, urls, connections, session):
+        self.urls = urls
+        self.connections = connections
+        self.session = session
+    
+    async def download_file(self, added):
+        for url in self.urls:
+            name = urlparse(url).path.rsplit('/', 1)[-1]
+            progress_bar = tqdm(
+                unit="B",
+                unit_scale=True,
+                unit_divisor=1024,
+            )
+
+            response_dict = await MultiConnectionDownloader.is_resumable(
+                self.session, "GET", url
+            )
+
+            content_length = (
+                int(response_dict["headers"].get("Content-Length", 0)) or None
+            )
+            io_object = BytesIO()
+
+            progress_bar.total = content_length
+            progress_bar.set_description(f"<= {name.rsplit('/', maxsplit=1)[-1]!r}")
+
+            downloader = MultiConnectionDownloader(
+                self.session,
+                "GET",
+                url,
+                progress_bar=progress_bar,
+            )
+
+            await downloader.allocate_downloads(
+                io_object,
+                content_length if response_dict["status_code"] == 206 else None,
+                connections=self.connections,
+            )
+
+            progress_bar.close()
+            io_object.seek(0)
+
+            md5_hash = hashlib.md5(io_object.getvalue()).hexdigest()
+
+            added.photos.append(f"{added.n}/{md5_hash}")
