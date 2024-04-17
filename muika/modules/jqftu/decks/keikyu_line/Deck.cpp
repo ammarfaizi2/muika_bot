@@ -13,6 +13,7 @@ Deck::Deck(void)
 	setName("keikyu_line");
 	setScope("Keikyu Line");
 	loadDeckFromJsonFile("keikyu_line.json");
+	setBasePhotoPath("Keikyu");
 }
 
 } /* namespace muika::modules::jqftu::decks::keikyu_line */

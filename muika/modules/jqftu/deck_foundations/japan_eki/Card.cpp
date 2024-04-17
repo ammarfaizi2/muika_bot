@@ -40,7 +40,7 @@ bool Card::checkAnswer(const std::string &answer_ref)
 std::string Card::getCardImage(void)
 {
 	if (!q_img_.empty())
-		return "https://telegram-bot.teainside.org/output/" + q_img_;
+		return std::string(JP_EKI_PHOTO_BASE_URL) + q_img_;
 
 	std::string img_url;
 	size_t len;

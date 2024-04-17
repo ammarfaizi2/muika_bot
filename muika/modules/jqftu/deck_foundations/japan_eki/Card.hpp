@@ -8,6 +8,8 @@
 #include <mutex>
 #include <string>
 
+#define JP_EKI_PHOTO_BASE_URL "https://server-vie001.gnuweeb.org/muika/muika_bot/output"
+
 namespace muika {
 namespace modules {
 namespace jqftu {

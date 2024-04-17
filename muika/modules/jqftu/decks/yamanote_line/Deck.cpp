@@ -13,6 +13,7 @@ Deck::Deck(void)
 	setName("yamanote_line");
 	setScope("Yamanote Line");
 	loadDeckFromJsonFile("yamanote_line.json");
+	setBasePhotoPath("Yamanote");
 }
 
 } /* namespace muika::modules::jqftu::decks::yamanote_line */

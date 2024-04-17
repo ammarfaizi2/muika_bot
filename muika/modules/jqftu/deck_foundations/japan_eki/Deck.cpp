@@ -10,7 +10,7 @@ namespace deck_foundations {
 namespace japan_eki {
 
 // static
-std::unique_ptr<Card> Deck::loadCardFromJson(const json &j)
+std::unique_ptr<Card> Deck::loadCardFromJson(const json &j, std::string base_photo_path)
 {
 	std::string n, kanji, romaji, hiragana, katakana, q_img = "";
 	std::vector<std::string> alternatives = {};
@@ -57,10 +57,10 @@ std::unique_ptr<Card> Deck::loadCardFromJson(const json &j)
 				throw std::runtime_error("Non-string value in \"photos\" array");
 
 			std::string tmp = photo.get<std::string>();
-			if (tmp.find("https://telegram-bot.teainside.org/output/") == 0)
-				photos.push_back(tmp);
-			else
-				photos.push_back("https://telegram-bot.teainside.org/output/" + tmp);
+			if (tmp.find(JP_EKI_PHOTO_BASE_URL) == std::string::npos)
+				tmp = std::string(JP_EKI_PHOTO_BASE_URL) + base_photo_path + "/photos/" + tmp;
+
+			photos.push_back(tmp);
 		}
 	}
 
