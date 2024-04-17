@@ -5,13 +5,15 @@ from bs4 import BeautifulSoup as bs
 from bs4.element import Tag
 from functools import partial, wraps
 from typing import Callable
-import os, json
+from async_downloader import AsyncDownloaders
+import os
+import json
+import wanakana
 import httpx
-import pykakasi
+import unicodedata
 import asyncio
 import httpx
 import re
-import hashlib
 
 client = httpx.AsyncClient(headers={
 	'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -121,12 +123,12 @@ class BaseJqftuRawStation:
 			raise Exception("Cannot parse the kanji")
 
 		kanji = td.find_previous_sibling('td')
-
+		
 		# Remove the <sup> tag if exists.
 		sup = kanji.find('sup')
 		if sup:
 			sup.extract()
-
+		
 		return kanji.get_text(strip=True)
 
 
@@ -152,7 +154,7 @@ class BaseJqftuRawStation:
 # BaseJqftuStation always needs BaseJqftuRawStation object to be initialized.
 #
 class BaseJqftuStation:
-	def __init__(self, save_path, line_name, raw_station: BaseJqftuRawStation):
+	def __init__(self, save_path, raw_station: BaseJqftuRawStation):
 		#
 		# For JSON end result.
 		#
@@ -171,7 +173,6 @@ class BaseJqftuStation:
 		self.save_path = save_path
 		self.photos_url = []
 		self.st_num_html = []
-		self.line_name = line_name
 		self.is_valid = False
 
 
@@ -195,7 +196,7 @@ class BaseJqftuStation:
 			"romaji": self.romaji,
 			"hiragana": self.hiragana,
 			"katakana": self.katakana,
-			"q_img": f"{self.line_name}/{self.q_img}",
+			"q_img": self.q_img,
 			"photos": self.photos,
 			"wiki_url": self.wiki_url
 		}
@@ -288,25 +289,26 @@ class BaseJqftuStation:
 		photo_dir = f"{photos_path}/{self.n}"
 		os.makedirs(photo_dir, exist_ok=True)
 
-		for photo_url in self.photos_url:
-			response = await client.get(photo_url)
-			response.raise_for_status()  
-			contents = response.content 
-
-			md5_hash = hashlib.md5(contents).hexdigest() + '.jpg'
-			photo_filename = os.path.join(photo_dir, md5_hash)
-			with open(photo_filename, 'wb') as file:
-				file.write(contents)
-			self.photos.append(f"{self.line_name}/{self.n}/{md5_hash}")
+		session = httpx.AsyncClient(
+            timeout=None,
+            follow_redirects=True,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
+            },
+        )
+		downloader = AsyncDownloaders(self.photos_url, 16, session)
+		await downloader.download_file(self, photo_dir)
 
 
 	def construct_kana(self):
-		k = pykakasi.kakasi()
-		self.hiragana = self.katakana = ""
-		for i in k.convert(self.kanji):
-			self.hiragana += i['hira']
-			self.katakana += i['kana']
-
+		replacements = {
+			'ō': 'ou', 
+			'Ō': 'OU'
+		}
+		replaced = ''.join(replacements.get(c, c) for c in self.romaji)
+		normalized = unicodedata.normalize('NFD', replaced)
+		result = ''.join(c for c in normalized if not unicodedata.combining(c))
+		self.hiragana, self.katakana = wanakana.to_hiragana(result), wanakana.to_katakana(result)
 
 	def parse(self):
 		try:
@@ -421,7 +423,7 @@ class BaseJqftuLine:
 
 
 	async def scrape_station(self, station: BaseJqftuRawStation) -> BaseJqftuStation:
-		st = BaseJqftuStation(self.save_path, self.line_name, station)
+		st = BaseJqftuStation(self.save_path, station)
 		await st.scrape()
 		st.parse()
 		await st.save()
@@ -437,7 +439,7 @@ class BaseJqftuLine:
 		fn = self.line_name.lower().replace(' ', '_')
 		fn = f"{self.save_path}/{fn}.json"
 		with open(fn, 'w', encoding='utf-8') as f:
-			json.dump(j, f, indent='\t', ensure_ascii=False, separators=(',', ': '))
+			json.dump(j, f, indent=4, ensure_ascii=False)
 
 
 	async def scrape_all_stations(self):
