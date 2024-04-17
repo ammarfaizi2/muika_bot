@@ -308,7 +308,15 @@ class BaseJqftuStation:
 		replaced = ''.join(replacements.get(c, c) for c in self.romaji)
 		normalized = unicodedata.normalize('NFD', replaced)
 		result = ''.join(c for c in normalized if not unicodedata.combining(c))
-		self.hiragana, self.katakana = wanakana.to_hiragana(result), wanakana.to_katakana(result)
+		replacements_hira = {
+			'm': 'ん'
+		}
+		replacements_kana = {
+			'm': 'ン'
+		}
+		replaced_hira = ''.join(replacements_hira.get(c, c) for c in wanakana.to_hiragana(result))
+		replaced_kana = ''.join(replacements_kana.get(c, c) for c in wanakana.to_katakana(result))
+		self.hiragana, self.katakana = replaced_hira, replaced_kana
 
 	def parse(self):
 		try:
