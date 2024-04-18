@@ -214,17 +214,21 @@ inline void Command::start(void)
 
 		sess->start();
 		sess->giveSelfPtr(&sess);
+
+		try {
+			smap_->__insert(msg_->chat->id, sess);
+		} catch (const std::exception &e) {
+			pr_debug("Cannot insert a session: %s", e.what());
+			sendMsg("Cannot insert a session: " + std::string(e.what()));
+			sess->stop();
+			throw e;
+		}
+
 	} catch (const std::exception &e) {
+		if (sess)
+			sess->stop();
 		pr_debug("Cannot start a session: %s", e.what());
 		sendMsg("Cannot start a session: " + std::string(e.what()));
-	}
-
-	try {
-		smap_->__insert(msg_->chat->id, sess);
-	} catch (const std::exception &e) {
-		pr_debug("Cannot insert a session: %s", e.what());
-		sendMsg("Cannot insert a session: " + std::string(e.what()));
-		sess->stop();
 	}
 
 	smap_lock_.unlock();
