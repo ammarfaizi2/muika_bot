@@ -10,10 +10,10 @@ namespace yamanote_line {
 
 Deck::Deck(void)
 {
+	setBasePhotoPath("Yamanote");
 	setName("yamanote_line");
 	setScope("Yamanote Line");
 	loadDeckFromJsonFile("yamanote_line.json");
-	setBasePhotoPath("Yamanote");
 }
 
 } /* namespace muika::modules::jqftu::decks::yamanote_line */
