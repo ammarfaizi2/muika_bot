@@ -85,6 +85,7 @@ inline
 bool Session::__sendCardMayRetry(Deck *deck, Card *card, std::unique_lock<std::mutex> &lock, uint32_t try_num)
 	__must_hold(&mutex_)
 {
+	uint32_t tn = try_num;
 	while (try_num--) {
 		if (__sendCard(deck, card))
 			return true;
@@ -96,7 +97,7 @@ bool Session::__sendCardMayRetry(Deck *deck, Card *card, std::unique_lock<std::m
 	/*
 	 * Give up...
 	 */
-	sendMsg("Failed to send card after " + std::to_string(try_num) + " retries, giving up...", last_msg_id_);
+	sendMsg("Failed to send card after " + std::to_string(tn) + " retries, giving up...", last_msg_id_);
 	return false;
 }
 
