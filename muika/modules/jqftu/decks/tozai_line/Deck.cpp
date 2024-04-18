@@ -10,10 +10,10 @@ namespace tozai_line {
 
 Deck::Deck(void)
 {
+	setBasePhotoPath("Tozai");
 	setName("tozai_line");
 	setScope("Tokyo Metro Tozai Line");
 	loadDeckFromJsonFile("tozai_line.json");
-	setBasePhotoPath("Tozai");
 }
 
 } /* namespace muika::modules::jqftu::decks::tozai_line */

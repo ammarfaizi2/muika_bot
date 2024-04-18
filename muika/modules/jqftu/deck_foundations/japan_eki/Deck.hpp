@@ -14,7 +14,7 @@ namespace japan_eki {
 
 class Deck: public muika::modules::jqftu::Deck {
 private:
-	static std::unique_ptr<Card> loadCardFromJson(const json &j, std::string base_photo_path = "");
+	static std::unique_ptr<Card> loadCardFromJson(const json &j, std::string base_photo_path);
 	std::string base_photo_path_;
 
 protected:

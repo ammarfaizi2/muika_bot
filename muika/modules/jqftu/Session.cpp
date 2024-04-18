@@ -344,7 +344,9 @@ bool Session::answer(const TgBot::Message::Ptr &msg)
 		std::vector<TgBot::InputMedia::Ptr> media;
 
 		for (auto &photo: photos) {
-			TgBot::InputMedia::Ptr m = std::make_shared<TgBot::InputMediaPhoto>();
+			auto x = std::make_shared<TgBot::InputMediaPhoto>();
+			x->hasSpoiler = false;
+			TgBot::InputMedia::Ptr m = std::move(x);
 			m->media = photo;
 			m->caption = "";
 			media.push_back(m);

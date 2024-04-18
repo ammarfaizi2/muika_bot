@@ -48,7 +48,9 @@ std::unique_ptr<Card> Deck::loadCardFromJson(const json &j, std::string base_pho
 	}
 
 	if (j.contains("q_img") && j["q_img"].is_string()) {
-		q_img = j["q_img"];
+		q_img = j["q_img"].get<std::string>();
+		if (q_img.find(JP_EKI_PHOTO_BASE_URL) != 0)
+			q_img = std::string(JP_EKI_PHOTO_BASE_URL) + "/" + base_photo_path + "/" + q_img;
 	}
 
 	if (j.contains("photos") && j["photos"].is_array()) {
@@ -57,8 +59,8 @@ std::unique_ptr<Card> Deck::loadCardFromJson(const json &j, std::string base_pho
 				throw std::runtime_error("Non-string value in \"photos\" array");
 
 			std::string tmp = photo.get<std::string>();
-			if (tmp.find(JP_EKI_PHOTO_BASE_URL) == std::string::npos)
-				tmp = std::string(JP_EKI_PHOTO_BASE_URL) + base_photo_path + "/photos/" + tmp;
+			if (tmp.find(JP_EKI_PHOTO_BASE_URL) != 0)
+				tmp = std::string(JP_EKI_PHOTO_BASE_URL) + "/" + base_photo_path + "/photos/" + tmp;
 
 			photos.push_back(tmp);
 		}
@@ -86,7 +88,7 @@ void Deck::loadDeckFromJsonFile(const char *file_path)
 		throw std::runtime_error("Failed to parse deck: " + std::string(file_path) + ": Empty array");
 
 	for (auto &card : j)
-		addCard(loadCardFromJson(card));
+		addCard(loadCardFromJson(card, base_photo_path_));
 }
 
 json Deck::toJson(void) const
@@ -133,7 +135,7 @@ void Deck::fromJson(const json &j)
 	setInfo(j["info"]);
 	setScope(j["scope"]);
 	for (auto &card : j["cards"])
-		addCard(loadCardFromJson(card));
+		addCard(loadCardFromJson(card, base_photo_path_));
 }
 
 } /* namespace muika::modules::jqftu::decks::ja_train */

@@ -10,10 +10,10 @@ namespace chuo_sobu {
 
 Deck::Deck(void)
 {
+	setBasePhotoPath("ChuoSobu");
 	setName("chuo_sobu");
 	setScope("Chuo Sobu Line");
 	loadDeckFromJsonFile("chuo_sobu.json");
-	setBasePhotoPath("ChuoSobu");
 }
 
 } /* namespace muika::modules::jqftu::decks::chuo_sobu */
