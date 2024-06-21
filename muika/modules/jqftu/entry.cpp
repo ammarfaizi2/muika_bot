@@ -46,6 +46,9 @@ void mod_free(muika::Muika &m, void *data)
 {
 	SessionMap *smap = static_cast<SessionMap *>(data);
 
+	if (!smap)
+		return;
+
 	smap->save();
 	delete smap;
 }
