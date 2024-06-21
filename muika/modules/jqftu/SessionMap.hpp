@@ -13,14 +13,11 @@ private:
 	Muika &m_;
 
 public:
-	inline SessionMap(Muika &m):
-		m_(m)
-	{
-	}
+	SessionMap(Muika &m);
+	~SessionMap(void);
 
-	~SessionMap(void) = default;
-
-	void load(void);
+	void loadAll(void);
+	void load(int64_t chat_id);
 	void save(void);
 };
 

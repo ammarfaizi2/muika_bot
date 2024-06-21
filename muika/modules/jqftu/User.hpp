@@ -31,12 +31,12 @@ public:
 	{
 	}
 
-	inline int64_t chat_id(void) { return chat_id_; }
-	inline uint64_t id(void) { return id_; }
-	inline std::string first_name(void) { return first_name_; }
-	inline std::string last_name(void) { return last_name_; }
-	inline std::string username(void) { return username_; }
-	inline int64_t point(void) { return point_; }
+	inline int64_t chat_id(void) const { return chat_id_; }
+	inline uint64_t id(void) const { return id_; }
+	inline std::string first_name(void) const { return first_name_; }
+	inline std::string last_name(void) const { return last_name_; }
+	inline std::string username(void) const { return username_; }
+	inline int64_t point(void) const { return point_; }
 
 	inline void addPoint(int64_t point) { point_ += point; }
 	inline void subPoint(int64_t point) { point_ -= point; }
@@ -48,13 +48,11 @@ public:
 
 	using json = nlohmann::json;
 
-	json toJson(void) const;
-	std::string serialize(void) const;
+	static User deserialize(const std::string &str);
+	static std::string serialize(const User &user);
 
 	static json toJson(const User &user);
 	static User fromJson(const json &j);
-	static std::string serialize(const User &user);
-	static User deserialize(const std::string &str);
 };
 
 } /* namespace jqftu */

@@ -7,8 +7,9 @@
 
 namespace muika {
 
-Muika::Muika(const std::string &token):
+Muika::Muika(const std::string &token, const std::string &storage_dir):
 	bot_(token),
+	storage_dir_(storage_dir),
 	mod_mgr_(std::make_unique<ModuleManager>(this))
 {
 }

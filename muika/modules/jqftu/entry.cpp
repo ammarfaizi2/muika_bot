@@ -15,7 +15,7 @@ int mod_init(muika::Muika &m, void **data)
 
 	try {
 		smap = new SessionMap(m);
-		smap->load();
+		smap->loadAll();
 		ret = 0;
 	} catch (std::bad_alloc &e) {
 		ret = -1;

@@ -8,27 +8,12 @@ namespace jqftu {
 
 using json = nlohmann::json;
 
-json User::toJson(void) const
-{
-	json j;
-	j["chat_id"] = chat_id_;
-	j["id"] = id_;
-	j["first_name"] = first_name_;
-	j["last_name"] = last_name_;
-	j["username"] = username_;
-	j["point"] = point_;
-	return j;
-}
-
-std::string User::serialize(void) const
-{
-	return serialize(*this);
-}
-
 // static
-json User::toJson(const User &user)
+User User::deserialize(const std::string &str)
 {
-	return user.toJson();
+	json j = json::parse(str);
+
+	return User::fromJson(j);
 }
 
 // static
@@ -41,15 +26,24 @@ User User::fromJson(const json &j)
 // static
 std::string User::serialize(const User &user)
 {
-	json j = user.toJson();
+	json j = User::toJson(user);
+
 	return j.dump(4, ' ', false);
 }
 
 // static
-User User::deserialize(const std::string &str)
+json User::toJson(const User &user)
 {
-	json j = json::parse(str);
-	return User::fromJson(j);
+	json j;
+
+	j["chat_id"] = user.chat_id();
+	j["id"] = user.id();
+	j["first_name"] = user.first_name();
+	j["last_name"] = user.last_name();
+	j["username"] = user.username();
+	j["point"] = user.point();
+
+	return j;
 }
 
 } /* namespace jqftu */
