@@ -15,7 +15,10 @@ MUIKA_SOURCES_CPP := \
 	muika/helpers.cpp \
 	muika/Muika.cpp \
 	muika/ModuleManager.cpp \
-	muika/modules/jqftu/entry.cpp
+	muika/modules/jqftu/entry.cpp \
+	muika/modules/jqftu/Session.cpp \
+	muika/modules/jqftu/SessionMap.cpp \
+	muika/modules/jqftu/User.cpp
 
 MUIKA_OBJECTS := $(MUIKA_SOURCES_CPP:.cpp=.o)
 MUIKA_DEPENDS := $(MUIKA_SOURCES_CPP:.cpp=.d)

@@ -3,6 +3,7 @@
 #define MUIKA__MUIKA_HPP
 
 #include <tgbot/tgbot.h>
+#include <muika/helpers.hpp>
 
 #include <string>
 #include <memory>
