@@ -1,20 +1,26 @@
 // SPDX-License-Identifier: GPL-2.0-only
-
 #ifndef MUIKA__MODULES__JQFTU__ENTRY_HPP
 #define MUIKA__MODULES__JQFTU__ENTRY_HPP
 
-#include "muika/ModuleManager.hpp"
+#include <tgbot/tgbot.h>
+
+#include <string>
+#include <memory>
 
 namespace muika {
 namespace modules {
 namespace jqftu {
 
-mod_init_ret_t init(muika::Muika &m, void **data);
-mod_entry_ret_t entry(muika::Muika &m, TgBot::Message::Ptr &msg, ModuleState *mod_state);
-void free(muika::Muika &m, ModuleState *mod_state);
+class entry {
+public:
+	Foundation(void);
+	virtual ~Foundation(void);
+	virtual void handleMessage(TgBot::Message::Ptr &msg) = 0;
+	virtual void init(void) = 0;
+};
 
-} /* namespace muika::modules::jqftu */
-} /* namespace muika::modules */
+} /* namespace jqftu */
+} /* namespace modules */
 } /* namespace muika */
 
-#endif /* MUIKA__MODULES__JQFTU__ENTRY_HPP */
+#endif /* #ifndef MUIKA__MODULES__JQFTU__ENTRY_HPP */
