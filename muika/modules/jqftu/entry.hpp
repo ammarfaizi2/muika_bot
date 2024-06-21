@@ -2,22 +2,15 @@
 #ifndef MUIKA__MODULES__JQFTU__ENTRY_HPP
 #define MUIKA__MODULES__JQFTU__ENTRY_HPP
 
-#include <tgbot/tgbot.h>
-
-#include <string>
-#include <memory>
+#include <muika/ModuleManager.hpp>
 
 namespace muika {
 namespace modules {
 namespace jqftu {
 
-class entry {
-public:
-	Foundation(void);
-	virtual ~Foundation(void);
-	virtual void handleMessage(TgBot::Message::Ptr &msg) = 0;
-	virtual void init(void) = 0;
-};
+int mod_init(muika::Muika &m, void **data);
+int mod_entry(muika::Muika &m, TgBot::Message::Ptr &msg, void *data);
+void mod_free(muika::Muika &m, void *data);
 
 } /* namespace jqftu */
 } /* namespace modules */
