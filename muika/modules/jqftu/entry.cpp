@@ -14,15 +14,19 @@ int mod_init(muika::Muika &m, void **data)
 	int ret;
 
 	try {
+		pr_debug("jqftu: Loading session map...");
 		smap = new SessionMap(m);
 		smap->loadAll();
 		ret = 0;
 	} catch (std::bad_alloc &e) {
 		ret = -1;
+		pr_debug("jqftu: Failed to allocate memory: %s", e.what());
 	} catch (std::exception &e) {
 		ret = -1;
+		pr_debug("jqftu: Exception: %s", e.what());
 	} catch (...) {
 		ret = -1;
+		pr_debug("jqftu: Unknown exception");
 	}
 
 	if (ret && smap)
@@ -49,6 +53,7 @@ void mod_free(muika::Muika &m, void *data)
 	if (!smap)
 		return;
 
+	pr_debug("jqftu: Shutting down...");
 	smap->save();
 	delete smap;
 }

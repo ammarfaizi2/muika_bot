@@ -5,6 +5,7 @@
 
 #include <nlohmann/json.hpp>
 #include <cstdint>
+#include <cstdio>
 #include <string>
 
 #ifndef __serialize
@@ -17,6 +18,12 @@
 
 namespace muika {
 
+void ____pr_debug(const char *fmt, ...);
+
 } /* namespace muika */
+
+#ifndef pr_debug
+#define pr_debug(...) ::muika::____pr_debug(__VA_ARGS__)
+#endif
 
 #endif
