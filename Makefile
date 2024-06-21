@@ -15,6 +15,7 @@ MUIKA_SOURCES_CPP := \
 	muika/helpers.cpp \
 	muika/Muika.cpp \
 	muika/ModuleManager.cpp \
+	muika/modules/jqftu/Command.cpp \
 	muika/modules/jqftu/entry.cpp \
 	muika/modules/jqftu/Session.cpp \
 	muika/modules/jqftu/SessionMap.cpp \

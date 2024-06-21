@@ -3,6 +3,7 @@
 #include <muika/modules/jqftu/entry.hpp>
 #include <muika/modules/jqftu/Session.hpp>
 #include <muika/modules/jqftu/SessionMap.hpp>
+#include <muika/modules/jqftu/Command.hpp>
 
 namespace muika {
 namespace modules {
@@ -42,8 +43,14 @@ int mod_entry(muika::Muika &m, TgBot::Message::Ptr &msg, void *data)
 {
 	SessionMap *smap = static_cast<SessionMap *>(data);
 
+	if (!smap)
+		return -1;
 
-	return 0;
+	Command cmd(m, msg, *smap);
+	if (cmd.handle())
+		return 0;
+
+	return -1;
 }
 
 void mod_free(muika::Muika &m, void *data)

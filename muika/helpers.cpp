@@ -37,4 +37,32 @@ void ____pr_debug(const char *fmt, ...)
 		free(heap);
 }
 
+std::vector<std::string>
+str_explode(const std::string &str, const std::string &delim, size_t limit)
+{
+	std::vector<std::string> ret;
+	size_t pos = 0, next;
+
+	if (limit == 0)
+		return ret;
+
+	while (pos < str.size()) {
+		next = str.find(delim, pos);
+		if (next == std::string::npos) {
+			ret.push_back(str.substr(pos));
+			break;
+		}
+
+		ret.push_back(str.substr(pos, next - pos));
+		pos = next + delim.size();
+
+		if (limit != (size_t)-1 && ret.size() == limit - 1) {
+			ret.push_back(str.substr(pos));
+			break;
+		}
+	}
+
+	return ret;
+}
+
 } /* namespace muika */

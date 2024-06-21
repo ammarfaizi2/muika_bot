@@ -4,9 +4,12 @@
 #define MUIKA__HELPERS_HPP
 
 #include <nlohmann/json.hpp>
+
 #include <cstdint>
 #include <cstdio>
 #include <string>
+#include <vector>
+#include <cassert>
 
 #ifndef __serialize
 #define __serialize
@@ -19,6 +22,7 @@
 namespace muika {
 
 void ____pr_debug(const char *fmt, ...);
+std::vector<std::string> str_explode(const std::string &str, const std::string &delim, size_t limit = -1);
 
 } /* namespace muika */
 
