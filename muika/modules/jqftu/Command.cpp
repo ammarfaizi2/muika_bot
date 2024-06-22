@@ -16,8 +16,8 @@ static const std::string help_str =
 	"- <code>/jqftu start [deckname]</code> to start a quiz.\n"
 	"- <code>/jqftu stop</code> to stop a quiz.\n"
 	"- <code>/jqftu scoreboard</code> to show the scoreboard.\n"
-	"- <code>/jqftu set_ncd [seconds]</code> to set the delay between the next card.\n"
-	"- <code>/jqftu set_timeout [seconds]</code> to set the timeout for answering a question.\n";
+	"- <code>/jqftu sncd [secs]</code> to set the delay between the next card.\n"
+	"- <code>/jqftu sto [secs]</code> to set the timeout for answering a question.\n";
 
 static const std::string help_start_str =
 	"Say <code>/jqftu start [deckname]</code> to start a quiz (Example: <code>/jqftu start tozai_line</code>).\n\n"
@@ -92,22 +92,28 @@ bool Command::parseCommand(void)
 inline
 bool Command::handleCommand(void)
 {
+	if (sub_cmd_.empty() || sub_cmd_ == "help")
+		return handleCmdHelp();
+
 	if (sub_cmd_ == "start")
 		return handleCmdStart();
-	else if (sub_cmd_ == "stop")
+
+	if (sub_cmd_ == "stop")
 		return handleCmdStop();
-	else if (sub_cmd_ == "help")
-		return handleCmdHelp();
-	else if (sub_cmd_ == "points")
+
+	if (sub_cmd_ == "points")
 		return handleCmdPoints();
-	else if (sub_cmd_ == "scoreboard")
+
+	if (sub_cmd_ == "scoreboard")
 		return handleCmdScoreboard();
-	else if (sub_cmd_ == "set_timeout")
+
+	if (sub_cmd_ == "set_timeout" || sub_cmd_ == "sto")
 		return handleCmdSetTimeout();
-	else if (sub_cmd_ == "set_ncd")
+
+	if (sub_cmd_ == "set_ncd" || sub_cmd_ == "sncd")
 		return handleCmdSetNextCardDelay();
-	else
-		return handleUnknownCommand();
+
+	return handleUnknownCommand();
 }
 
 inline
@@ -125,9 +131,9 @@ bool Command::handleCmdStop(void)
 inline
 bool Command::handleCmdHelp(void)
 {
-	if (args_.size() < 2)
+	if (args_.size() < 1)
 		sendMsg(help_str);
-	else if (args_.size() == 2 && args_[1] == "start")
+	else if (args_.size() == 1 && args_[0] == "start")
 		sendMsg(help_start_str);
 	else
 		handleUnknownCommand();
