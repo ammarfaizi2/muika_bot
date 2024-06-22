@@ -24,9 +24,8 @@ private:
 	__serialize uint32_t next_card_delay_secs_ = 5;
 
 public:
-	Session(Muika& muika);
-	void save(void);
-	void load(void);
+	Session(Muika& muika, int64_t chat_id, const std::vector<std::string> &deck_list);
+	~Session(void);
 };
 
 } /* namespace jqftu */

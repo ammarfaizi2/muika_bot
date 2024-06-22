@@ -6,6 +6,7 @@
 #include <muika/modules/jqftu/Session.hpp>
 
 #include <unordered_map>
+#include <memory>
 #include <mutex>
 
 namespace muika {
@@ -16,7 +17,7 @@ class SessionMap {
 private:
 	Muika &m_;
 	std::mutex mutex_;
-	std::unordered_map<int64_t, Session> smap_;
+	std::unordered_map<int64_t, std::shared_ptr<Session>> sessions_;
 
 public:
 	SessionMap(Muika &m);
@@ -25,6 +26,7 @@ public:
 	void loadAll(void);
 	void load(int64_t chat_id);
 	void save(void);
+	std::shared_ptr<Session> create(int64_t chat_id, const std::vector<std::string> &deck_list);
 };
 
 } /* namespace jqftu */

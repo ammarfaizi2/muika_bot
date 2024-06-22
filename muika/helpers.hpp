@@ -11,6 +11,8 @@
 #include <vector>
 #include <cassert>
 
+#include <sys/stat.h>
+
 #ifndef __serialize
 #define __serialize
 #endif
@@ -24,12 +26,20 @@ namespace muika {
 using json = nlohmann::json;
 
 void ____pr_debug(const char *fmt, ...);
-std::vector<std::string> str_explode(const std::string &str, const std::string &delim, size_t limit = -1);
+std::vector<std::string> str_explode(const std::string &str,
+				     const std::string &delim,
+				     size_t limit = -1);
 std::string file_get_contents(const std::string &filename);
 void file_put_contents(const std::string &filename, const std::string &contents);
 json json_file_get_contents(const std::string &filename);
 void json_file_put_contents(const std::string &filename, const json &contents);
 std::vector<std::string> scandir(const std::string &path, bool skip_dot = true);
+void mkdir_recursive(const std::string &path, mode_t mode = 0755);
+bool is_number(const std::string &str);
+void strtolower(std::string &str);
+void strtoupper(std::string &str);
+void str_replace(std::string &str, const std::string &from,
+		 const std::string &to, size_t *count = nullptr);
 
 } /* namespace muika */
 

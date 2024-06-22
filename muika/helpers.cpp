@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstdarg>
+#include <cstring>
 
 #include <sys/file.h>
 #include <dirent.h>
@@ -26,7 +27,7 @@ void ____pr_debug(const char *fmt, ...)
 	ret = vsnprintf(buf, sizeof(buf), fmt, ap);
 
 	if (ret >= (int)sizeof(buf)) {
-		heap = (char *)malloc(ret + 1);
+		heap = static_cast<char *>(malloc(ret + 1));
 		if (heap) {
 			ptr = heap;
 			vsnprintf(heap, ret + 1, fmt, ap2);
@@ -78,7 +79,7 @@ std::string file_get_contents(const std::string &filename)
 
 		fp = fopen(filename.c_str(), "rb");
 		if (!fp)
-			return "";
+			throw std::runtime_error("fopen failed: " + filename + ": " + strerror(errno));
 
 		flock(fileno(fp), LOCK_EX);
 
@@ -108,7 +109,7 @@ void file_put_contents(const std::string &filename, const std::string &contents)
 
 	fp = fopen(filename.c_str(), "wb");
 	if (!fp)
-		return;
+		throw std::runtime_error("fopen failed: " + filename + ": " + strerror(errno));
 
 	flock(fileno(fp), LOCK_EX);
 	fwrite(contents.c_str(), 1, contents.size(), fp);
@@ -156,6 +157,75 @@ std::vector<std::string> scandir(const std::string &path, bool skip_dot)
 			closedir(dir);
 
 		throw e;
+	}
+}
+
+void mkdir_recursive(const std::string &path_std, mode_t mode)
+{
+	char *path = strdup(path_std.c_str());
+	int err;
+
+	if (!path)
+		throw std::runtime_error("strdup failed: " + path_std + ": " + strerror(errno));
+
+	for (char *p = path + 1; *p; p++) {
+		if (*p == '/') {
+			*p = '\0';
+			err = mkdir(path, mode);
+			if (err && errno != EEXIST) {
+				free(path);
+				throw std::runtime_error("mkdir failed: " + path_std + ": " + strerror(errno));
+			}
+			*p = '/';
+		}
+	}
+
+	err = mkdir(path, mode);
+	if (err && errno != EEXIST) {
+		free(path);
+		throw std::runtime_error("mkdir failed: " + path_std + ": " + strerror(errno));
+	}
+
+	free(path);
+}
+
+bool is_number(const std::string &str)
+{
+	/*
+	 * Allow negative numbers, but not positive numbers with a leading '+'.
+	 */
+	if (str.empty())
+		return false;
+
+	if (str[0] == '-')
+		return str.size() > 1 && str.find_first_not_of("0123456789", 1) == std::string::npos;
+
+	return str.find_first_not_of("0123456789") == std::string::npos;
+}
+
+void strtolower(std::string &str)
+{
+	for (char &c : str)
+		c = tolower(c);
+}
+
+void strtoupper(std::string &str)
+{
+	for (char &c : str)
+		c = toupper(c);
+}
+
+void str_replace(std::string &str, const std::string &from,
+		 const std::string &to, size_t *count)
+{
+	size_t pos = 0;
+
+	while ((pos = str.find(from, pos)) != std::string::npos) {
+		str.replace(pos, from.length(), to);
+		pos += to.length();
+
+		if (count)
+			(*count)++;
 	}
 }
 
