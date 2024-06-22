@@ -7,6 +7,8 @@
 #include <cstdarg>
 
 #include <sys/file.h>
+#include <dirent.h>
+#include <fcntl.h>
 
 namespace muika {
 
@@ -125,6 +127,27 @@ json json_file_get_contents(const std::string &filename)
 void json_file_put_contents(const std::string &filename, const json &contents)
 {
 	file_put_contents(filename, contents.dump(4));
+}
+
+std::vector<std::string> scandir(const std::string &path, bool skip_dot = true)
+{
+	std::vector<std::string> ret;
+	struct dirent *ent;
+	DIR *dir;
+
+	dir = opendir(path.c_str());
+	if (!dir)
+		return ret;
+
+	while ((ent = readdir(dir))) {
+		if (skip_dot && (strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0))
+			continue;
+
+		ret.push_back(ent->d_name);
+	}
+
+	closedir(dir);
+	return ret;
 }
 
 } /* namespace muika */
