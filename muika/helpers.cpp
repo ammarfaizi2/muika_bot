@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <cstdarg>
 
+#include <sys/file.h>
+
 namespace muika {
 
 void ____pr_debug(const char *fmt, ...)
@@ -63,6 +65,65 @@ str_explode(const std::string &str, const std::string &delim, size_t limit)
 	}
 
 	return ret;
+}
+
+std::string file_get_contents(const std::string &filename)
+{
+	FILE *fp = nullptr;
+
+	try {
+		size_t len;
+
+		fp = fopen(filename.c_str(), "rb");
+		if (!fp)
+			return "";
+
+		flock(fileno(fp), LOCK_EX);
+
+		fseek(fp, 0, SEEK_END);
+		len = ftell(fp);
+		fseek(fp, 0, SEEK_SET);
+
+		std::string ret(len, '\0');
+
+		if (fread(&ret[0], 1, len, fp) != len)
+			ret.clear();
+
+		fclose(fp);
+		return ret;
+	} catch (...) {
+
+		if (fp)
+			fclose(fp);
+
+		return "";
+	}
+}
+
+void file_put_contents(const std::string &filename, const std::string &contents)
+{
+	FILE *fp;
+
+	fp = fopen(filename.c_str(), "wb");
+	if (!fp)
+		return;
+
+	fwrite(contents.c_str(), 1, contents.size(), fp);
+	fclose(fp);
+}
+
+json json_file_get_contents(const std::string &filename)
+{
+	std::string contents = file_get_contents(filename);
+	if (contents.empty())
+		return json::object();
+
+	return json::parse(contents);
+}
+
+void json_file_put_contents(const std::string &filename, const json &contents)
+{
+	file_put_contents(filename, contents.dump(4));
 }
 
 } /* namespace muika */

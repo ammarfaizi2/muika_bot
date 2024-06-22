@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
-#ifndef MUIKA__MODULES__JQFTU__ENTRY_HPP
-#define MUIKA__MODULES__JQFTU__ENTRY_HPP
+#ifndef MUIKA__MODULES__JQFTU__SESSION_HPP
+#define MUIKA__MODULES__JQFTU__SESSION_HPP
 
 #include <muika/Muika.hpp>
 
@@ -33,4 +33,4 @@ public:
 } /* namespace modules */
 } /* namespace muika */
 
-#endif /* #ifndef MUIKA__MODULES__JQFTU__ENTRY_HPP */
+#endif /* #ifndef MUIKA__MODULES__JQFTU__SESSION_HPP */
