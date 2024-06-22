@@ -129,25 +129,34 @@ void json_file_put_contents(const std::string &filename, const json &contents)
 	file_put_contents(filename, contents.dump(4));
 }
 
-std::vector<std::string> scandir(const std::string &path, bool skip_dot = true)
+std::vector<std::string> scandir(const std::string &path, bool skip_dot)
 {
-	std::vector<std::string> ret;
-	struct dirent *ent;
-	DIR *dir;
+	DIR *dir = nullptr;
 
-	dir = opendir(path.c_str());
-	if (!dir)
+	try {
+		std::vector<std::string> ret;
+		struct dirent *ent;
+
+		dir = opendir(path.c_str());
+		if (!dir)
+			throw std::runtime_error("opendir failed: " + path + ": " + strerror(errno));
+
+		while ((ent = readdir(dir))) {
+			if (skip_dot && (strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0))
+				continue;
+
+			ret.push_back(ent->d_name);
+		}
+
+		closedir(dir);
+		dir = nullptr;
 		return ret;
+	} catch (std::exception &e) {
+		if (dir)
+			closedir(dir);
 
-	while ((ent = readdir(dir))) {
-		if (skip_dot && (strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0))
-			continue;
-
-		ret.push_back(ent->d_name);
+		throw e;
 	}
-
-	closedir(dir);
-	return ret;
 }
 
 } /* namespace muika */
