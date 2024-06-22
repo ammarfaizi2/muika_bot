@@ -108,6 +108,7 @@ void file_put_contents(const std::string &filename, const std::string &contents)
 	if (!fp)
 		return;
 
+	flock(fileno(fp), LOCK_EX);
 	fwrite(contents.c_str(), 1, contents.size(), fp);
 	fclose(fp);
 }
