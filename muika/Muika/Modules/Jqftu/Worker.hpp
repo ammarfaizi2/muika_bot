@@ -86,6 +86,10 @@ private:
 	void popAndProcessMsg(std::unique_lock<std::mutex> &lk);
 	void processMsg(std::unique_ptr<Msg> &msg);
 	void handleCmd(std::unique_ptr<Msg> &msg);
+	void handleCmdStop(std::unique_ptr<Msg> &msg);
+	void handleCmdStart(std::unique_ptr<Msg> &msg);
+	void handleCmdHelp(std::unique_ptr<Msg> &msg);
+	void handleCmdUnknown(std::unique_ptr<Msg> &msg);
 };
 
 } /* namespace Jqftu */

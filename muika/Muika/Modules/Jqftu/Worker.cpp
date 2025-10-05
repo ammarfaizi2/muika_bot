@@ -53,9 +53,12 @@ static const std::string help_start_str =
 	"List JLPT Kotoba Decks:\n"
 	"- (N5) <code>jlpt_n5</code> - JLPT N5 Kotoba\n";
 
-static void handleCmdHelp(TgBot::Bot *b, int64_t chat_id, uint64_t msg_id,
-			  const char *arg)
+inline void Worker::handleCmdHelp(std::unique_ptr<Msg> &msg)
 {
+	TgBot::Bot *bot = mj_->mb_->getBot();
+	const TgBot::Message::Ptr &o = msg->orig;
+	const char *arg = msg->cmd_args.size() >= 2 ? msg->cmd_args[1].c_str() : nullptr;
+
 	auto rep = std::make_shared<TgBot::ReplyParameters>();
 	std::string rt;
 
@@ -68,23 +71,24 @@ static void handleCmdHelp(TgBot::Bot *b, int64_t chat_id, uint64_t msg_id,
 		rt = help_str;
 	}
 
-	rep->messageId = msg_id;
-	rep->chatId = chat_id;
+	rep->messageId = o->messageId;
+	rep->chatId = o->chat->id;
 	rep->allowSendingWithoutReply = true;
 	rep->quotePosition = 0;
-	b->getApi().sendMessage(chat_id, rt, nullptr, rep, nullptr, "HTML");
+	bot->getApi().sendMessage(o->chat->id, rt, nullptr, rep, nullptr, "HTML");
 }
 
-static void handleCmdStart(uint32_t tid_, TgBot::Bot *b, ModJqftu *mj, std::unique_ptr<Msg> &msg)
+inline void Worker::handleCmdStart(std::unique_ptr<Msg> &msg)
 {
+	TgBot::Bot *bot = mj_->mb_->getBot();
 	const TgBot::Message::Ptr &o = msg->orig;
-	int64_t chat_id = msg->orig->chat->id;
+	int64_t chat_id = o->chat->id;
 	auto sess = msg->sess;
 	bool init_ok = false;
 	std::string rt;
 
 	if (!sess) {
-		sess = mj->createSession(o->chat->id);
+		sess = mj_->createSession(chat_id);
 		if (sess) {
 			rt = "Jqftu session started!";
 			init_ok = true;
@@ -97,11 +101,11 @@ static void handleCmdStart(uint32_t tid_, TgBot::Bot *b, ModJqftu *mj, std::uniq
 	try {
 		auto rep = std::make_shared<TgBot::ReplyParameters>();
 		rep->messageId = o->messageId;
-		rep->chatId = o->chat->id;
+		rep->chatId = chat_id;
 		rep->allowSendingWithoutReply = true;
 		rep->quotePosition = 0;
 
-		auto m = b->getApi().sendMessage(chat_id, rt, nullptr, rep, nullptr, "HTML");
+		auto m = bot->getApi().sendMessage(chat_id, rt, nullptr, rep, nullptr, "HTML");
 		if (init_ok) {
 			std::unique_lock<std::mutex> lk(sess->getMtx());
 			sess->initData(o->chat->id, o->chat->title, m->messageId);
@@ -116,18 +120,19 @@ static void handleCmdStart(uint32_t tid_, TgBot::Bot *b, ModJqftu *mj, std::uniq
 	}
 
 	if (init_ok)
-		mj->deleteSession(o->chat->id);
+		mj_->deleteSession(chat_id);
 }
 
-static void handleCmdStop(uint32_t tid_, TgBot::Bot *b, ModJqftu *mj, std::unique_ptr<Msg> &msg)
+inline void Worker::handleCmdStop(std::unique_ptr<Msg> &msg)
 {
+	TgBot::Bot *bot = mj_->mb_->getBot();
 	const TgBot::Message::Ptr &o = msg->orig;
 	int64_t chat_id = msg->orig->chat->id;
 	auto sess = msg->sess;
 	std::string rt;
 
 	if (sess) {
-		if (mj->deleteSession(o->chat->id) == 0)
+		if (mj_->deleteSession(chat_id) == 0)
 			rt = "Jqftu session stopped.";
 		else
 			rt = "Failed to stop Jqftu session.";
@@ -135,28 +140,18 @@ static void handleCmdStop(uint32_t tid_, TgBot::Bot *b, ModJqftu *mj, std::uniqu
 		rt = "There is no active session, use <code>/jqftu start</code> to start one.";
 	}
 
-	try {
-		auto rep = std::make_shared<TgBot::ReplyParameters>();
-		rep->messageId = o->messageId;
-		rep->chatId = o->chat->id;
-		rep->allowSendingWithoutReply = true;
-		rep->quotePosition = 0;
-
-		b->getApi().sendMessage(chat_id, rt, nullptr, rep, nullptr, "HTML");
-		return;
-	} catch (TgBot::TgException &e) {
-		pr_err("Jqftu: Worker %u caught TgException while sending stop cmd reply: %s", tid_, e.what());
-	} catch (std::exception &e) {
-		pr_err("Jqftu: Worker %u caught std::exception while sending stop cmd reply: %s", tid_, e.what());
-	} catch (...) {
-		pr_err("Jqftu: Worker %u caught unknown exception while sending stop cmd reply", tid_);
-	}
+	auto rep = std::make_shared<TgBot::ReplyParameters>();
+	rep->messageId = o->messageId;
+	rep->chatId = chat_id;
+	rep->allowSendingWithoutReply = true;
+	rep->quotePosition = 0;
+	bot->getApi().sendMessage(chat_id, rt, nullptr, rep, nullptr, "HTML");
 }
 
-static void handleCmdUnknown(uint32_t tid_, TgBot::Bot *b, std::unique_ptr<Msg> &msg)
+inline void Worker::handleCmdUnknown(std::unique_ptr<Msg> &msg)
 {
+	TgBot::Bot *bot = mj_->mb_->getBot();
 	const TgBot::Message::Ptr &o = msg->orig;
-	int64_t chat_id = msg->orig->chat->id;
 	auto rep = std::make_shared<TgBot::ReplyParameters>();
 	std::string rt = "Unknown command, use <code>/jqftu help</code> to see avaliable commands.";
 
@@ -164,20 +159,11 @@ static void handleCmdUnknown(uint32_t tid_, TgBot::Bot *b, std::unique_ptr<Msg> 
 	rep->chatId = o->chat->id;
 	rep->allowSendingWithoutReply = true;
 	rep->quotePosition = 0;
-	try {
-		b->getApi().sendMessage(chat_id, rt, nullptr, rep, nullptr, "HTML");
-	} catch (TgBot::TgException &e) {
-		pr_err("Jqftu: Worker %u caught TgException while sending unknown cmd reply: %s", tid_, e.what());
-	} catch (std::exception &e) {
-		pr_err("Jqftu: Worker %u caught std::exception while sending unknown cmd reply: %s", tid_, e.what());
-	} catch (...) {
-		pr_err("Jqftu: Worker %u caught unknown exception while sending unknown cmd reply", tid_);
-	}
+	bot->getApi().sendMessage(o->chat->id, rt, nullptr, rep, nullptr, "HTML");
 }
 
 inline void Worker::handleCmd(std::unique_ptr<Msg> &msg)
 {
-	TgBot::Bot *bot = mj_->mb_->getBot();
 	const char *cmd;
 
 	if (msg->cmd_args.empty())
@@ -185,17 +171,14 @@ inline void Worker::handleCmd(std::unique_ptr<Msg> &msg)
 	else
 		cmd = msg->cmd_args[0].c_str();
 
-	if (!strcmp(cmd, "help")) {
-		const char *arg = msg->cmd_args.size() >= 2 ? msg->cmd_args[1].c_str() : nullptr;
-		const TgBot::Message::Ptr &o = msg->orig;
-		handleCmdHelp(bot, o->chat->id, o->messageId, arg);
-	} else if (!strcmp(cmd, "start")) {
-		handleCmdStart(tid_, bot, mj_, msg);
-	} else if (!strcmp(cmd, "stop")) {
-		handleCmdStop(tid_, bot, mj_, msg);
-	} else {
-		handleCmdUnknown(tid_, bot, msg);
-	}
+	if (!strcmp(cmd, "help"))
+		handleCmdHelp(msg);
+	else if (!strcmp(cmd, "start"))
+		handleCmdStart(msg);
+	else if (!strcmp(cmd, "stop"))
+		handleCmdStop(msg);
+	else
+		handleCmdUnknown(msg);
 }
 
 inline void Worker::processMsg(std::unique_ptr<Msg> &msg)
