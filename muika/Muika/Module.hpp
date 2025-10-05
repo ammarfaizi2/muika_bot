@@ -11,6 +11,7 @@ enum {
 	MOD_INVOKE_OK = 0,
 	MOD_INVOKE_SKIP = 1,
 	MOD_INVOKE_ERR = 2,
+	MOD_INVOKE_CONTINUE = MOD_INVOKE_SKIP
 };
 
 class Module {
