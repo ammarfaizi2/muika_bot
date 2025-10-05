@@ -3,10 +3,10 @@
 CC = gcc
 CXX = g++
 LD = $(CXX)
-CFLAGS := -Wall -Wextra -Os -ggdb3 -std=gnu11 $(CFLAGS) -I. -Wno-deprecated -fvisibility=hidden
-CXXFLAGS := -Wall -Wextra -Os -ggdb -std=gnu++14 $(CXXFLAGS) -Ijson/include -I. -Wno-deprecated -fvisibility=hidden
+CFLAGS := -Wall -Wextra -Os -ggdb3 -std=gnu11 $(CFLAGS) -I. -Wno-deprecated -fvisibility=hidden -DHAVE_CURL
+CXXFLAGS := -Wall -Wextra -Os -ggdb -std=gnu++14 $(CXXFLAGS) -Ijson/include -I. -Wno-deprecated -fvisibility=hidden -DHAVE_CURL
 LDFLAGS := -Os -ggdb3 $(LDFLAGS)
-LIBS := -lcurl -lpthread -lTgBot -lcrypto -lssl
+LIBS := -lpthread -lTgBot -lcrypto -lssl -lcurl
 
 MUIKA := muika.bin
 MUIKA_SOURCES_CPP := \

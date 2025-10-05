@@ -6,6 +6,7 @@
 
 namespace TgBot {
 class Bot;
+class HttpClient;
 } /* namespace TgBot */
 
 #define pr_info(fmt, ...) printf("[INFO] " fmt "\n", ##__VA_ARGS__)
@@ -25,6 +26,7 @@ public:
 
 private:
 	char token_[128];
+	std::unique_ptr<TgBot::HttpClient> http_client_;
 	std::unique_ptr<TgBot::Bot> bot_;
 	std::unique_ptr<ModuleManager> mod_mgr_;
 

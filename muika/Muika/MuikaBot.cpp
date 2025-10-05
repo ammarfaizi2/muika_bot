@@ -5,6 +5,10 @@
 
 #include <cstring>
 #include <tgbot/tgbot.h>
+#ifndef HAVE_CURL
+#define HAVE_CURL
+#endif
+#include <tgbot/net/CurlHttpClient.h>
 
 #include <unistd.h>
 
@@ -27,7 +31,8 @@ inline void MuikaBot::installHandlers(void)
 
 void MuikaBot::run(void)
 {
-	bot_ = std::make_unique<TgBot::Bot>(token_);
+	http_client_ = std::make_unique<TgBot::CurlHttpClient>();
+	bot_ = std::make_unique<TgBot::Bot>(token_, *http_client_);
 	pr_info("Bot username: @%s", bot_->getApi().getMe()->username.c_str());
 
 	installHandlers();
