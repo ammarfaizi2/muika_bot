@@ -10,21 +10,13 @@ LIBS := -lcurl -lpthread -lTgBot -lcrypto -lssl
 
 MUIKA := muika.bin
 MUIKA_SOURCES_CPP := \
-	muika/main.cpp \
 	muika/helpers.cpp \
-	muika/Muika.cpp \
-	muika/ModuleManager.cpp \
-	muika/modules/jqftu/Card.cpp \
-	muika/modules/jqftu/Deck.cpp \
-	muika/modules/jqftu/deck_foundations/japan_eki/Card.cpp \
-	muika/modules/jqftu/deck_foundations/japan_eki/Deck.cpp \
-	muika/modules/jqftu/decks/tozai_line/Deck.cpp \
-	muika/modules/jqftu/DeckGroup.cpp \
-	muika/modules/jqftu/Point.cpp \
-	muika/modules/jqftu/Session.cpp \
-	muika/modules/jqftu/SessionMap.cpp \
-	muika/modules/jqftu/Command.cpp \
-	muika/modules/jqftu/entry.cpp
+	muika/main.cpp \
+	muika/Muika/Modules/Jqftu/Worker.cpp \
+	muika/Muika/Modules/Jqftu/ModJqftu.cpp \
+	muika/Muika/Module.cpp \
+	muika/Muika/ModuleManager.cpp \
+	muika/Muika/MuikaBot.cpp
 
 MUIKA_OBJECTS := $(MUIKA_SOURCES_CPP:.cpp=.o)
 MUIKA_DEPENDS := $(MUIKA_SOURCES_CPP:.cpp=.d)

@@ -1,0 +1,85 @@
+// SPDX-License-Identifier: GPL-2.0-only
+#ifndef MUIKA__MUIKA__MODULES__JQFTU__WORKER_HPP
+#define MUIKA__MUIKA__MODULES__JQFTU__WORKER_HPP
+
+#include <muika/Muika/Modules/Jqftu/ModJqftu.hpp>
+#include <condition_variable>
+#include <vector>
+#include <thread>
+#include <queue>
+#include <string>
+
+namespace Muika {
+namespace Modules {
+namespace Jqftu {
+
+class ModJqftu;
+
+struct WaitThreads {
+	std::mutex mtx;
+	std::condition_variable cv;
+	uint32_t nr_ready;
+
+	inline WaitThreads(void): nr_ready(0) {}
+
+	inline void ready(void)
+	{
+		std::lock_guard<std::mutex> lk(mtx);
+		nr_ready++;
+		cv.notify_all();
+	}
+
+	inline void wait(uint32_t n)
+	{
+		std::unique_lock<std::mutex> lk(mtx);
+		while (nr_ready < n)
+			cv.wait(lk);
+	}
+};
+
+enum {
+	JQFTU_MSG_TYPE_INVALID = -1,
+	JQFTU_MSG_TYPE_CMD = 0,
+};
+
+struct Msg {
+	uint8_t type;
+	std::vector<std::string> cmd_args;
+	TgBot::Message::Ptr orig;
+
+	inline Msg(TgBot::Message::Ptr o):
+		type(JQFTU_MSG_TYPE_INVALID),
+		cmd_args(),
+		orig(o)
+	{
+	}
+
+	inline void setCmd(std::vector<std::string> args)
+	{
+		type = JQFTU_MSG_TYPE_CMD;
+		cmd_args = std::move(args);
+	}
+};
+
+class Worker {
+public:
+	Worker(ModJqftu *mj, uint32_t tid);
+	~Worker(void);
+	void start(WaitThreads *wt);
+	void stop(void);
+private:
+	std::thread thread_;
+	ModJqftu *mj_;
+	uint32_t tid_;
+
+	void run(WaitThreads *wt);
+	void popAndProcessMsg(std::unique_lock<std::mutex> &lk);
+	void processMsg(std::unique_ptr<Msg> &msg);
+	void handleCmd(std::unique_ptr<Msg> &msg);
+};
+
+} /* namespace Jqftu */
+} /* namespace Modules */
+} /* namespace Muika */
+
+#endif

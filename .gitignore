@@ -11,3 +11,4 @@
 *.diff
 *.patch
 *.orig
+/old/

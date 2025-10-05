@@ -1,19 +1,19 @@
-// SPDX-License-Identifier: GPL-2.0-only
 
-#include "Muika.hpp"
-#include <cstdlib>
 #include <cstdio>
+#include <cstdlib>
+#include "Muika/MuikaBot.hpp"
 
 int main(void)
 {
-	const char *bot_token = std::getenv("MUIKA_BOT_TOKEN");
+	static const char *bot_token;
+
+	bot_token = getenv("MUIKA_BOT_TOKEN");
 	if (!bot_token) {
-		printf("MUIKA_BOT_TOKEN not set\n");
+		fprintf(stderr, "Error: Environment variable MUIKA_BOT_TOKEN is not set.\n");
 		return 1;
 	}
 
-	muika::Muika m(bot_token);
-	m.start();
-
+	Muika::MuikaBot bot(bot_token);
+	bot.run();
 	return 0;
 }
