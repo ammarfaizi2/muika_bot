@@ -29,6 +29,16 @@ Worker::~Worker(void)
 	stop();
 }
 
+static std::shared_ptr<TgBot::ReplyParameters> makeRepParams(uint64_t chat_id, int32_t reply_to)
+{
+	auto rep = std::make_shared<TgBot::ReplyParameters>();
+	rep->messageId = reply_to;
+	rep->chatId = chat_id;
+	rep->allowSendingWithoutReply = true;
+	rep->quotePosition = 0;
+	return rep;
+}
+
 static const std::string help_str =
 	"<code>/jqftu</code> is a Japanese quiz module for GNU/Weeb.\n\n"
 	"<b>Avaliable commands:</b>\n"
@@ -55,11 +65,9 @@ static const std::string help_start_str =
 
 inline void Worker::handleCmdHelp(std::unique_ptr<Msg> &msg)
 {
-	TgBot::Bot *bot = mj_->mb_->getBot();
-	const TgBot::Message::Ptr &o = msg->orig;
 	const char *arg = msg->cmd_args.size() >= 2 ? msg->cmd_args[1].c_str() : nullptr;
-
-	auto rep = std::make_shared<TgBot::ReplyParameters>();
+	const TgBot::Message::Ptr &o = msg->orig;
+	TgBot::Bot *bot = mj_->mb_->getBot();
 	std::string rt;
 
 	if (arg) {
@@ -71,10 +79,7 @@ inline void Worker::handleCmdHelp(std::unique_ptr<Msg> &msg)
 		rt = help_str;
 	}
 
-	rep->messageId = o->messageId;
-	rep->chatId = o->chat->id;
-	rep->allowSendingWithoutReply = true;
-	rep->quotePosition = 0;
+	auto rep = makeRepParams(o->chat->id, o->messageId);
 	bot->getApi().sendMessage(o->chat->id, rt, nullptr, rep, nullptr, "HTML");
 }
 
@@ -99,12 +104,7 @@ inline void Worker::handleCmdStart(std::unique_ptr<Msg> &msg)
 		rt = "There is already an active session, use <code>/jqftu stop</code> to stop it first.";
 
 	try {
-		auto rep = std::make_shared<TgBot::ReplyParameters>();
-		rep->messageId = o->messageId;
-		rep->chatId = chat_id;
-		rep->allowSendingWithoutReply = true;
-		rep->quotePosition = 0;
-
+		auto rep = makeRepParams(chat_id, o->messageId);
 		auto m = bot->getApi().sendMessage(chat_id, rt, nullptr, rep, nullptr, "HTML");
 		if (init_ok) {
 			std::unique_lock<std::mutex> lk(sess->getMtx());
@@ -140,25 +140,17 @@ inline void Worker::handleCmdStop(std::unique_ptr<Msg> &msg)
 		rt = "There is no active session, use <code>/jqftu start</code> to start one.";
 	}
 
-	auto rep = std::make_shared<TgBot::ReplyParameters>();
-	rep->messageId = o->messageId;
-	rep->chatId = chat_id;
-	rep->allowSendingWithoutReply = true;
-	rep->quotePosition = 0;
+	auto rep = makeRepParams(chat_id, o->messageId);
 	bot->getApi().sendMessage(chat_id, rt, nullptr, rep, nullptr, "HTML");
 }
 
 inline void Worker::handleCmdUnknown(std::unique_ptr<Msg> &msg)
 {
-	TgBot::Bot *bot = mj_->mb_->getBot();
-	const TgBot::Message::Ptr &o = msg->orig;
-	auto rep = std::make_shared<TgBot::ReplyParameters>();
 	std::string rt = "Unknown command, use <code>/jqftu help</code> to see avaliable commands.";
+	const TgBot::Message::Ptr &o = msg->orig;
+	TgBot::Bot *bot = mj_->mb_->getBot();
 
-	rep->messageId = o->messageId;
-	rep->chatId = o->chat->id;
-	rep->allowSendingWithoutReply = true;
-	rep->quotePosition = 0;
+	auto rep = makeRepParams(o->chat->id, o->messageId);
 	bot->getApi().sendMessage(o->chat->id, rt, nullptr, rep, nullptr, "HTML");
 }
 
