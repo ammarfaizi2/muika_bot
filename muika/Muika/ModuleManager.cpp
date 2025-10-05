@@ -44,7 +44,7 @@ inline void ModuleManager::loadModule(std::unique_ptr<Module> mod)
 	if (mod->init())
 		return;
 
-	pr_info("Loaded module: %s", mod->getName());
+	pr_info("Loaded module: %s", mod->getModName());
 	modules_.push_back(std::move(mod));
 }
 
@@ -57,7 +57,7 @@ inline void ModuleManager::loadModules(void)
 inline void ModuleManager::unloadModules(void)
 {
 	for (auto &mod : modules_) {
-		pr_info("Shutting down module: %s", mod->getName());
+		pr_info("Shutting down module: %s", mod->getModName());
 		mod->shutdown();
 	}
 

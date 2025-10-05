@@ -12,7 +12,7 @@ static const uint32_t num_threads = 4;
 ModJqftu::ModJqftu(MuikaBot *mb):
 	Module(mb)
 {
-	setName("Jqftu");
+	setModName("Jqftu");
 }
 
 ModJqftu::~ModJqftu(void)

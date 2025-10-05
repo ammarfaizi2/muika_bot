@@ -6,7 +6,7 @@
 
 namespace Muika {
 
-void Module::setName(const char *name)
+void Module::setModName(const char *name)
 {
 	strncpy(mod_name_, name, sizeof(mod_name_) - 1);
 	mod_name_[sizeof(mod_name_) - 1] = '\0';

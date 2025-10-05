@@ -21,8 +21,8 @@ public:
 	virtual int init(void) = 0;
 	virtual void shutdown(void) = 0;
 	virtual int invoke(TgBot::Message::Ptr &msg) = 0;
-	void setName(const char *name);
-	inline const char *getName(void) const { return mod_name_; }
+	void setModName(const char *name);
+	inline const char *getModName(void) const { return mod_name_; }
 
 protected:
 	MuikaBot *mb_;
