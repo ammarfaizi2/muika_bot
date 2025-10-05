@@ -75,9 +75,108 @@ static void handleCmdHelp(TgBot::Bot *b, int64_t chat_id, uint64_t msg_id,
 	b->getApi().sendMessage(chat_id, rt, nullptr, rep, nullptr, "HTML");
 }
 
-inline void Worker::handleCmd(std::unique_ptr<Msg> &msg)
+static void handleCmdStart(uint32_t tid_, TgBot::Bot *b, ModJqftu *mj, std::unique_ptr<Msg> &msg)
 {
 	const TgBot::Message::Ptr &o = msg->orig;
+	int64_t chat_id = msg->orig->chat->id;
+	auto sess = msg->sess;
+	bool init_ok = false;
+	std::string rt;
+
+	if (!sess) {
+		sess = mj->createSession(o->chat->id);
+		if (sess) {
+			rt = "Jqftu session started!";
+			init_ok = true;
+		}
+	}
+
+	if (!init_ok)
+		rt = "There is already an active session, use <code>/jqftu stop</code> to stop it first.";
+
+	try {
+		auto rep = std::make_shared<TgBot::ReplyParameters>();
+		rep->messageId = o->messageId;
+		rep->chatId = o->chat->id;
+		rep->allowSendingWithoutReply = true;
+		rep->quotePosition = 0;
+
+		auto m = b->getApi().sendMessage(chat_id, rt, nullptr, rep, nullptr, "HTML");
+		if (init_ok) {
+			std::unique_lock<std::mutex> lk(sess->getMtx());
+			sess->initData(o->chat->id, o->chat->title, m->messageId);
+		}
+		return;
+	} catch (TgBot::TgException &e) {
+		pr_err("Jqftu: Worker %u caught TgException while sending start cmd reply: %s", tid_, e.what());
+	} catch (std::exception &e) {
+		pr_err("Jqftu: Worker %u caught std::exception while sending start cmd reply: %s", tid_, e.what());
+	} catch (...) {
+		pr_err("Jqftu: Worker %u caught unknown exception while sending start cmd reply", tid_);
+	}
+
+	if (init_ok)
+		mj->deleteSession(o->chat->id);
+}
+
+static void handleCmdStop(uint32_t tid_, TgBot::Bot *b, ModJqftu *mj, std::unique_ptr<Msg> &msg)
+{
+	const TgBot::Message::Ptr &o = msg->orig;
+	int64_t chat_id = msg->orig->chat->id;
+	auto sess = msg->sess;
+	std::string rt;
+
+	if (sess) {
+		if (mj->deleteSession(o->chat->id) == 0)
+			rt = "Jqftu session stopped.";
+		else
+			rt = "Failed to stop Jqftu session.";
+	} else {
+		rt = "There is no active session, use <code>/jqftu start</code> to start one.";
+	}
+
+	try {
+		auto rep = std::make_shared<TgBot::ReplyParameters>();
+		rep->messageId = o->messageId;
+		rep->chatId = o->chat->id;
+		rep->allowSendingWithoutReply = true;
+		rep->quotePosition = 0;
+
+		b->getApi().sendMessage(chat_id, rt, nullptr, rep, nullptr, "HTML");
+		return;
+	} catch (TgBot::TgException &e) {
+		pr_err("Jqftu: Worker %u caught TgException while sending stop cmd reply: %s", tid_, e.what());
+	} catch (std::exception &e) {
+		pr_err("Jqftu: Worker %u caught std::exception while sending stop cmd reply: %s", tid_, e.what());
+	} catch (...) {
+		pr_err("Jqftu: Worker %u caught unknown exception while sending stop cmd reply", tid_);
+	}
+}
+
+static void handleCmdUnknown(uint32_t tid_, TgBot::Bot *b, std::unique_ptr<Msg> &msg)
+{
+	const TgBot::Message::Ptr &o = msg->orig;
+	int64_t chat_id = msg->orig->chat->id;
+	auto rep = std::make_shared<TgBot::ReplyParameters>();
+	std::string rt = "Unknown command, use <code>/jqftu help</code> to see avaliable commands.";
+
+	rep->messageId = o->messageId;
+	rep->chatId = o->chat->id;
+	rep->allowSendingWithoutReply = true;
+	rep->quotePosition = 0;
+	try {
+		b->getApi().sendMessage(chat_id, rt, nullptr, rep, nullptr, "HTML");
+	} catch (TgBot::TgException &e) {
+		pr_err("Jqftu: Worker %u caught TgException while sending unknown cmd reply: %s", tid_, e.what());
+	} catch (std::exception &e) {
+		pr_err("Jqftu: Worker %u caught std::exception while sending unknown cmd reply: %s", tid_, e.what());
+	} catch (...) {
+		pr_err("Jqftu: Worker %u caught unknown exception while sending unknown cmd reply", tid_);
+	}
+}
+
+inline void Worker::handleCmd(std::unique_ptr<Msg> &msg)
+{
 	TgBot::Bot *bot = mj_->mb_->getBot();
 	const char *cmd;
 
@@ -88,8 +187,14 @@ inline void Worker::handleCmd(std::unique_ptr<Msg> &msg)
 
 	if (!strcmp(cmd, "help")) {
 		const char *arg = msg->cmd_args.size() >= 2 ? msg->cmd_args[1].c_str() : nullptr;
+		const TgBot::Message::Ptr &o = msg->orig;
 		handleCmdHelp(bot, o->chat->id, o->messageId, arg);
-		return;
+	} else if (!strcmp(cmd, "start")) {
+		handleCmdStart(tid_, bot, mj_, msg);
+	} else if (!strcmp(cmd, "stop")) {
+		handleCmdStop(tid_, bot, mj_, msg);
+	} else {
+		handleCmdUnknown(tid_, bot, msg);
 	}
 }
 

@@ -95,15 +95,70 @@ static bool isMsgJqftuCmd(const char *txt, std::vector<std::string> *cmd_args)
 	return true;
 }
 
+std::shared_ptr<Session> ModJqftu::__getSession(int64_t chat_id)
+{
+	auto it = sess_map_.find(chat_id);
+	if (it != sess_map_.end())
+		return it->second;
+
+	return nullptr;
+}
+
+std::shared_ptr<Session> ModJqftu::__createSession(int64_t chat_id)
+{
+	std::shared_ptr<Session> s = __getSession(chat_id);
+	if (s)
+		return nullptr;
+
+	s = std::make_shared<Session>(this);
+	sess_map_[chat_id] = s;
+	return s;
+}
+
+int ModJqftu::__deleteSession(int64_t chat_id)
+{
+	auto it = sess_map_.find(chat_id);
+	if (it == sess_map_.end())
+		return -1;
+
+	sess_map_.erase(it);
+	return 0;
+}
+
+std::shared_ptr<Session> ModJqftu::getSession(int64_t chat_id)
+{
+	std::lock_guard<std::mutex> lk(sess_mtx_);
+	return __getSession(chat_id);
+}
+
+std::shared_ptr<Session> ModJqftu::createSession(int64_t chat_id)
+{
+	std::lock_guard<std::mutex> lk(sess_mtx_);
+	return __createSession(chat_id);
+}
+
+int ModJqftu::deleteSession(int64_t chat_id)
+{
+	std::lock_guard<std::mutex> lk(sess_mtx_);
+	return __deleteSession(chat_id);
+}
+
 inline std::unique_ptr<Msg> ModJqftu::constructMsg(const TgBot::Message::Ptr &msg)
 {
 	std::vector<std::string> cmd_args;
+	std::shared_ptr<Session> sess;
 	std::string stxt = msg->text;
 	std::unique_ptr<Msg> m;
 
+	sess = getSession(msg->chat->id);
+	m = std::make_unique<Msg>(msg, sess);
 	if (isMsgJqftuCmd(stxt.c_str(), &cmd_args)) {
-		m = std::make_unique<Msg>(msg);
 		m->setCmd(std::move(cmd_args));
+		return m;
+	}
+
+	if (sess) {
+		m->setAnswer();
 		return m;
 	}
 
@@ -120,7 +175,7 @@ int ModJqftu::invoke(TgBot::Message::Ptr &msg)
 	msg_queue_.push(std::move(m));
 	if (nr_sleeping_)
 		cv_.notify_one();
-	return MOD_INVOKE_OK;
+	return MOD_INVOKE_CONTINUE;
 }
 
 } /* namespace Jqftu */

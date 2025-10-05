@@ -13,6 +13,10 @@ class HttpClient;
 #define pr_err(fmt, ...)  printf("[ERR ] " fmt "\n", ##__VA_ARGS__)
 #define pr_warn(fmt, ...) printf("[WARN] " fmt "\n", ##__VA_ARGS__)
 
+#ifndef __json
+#define __json
+#endif
+
 namespace Muika {
 
 class ModuleManager;

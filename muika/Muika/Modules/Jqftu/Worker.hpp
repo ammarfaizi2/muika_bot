@@ -3,6 +3,7 @@
 #define MUIKA__MUIKA__MODULES__JQFTU__WORKER_HPP
 
 #include <muika/Muika/Modules/Jqftu/ModJqftu.hpp>
+#include <muika/Muika/Modules/Jqftu/Session.hpp>
 #include <condition_variable>
 #include <vector>
 #include <thread>
@@ -14,6 +15,7 @@ namespace Modules {
 namespace Jqftu {
 
 class ModJqftu;
+class Session;
 
 struct WaitThreads {
 	std::mutex mtx;
@@ -40,15 +42,18 @@ struct WaitThreads {
 enum {
 	JQFTU_MSG_TYPE_INVALID = -1,
 	JQFTU_MSG_TYPE_CMD = 0,
+	JQFTU_MSG_TYPE_ANSWER = 1,
 };
 
 struct Msg {
 	uint8_t type;
+	std::shared_ptr<Session> sess = nullptr;
 	std::vector<std::string> cmd_args;
 	TgBot::Message::Ptr orig;
 
-	inline Msg(TgBot::Message::Ptr o):
+	inline Msg(TgBot::Message::Ptr o, std::shared_ptr<Session> s = nullptr):
 		type(JQFTU_MSG_TYPE_INVALID),
+		sess(std::move(s)),
 		cmd_args(),
 		orig(o)
 	{
@@ -58,6 +63,11 @@ struct Msg {
 	{
 		type = JQFTU_MSG_TYPE_CMD;
 		cmd_args = std::move(args);
+	}
+
+	inline void setAnswer(void)
+	{
+		type = JQFTU_MSG_TYPE_ANSWER;
 	}
 };
 

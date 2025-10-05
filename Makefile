@@ -13,6 +13,7 @@ MUIKA_SOURCES_CPP := \
 	muika/helpers.cpp \
 	muika/main.cpp \
 	muika/Muika/Modules/Jqftu/Worker.cpp \
+	muika/Muika/Modules/Jqftu/Session.cpp \
 	muika/Muika/Modules/Jqftu/ModJqftu.cpp \
 	muika/Muika/Module.cpp \
 	muika/Muika/ModuleManager.cpp \
