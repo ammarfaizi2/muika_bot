@@ -32,6 +32,11 @@ public:
 		nr_sleeping_--;
 	}
 
+	inline std::string getSessionDir(void) const
+	{
+		return jqftu_dir_ + "/sessions";
+	}
+
 	std::shared_ptr<Session> __getSession(int64_t chat_id);
 	std::shared_ptr<Session> __createSession(int64_t chat_id);
 	int __deleteSession(int64_t chat_id);
@@ -49,8 +54,10 @@ private:
 
 	std::unordered_map<int64_t, std::shared_ptr<Session>> sess_map_;
 	std::mutex sess_mtx_;
+	std::string jqftu_dir_ = "./storage/jqftu";
 
 	std::unique_ptr<Msg> constructMsg(const TgBot::Message::Ptr &msg);
+	void loadSessionsFromDisk(void);
 	friend class Worker;
 };
 

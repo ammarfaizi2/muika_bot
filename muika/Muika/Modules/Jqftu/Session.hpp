@@ -17,7 +17,7 @@ public:
 	Session(ModJqftu *mj);
 	~Session(void);
 
-	static std::unique_ptr<Session> loadFromFile(ModJqftu *mj, const std::string &path);
+	static std::unique_ptr<Session> loadFromFile(const std::string &path);
 	bool saveToFile(const std::string &path);
 	inline std::mutex &getMtx(void) { return mtx_; }
 
@@ -27,6 +27,36 @@ public:
 		chat_id_ = chat_id;
 		chat_title_ = chat_title;
 		sess_last_msg_id_ = sess_last_msg_id;
+	}
+
+	inline int64_t getChatId(void) const
+	{
+		return chat_id_;
+	}
+
+	inline const std::string &getChatTitle(void) const
+	{
+		return chat_title_;
+	}
+
+	inline uint64_t getSessLastMsgId(void) const
+	{
+		return sess_last_msg_id_;
+	}
+
+	inline void setSessLastMsgId(uint64_t msg_id)
+	{
+		sess_last_msg_id_ = msg_id;
+	}
+
+	inline void setChatId(int64_t chat_id)
+	{
+		chat_id_ = chat_id;
+	}
+
+	inline void setChatTitle(const std::string &chat_title)
+	{
+		chat_title_ = chat_title;
 	}
 
 private:

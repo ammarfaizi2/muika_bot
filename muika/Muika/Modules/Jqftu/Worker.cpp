@@ -95,6 +95,9 @@ inline void Worker::handleCmdStart(std::unique_ptr<Msg> &msg)
 	if (!sess) {
 		sess = mj_->createSession(chat_id);
 		if (sess) {
+			sess->initData(chat_id, o->chat->title, o->messageId);
+			sess->saveToFile(mj_->getSessionDir() + "/" +
+					 std::to_string(chat_id) + ".json");
 			rt = "Jqftu session started!";
 			init_ok = true;
 		}
