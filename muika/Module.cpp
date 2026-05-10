@@ -42,4 +42,9 @@ void Module::setMk(Muika *mk)
 	mk_ = mk;
 }
 
+Reactor *Module::reactor(void)
+{
+	return mk_->reactor();
+}
+
 } /* namespace muika */

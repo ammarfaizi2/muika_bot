@@ -13,7 +13,7 @@ Module::Module(void):
 Module::Type Module::passMsg(MsgPtr msg)
 {
 	std::string txt = "Hello, " + msg->user().name() + "!";
-	mk()->reactor()->sendMsgText(msg->chat_id(), txt);
+	reactor()->sendMsgText(msg->chat_id(), txt, msg->id());
 	return Type::MSG_HANDLED;
 }
 

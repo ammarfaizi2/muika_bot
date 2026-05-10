@@ -10,6 +10,7 @@ namespace muika {
 typedef std::shared_ptr<Message> MsgPtr;
 
 class Muika;
+class Reactor;
 
 class Module {
 public:
@@ -27,6 +28,7 @@ public:
 	bool enabled(void) const;
 	const std::string& moduleName(void) const;
 	Muika *mk(void) const;
+	Reactor *reactor(void);
 	void setMk(Muika *mk);
 
 private:

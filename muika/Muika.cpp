@@ -47,6 +47,8 @@ Muika::~Muika(void)
 		flock(fileno(lock_file_), LOCK_UN);
 		fclose(lock_file_);
 	}
+
+	unloadAllModules();
 }
 
 // static
@@ -128,12 +130,16 @@ void Muika::unloadModule(const std::string &name)
 	if (idx == MODULE_IDX_NOENT)
 		return;
 
+	modules_[idx]->free();
 	modules_.erase(modules_.begin() + idx);
 }
 
 void Muika::unloadAllModules(void)
 {
 	std::unique_lock<std::shared_mutex> lock(modules_lock_);
+	for (auto &mod : modules_)
+		mod->free();
+
 	modules_.clear();
 }
 
