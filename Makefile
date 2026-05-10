@@ -4,17 +4,35 @@ CC = gcc
 CXX = g++
 LD = $(CXX)
 CFLAGS := -Wall -Wextra -Os -ggdb3 -std=gnu11 $(CFLAGS) -I. -Wno-deprecated -fvisibility=hidden -DHAVE_CURL
-CXXFLAGS := -Wall -Wextra -Os -ggdb -std=gnu++14 $(CXXFLAGS) -Ijson/include -I. -Wno-deprecated -fvisibility=hidden -DHAVE_CURL
+CXXFLAGS := -Wall -Wextra -Os -ggdb -std=gnu++17 $(CXXFLAGS) -I./muika/json/include -I. -Wno-deprecated -fvisibility=hidden -DHAVE_CURL
 LDFLAGS := -Os -ggdb3 $(LDFLAGS)
 LIBS := -lpthread -lTgBot -lcrypto -lssl -lcurl
 
-MUIKA := muika.bin
-MUIKA_SOURCES_CPP := \
+#
+# Base library for Muika bot.
+#
+LIBMUIKABOT := libmuikabot.so
+SOURCES_LIBMUIKABOT := \
 	muika/helpers.cpp \
-	muika/main.cpp
+	muika/Message.cpp \
+	muika/Module.cpp \
+	muika/Muika.cpp \
+	muika/Reactor.cpp
+OBJECTS_LIBMUIKABOT := $(SOURCES_LIBMUIKABOT:.cpp=.o)
+DEPENDS_LIBMUIKABOT := $(SOURCES_LIBMUIKABOT:.cpp=.d)
+CFLAGS_LIBMUIKABOT := -fPIC $(CFLAGS)
+CXXFLAGS_LIBMUIKABOT := -fPIC $(CXXFLAGS)
 
-MUIKA_OBJECTS := $(MUIKA_SOURCES_CPP:.cpp=.o)
-MUIKA_DEPENDS := $(MUIKA_SOURCES_CPP:.cpp=.d)
+#
+# Telegram bot executable.
+#
+MUIKA_TGBOT := muika_tgbot
+SOURCES_MUIKA_TGBOT := \
+	tgbot/main.cpp
+OBJECTS_MUIKA_TGBOT := $(SOURCES_MUIKA_TGBOT:.cpp=.o)
+DEPENDS_MUIKA_TGBOT := $(SOURCES_MUIKA_TGBOT:.cpp=.d)
+CFLAGS_MUIKA_TGBOT := $(CFLAGS)
+CXXFLAGS_MUIKA_TGBOT := $(CXXFLAGS)
 
 ifeq ($(ENABLE_SANITIZER),1)
 	CFLAGS += -fsanitize=address
@@ -28,20 +46,29 @@ ifeq ($(ENABLE_LTO),1)
 	LDFLAGS += -flto
 endif
 
-all: $(MUIKA)
+all: $(MUIKA_TGBOT)
 
-$(MUIKA): $(MUIKA_OBJECTS)
+$(MUIKA_TGBOT): $(OBJECTS_MUIKA_TGBOT) $(LIBMUIKABOT)
 	$(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -MMD -MP -c -o $@ $<
+$(LIBMUIKABOT): $(OBJECTS_LIBMUIKABOT)
+	$(LD) $(LDFLAGS) -shared -o $@ $^ $(LIBS)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -MMD -MP -c -o $@ $<
+$(OBJECTS_MUIKA_TGBOT): %.o: %.cpp
+	$(CXX) $(CXXFLAGS_MUIKA_TGBOT) -MMD -MP -c -o $@ $<
+
+-include $(DEPENDS_MUIKA_TGBOT)
+
+$(OBJECTS_LIBMUIKABOT): %.o: %.cpp
+	$(CXX) $(CXXFLAGS_LIBMUIKABOT) -MMD -MP -c -o $@ $<
+
+-include $(DEPENDS_LIBMUIKABOT)
 
 clean:
-	rm -f $(MUIKA) $(MUIKA_OBJECTS) $(MUIKA_DEPENDS)
-
--include $(MUIKA_DEPENDS)
+	rm -vf \
+		$(MUIKA_TGBOT) \
+		$(LIBMUIKABOT) \
+		$(OBJECTS_MUIKA_TGBOT) $(DEPENDS_MUIKA_TGBOT) \
+		$(OBJECTS_LIBMUIKABOT) $(DEPENDS_LIBMUIKABOT)
 
 .PHONY: all clean
