@@ -13,6 +13,8 @@ LDFLAGS := -Os -ggdb3
 LIBMUIKABOT := libmuikabot.so
 SOURCES_LIBMUIKABOT := \
 	muika/modules/m001_hello/Module.cpp \
+	muika/modules/m002_jqftu/Module.cpp \
+	muika/modules/m002_jqftu/Session.cpp \
 	muika/helpers.cpp \
 	muika/Message.cpp \
 	muika/Module.cpp \
