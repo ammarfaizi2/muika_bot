@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
+#include <muika/modules/m001_hello/Module.hpp>
 #include <muika/helpers.hpp>
 #include <muika/Muika.hpp>
 
@@ -8,19 +9,18 @@
 
 namespace muika {
 
-Muika::Muika(const MuikaConfig &cfg, std::shared_ptr<Reactor> reactor):
-	cfg_(cfg),
-	reactor_(reactor)
+static void createStorageDir(const std::string &storage_path)
 {
-	FILE *f;
-
-	int r = mk_mkdir_p(cfg_.storage_path.c_str(), 0755);
+	int r = mk_mkdir_p(storage_path.c_str(), 0755);
 	if (r < 0)
 		throw std::runtime_error("Failed to create storage directory "
-					 + cfg_.storage_path);
+					 + storage_path);
+}
 
-	std::string lock_path = cfg_.storage_path + "/lock";
-	f = fopen(lock_path.c_str(), "wb");
+static FILE *openLockFile(const std::string &storage_path)
+{
+	std::string lock_path = storage_path + "/lock";
+	FILE *f = fopen(lock_path.c_str(), "wb");
 	if (!f)
 		throw std::runtime_error("Failed to open lock file " + lock_path);
 
@@ -28,7 +28,17 @@ Muika::Muika(const MuikaConfig &cfg, std::shared_ptr<Reactor> reactor):
 		fclose(f);
 		throw std::runtime_error("Failed to acquire lock on " + lock_path);
 	}
-	lock_file_ = f;
+	return f;
+}
+
+Muika::Muika(const MuikaConfig &cfg, std::shared_ptr<Reactor> reactor):
+	reactor_(reactor),
+	modules_(),
+	cfg_(cfg),
+	lock_file_(nullptr)
+{
+	createStorageDir(cfg_.storage_path);
+	lock_file_ = openLockFile(cfg_.storage_path);
 }
 
 Muika::~Muika(void)
@@ -99,6 +109,16 @@ void Muika::loadModule(const std::string &name)
 	std::unique_lock<std::shared_mutex> lock(modules_lock_);
 	if (findModuleIdx(name) != MODULE_IDX_NOENT)
 		return;
+
+	if (name == "hello") {
+		auto mod = std::make_unique<modules::m001_hello::Module>();
+		mod->setMk(this);
+		mod->init();
+		modules_.push_back(std::move(mod));
+		return;
+	}
+
+	throw std::runtime_error("Unknown module: " + name);
 }
 
 void Muika::unloadModule(const std::string &name)
@@ -145,6 +165,11 @@ Module *Muika::getModule(const std::string &name)
 		return nullptr;
 
 	return modules_[idx].get();
+}
+
+Reactor *Muika::reactor(void)
+{
+	return reactor_.get();
 }
 
 } /* namespace muika */

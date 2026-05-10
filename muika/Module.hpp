@@ -18,7 +18,7 @@ public:
 		MSG_HANDLED,
 	};
 
-	Module(const std::string &name);
+	Module(const std::string &name, const std::string &desc = "");
 	virtual ~Module() = default;
 	virtual void init(void);
 	virtual void free(void);
@@ -27,10 +27,12 @@ public:
 	bool enabled(void) const;
 	const std::string& moduleName(void) const;
 	Muika *mk(void) const;
+	void setMk(Muika *mk);
 
 private:
-	Muika *mk_;
+	Muika *mk_ = nullptr;
 	std::string name_;
+	std::string desc_ = "";
 	bool enabled_ = true;
 	Module(const Module&) = delete;
 	Module& operator=(const Module&) = delete;

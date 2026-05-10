@@ -3,8 +3,8 @@
 CC = gcc
 CXX = g++
 LD = $(CXX)
-CFLAGS := -Wall -Wextra -Os -ggdb3 -std=gnu11 $(CFLAGS) -I. -Wno-deprecated -fvisibility=hidden -DHAVE_CURL
-CXXFLAGS := -Wall -Wextra -Os -ggdb -std=gnu++17 $(CXXFLAGS) -I./muika/json/include -I. -Wno-deprecated -fvisibility=hidden -DHAVE_CURL
+CFLAGS := -Wall -Wextra -Os -ggdb3 -std=gnu11 $(CFLAGS) -I. -Wno-deprecated -DHAVE_CURL
+CXXFLAGS := -Wall -Wextra -Os -ggdb -std=gnu++17 $(CXXFLAGS) -I./muika/json/include -I. -Wno-deprecated -DHAVE_CURL
 LDFLAGS := -Os -ggdb3 $(LDFLAGS)
 LIBS := -lpthread -lTgBot -lcrypto -lssl -lcurl
 
@@ -13,6 +13,7 @@ LIBS := -lpthread -lTgBot -lcrypto -lssl -lcurl
 #
 LIBMUIKABOT := libmuikabot.so
 SOURCES_LIBMUIKABOT := \
+	muika/modules/m001_hello/Module.cpp \
 	muika/helpers.cpp \
 	muika/Message.cpp \
 	muika/Module.cpp \
@@ -49,7 +50,7 @@ endif
 all: $(MUIKA_TGBOT)
 
 $(MUIKA_TGBOT): $(OBJECTS_MUIKA_TGBOT) $(LIBMUIKABOT)
-	$(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
+	$(LD) $(LDFLAGS) -Wl,-rpath,'$$ORIGIN' -o $@ $^ $(LIBS)
 
 $(LIBMUIKABOT): $(OBJECTS_LIBMUIKABOT)
 	$(LD) $(LDFLAGS) -shared -o $@ $^ $(LIBS)

@@ -3,8 +3,9 @@
 
 namespace muika {
 
-Module::Module(const std::string &name):
-	name_(name)
+Module::Module(const std::string &name, const std::string &desc):
+	name_(name),
+	desc_(desc)
 {
 }
 
@@ -34,6 +35,11 @@ bool Module::enabled(void) const
 Muika *Module::mk(void) const
 {
 	return mk_;
+}
+
+void Module::setMk(Muika *mk)
+{
+	mk_ = mk;
 }
 
 } /* namespace muika */

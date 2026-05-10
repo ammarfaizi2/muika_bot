@@ -31,6 +31,7 @@ public:
 	void disableModule(const std::string &name);
 	void enableModule(const std::string &name);
 	Module *getModule(const std::string &name);
+	Reactor *reactor(void);
 
 	static
 	User createUser(const std::string &id,
@@ -51,11 +52,11 @@ public:
 			     const std::string &text);
 
 private:
-	MuikaConfig cfg_;
-	FILE *lock_file_ = nullptr;
 	std::shared_ptr<Reactor> reactor_;
 	std::vector<std::unique_ptr<Module>> modules_;
+	MuikaConfig cfg_;
 	std::shared_mutex modules_lock_;
+	FILE *lock_file_ = nullptr;
 	size_t findModuleIdx(const std::string &name);
 };
 
