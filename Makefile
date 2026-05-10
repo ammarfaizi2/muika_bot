@@ -11,13 +11,7 @@ LIBS := -lpthread -lTgBot -lcrypto -lssl -lcurl
 MUIKA := muika.bin
 MUIKA_SOURCES_CPP := \
 	muika/helpers.cpp \
-	muika/main.cpp \
-	muika/Muika/Modules/Jqftu/Worker.cpp \
-	muika/Muika/Modules/Jqftu/Session.cpp \
-	muika/Muika/Modules/Jqftu/ModJqftu.cpp \
-	muika/Muika/Module.cpp \
-	muika/Muika/ModuleManager.cpp \
-	muika/Muika/MuikaBot.cpp
+	muika/main.cpp
 
 MUIKA_OBJECTS := $(MUIKA_SOURCES_CPP:.cpp=.o)
 MUIKA_DEPENDS := $(MUIKA_SOURCES_CPP:.cpp=.d)
