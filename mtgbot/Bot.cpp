@@ -22,6 +22,23 @@
 
 namespace mtgbot {
 
+static void loadModules(muika::Muika *m)
+{
+	std::vector<std::string> modules = {
+		"hello"
+	};
+
+	for (const auto &mod: modules) {
+		try {
+			m->loadModule(mod);
+		} catch (std::exception &e) {
+			printf("Error loading module %s: %s\n", mod.c_str(), e.what());
+		} catch (...) {
+			printf("Unknown error loading module %s\n", mod.c_str());
+		}
+	}
+}
+
 Bot::Bot(const BotConfig &cfg):
 	cfg_(cfg)
 {
@@ -29,10 +46,10 @@ Bot::Bot(const BotConfig &cfg):
 	reactor_ = std::make_shared<Reactor>(this);
 	muika_cfg.storage_path = cfg.storage_path + "/muika";
 	muika_ = std::make_unique<muika::Muika>(muika_cfg, reactor_);
-	muika_->loadModule("hello");
 	http_client_ = std::make_unique<TgBot::CurlHttpClient>();
 	bot_ = std::make_unique<TgBot::Bot>(cfg_.token, *http_client_);
 	mgr_ = std::make_unique<BotMgr>(this);
+	loadModules(muika_.get());
 }
 
 TgBot::Bot *Bot::bot(void)
