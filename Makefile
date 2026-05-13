@@ -13,7 +13,11 @@ LDFLAGS := -Os -ggdb3
 LIBMUIKABOT := libmuikabot.so
 SOURCES_LIBMUIKABOT := \
 	muika/modules/m001_hello/Module.cpp \
+	muika/modules/m002_jqftu/Card.cpp \
+	muika/modules/m002_jqftu/Deck.cpp \
+	muika/modules/m002_jqftu/DeckGroup.cpp \
 	muika/modules/m002_jqftu/Module.cpp \
+	muika/modules/m002_jqftu/Point.cpp \
 	muika/modules/m002_jqftu/Session.cpp \
 	muika/helpers.cpp \
 	muika/Message.cpp \
@@ -24,7 +28,7 @@ OBJECTS_LIBMUIKABOT := $(SOURCES_LIBMUIKABOT:.cpp=.o)
 DEPENDS_LIBMUIKABOT := $(SOURCES_LIBMUIKABOT:.cpp=.d)
 CFLAGS_LIBMUIKABOT := $(CFLAGS) -fpic -fPIC
 CXXFLAGS_LIBMUIKABOT := $(CXXFLAGS) -fpic -fPIC
-LIBS_LIBMUIKABOT := -lpthread
+LIBS_LIBMUIKABOT := -lpthread -lcurl
 
 #
 # Telegram bot executable.
