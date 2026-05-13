@@ -8,6 +8,16 @@ CXXFLAGS := -Wall -Wextra -Os -ggdb3 -std=gnu++17 -I./muika/json/include -I. -Wn
 LDFLAGS := -Os -ggdb3
 
 #
+# C logging library, used by everything else.
+#
+LIBMLOGGER := libmlogger.so
+SOURCES_LIBMLOGGER := mlogger/mlogger.c
+OBJECTS_LIBMLOGGER := $(SOURCES_LIBMLOGGER:.c=.o)
+DEPENDS_LIBMLOGGER := $(SOURCES_LIBMLOGGER:.c=.d)
+CFLAGS_LIBMLOGGER := $(CFLAGS) -fpic -fPIC
+LIBS_LIBMLOGGER := -lpthread
+
+#
 # Base library for Muika bot.
 #
 LIBMUIKABOT := libmuikabot.so
@@ -39,7 +49,6 @@ DEPENDS_LIBMUIKABOT := $(SOURCES_LIBMUIKABOT:.cpp=.d)
 CFLAGS_LIBMUIKABOT := $(CFLAGS) -fpic -fPIC
 CXXFLAGS_LIBMUIKABOT := $(CXXFLAGS) -fpic -fPIC
 LIBS_LIBMUIKABOT := -lpthread -lcurl
-
 #
 # Telegram bot executable.
 #
@@ -62,6 +71,7 @@ SOURCES_MUIKA_TESTS := \
 	muika/tests/main.cpp \
 	muika/tests/test.cpp \
 	muika/tests/test_helpers.cpp \
+	muika/tests/test_mlogger.cpp \
 	muika/tests/test_m001_hello.cpp \
 	muika/tests/test_m002_jqftu.cpp
 OBJECTS_MUIKA_TESTS := $(SOURCES_MUIKA_TESTS:.cpp=.o)
@@ -83,11 +93,14 @@ endif
 
 all: $(MUIKA_TGBOT)
 
-$(MUIKA_TGBOT): $(OBJECTS_MUIKA_TGBOT) $(LIBMUIKABOT)
+$(MUIKA_TGBOT): $(OBJECTS_MUIKA_TGBOT) $(LIBMUIKABOT) $(LIBMLOGGER)
 	$(LD) $(LDFLAGS) -fpie -fPIE -Wl,-rpath,'$$ORIGIN' -o $@ $^ $(LIBS_MUIKA_TGBOT)
 
-$(LIBMUIKABOT): $(OBJECTS_LIBMUIKABOT)
+$(LIBMUIKABOT): $(OBJECTS_LIBMUIKABOT) $(LIBMLOGGER)
 	$(LD) $(LDFLAGS) -fpic -fPIC -shared -o $@ $^ $(LIBS_LIBMUIKABOT)
+
+$(LIBMLOGGER): $(OBJECTS_LIBMLOGGER)
+	$(LD) $(LDFLAGS) -fpic -fPIC -shared -o $@ $^ $(LIBS_LIBMLOGGER)
 
 $(OBJECTS_MUIKA_TGBOT): %.o: %.cpp
 	$(CXX) $(CXXFLAGS_MUIKA_TGBOT) -MMD -MP -c -o $@ $<
@@ -99,7 +112,12 @@ $(OBJECTS_LIBMUIKABOT): %.o: %.cpp
 
 -include $(DEPENDS_LIBMUIKABOT)
 
-$(MUIKA_TESTS): $(OBJECTS_MUIKA_TESTS) $(LIBMUIKABOT)
+$(OBJECTS_LIBMLOGGER): %.o: %.c
+	$(CC) $(CFLAGS_LIBMLOGGER) -MMD -MP -c -o $@ $<
+
+-include $(DEPENDS_LIBMLOGGER)
+
+$(MUIKA_TESTS): $(OBJECTS_MUIKA_TESTS) $(LIBMUIKABOT) $(LIBMLOGGER)
 	$(LD) $(LDFLAGS) -fpie -fPIE -Wl,-rpath,'$$ORIGIN' -o $@ $^ $(LIBS_MUIKA_TESTS)
 
 $(OBJECTS_MUIKA_TESTS): %.o: %.cpp
@@ -114,9 +132,11 @@ clean:
 	rm -vf \
 		$(MUIKA_TGBOT) \
 		$(LIBMUIKABOT) \
+		$(LIBMLOGGER) \
 		$(MUIKA_TESTS) \
 		$(OBJECTS_MUIKA_TGBOT) $(DEPENDS_MUIKA_TGBOT) \
 		$(OBJECTS_LIBMUIKABOT) $(DEPENDS_LIBMUIKABOT) \
+		$(OBJECTS_LIBMLOGGER) $(DEPENDS_LIBMLOGGER) \
 		$(OBJECTS_MUIKA_TESTS) $(DEPENDS_MUIKA_TESTS)
 
 .PHONY: all clean test
