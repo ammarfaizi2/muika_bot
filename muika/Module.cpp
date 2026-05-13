@@ -47,4 +47,14 @@ Reactor *Module::reactor(void)
 	return mk_->reactor();
 }
 
+void Module::setStorageDir(const std::string &dir)
+{
+	storage_dir_ = dir;
+}
+
+const std::string &Module::storageDir(void) const
+{
+	return storage_dir_;
+}
+
 } /* namespace muika */

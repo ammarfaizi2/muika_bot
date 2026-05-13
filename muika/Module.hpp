@@ -30,11 +30,14 @@ public:
 	Muika *mk(void) const;
 	Reactor *reactor(void);
 	void setMk(Muika *mk);
+	void setStorageDir(const std::string &dir);
+	const std::string &storageDir(void) const;
 
 private:
 	Muika *mk_ = nullptr;
 	std::string name_;
 	std::string desc_ = "";
+	std::string storage_dir_ = "";
 	bool enabled_ = true;
 	Module(const Module&) = delete;
 	Module& operator=(const Module&) = delete;

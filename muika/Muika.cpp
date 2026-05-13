@@ -138,15 +138,22 @@ void Muika::loadModule(const std::string &name)
 	if (findModuleIdx(name) != MODULE_IDX_NOENT)
 		return;
 
+	std::unique_ptr<Module> mod;
 	if (name == "hello") {
-		auto mod = std::make_unique<modules::m001_hello::Module>();
-		mod->setMk(this);
-		mod->init();
-		modules_.push_back(std::move(mod));
-		return;
+		mod = std::make_unique<modules::m001_hello::Module>();
+	} else {
+		throw std::runtime_error("Unknown module: " + name);
 	}
 
-	throw std::runtime_error("Unknown module: " + name);
+	std::string mod_storage = cfg_.storage_path + "/" + name;
+	if (mk_mkdir_p(mod_storage.c_str(), 0755) < 0)
+		throw std::runtime_error("Failed to create module storage "
+					 + mod_storage);
+
+	mod->setMk(this);
+	mod->setStorageDir(mod_storage);
+	mod->init();
+	modules_.push_back(std::move(mod));
 }
 
 void Muika::unloadModule(const std::string &name)
