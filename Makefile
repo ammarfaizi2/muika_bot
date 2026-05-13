@@ -19,6 +19,10 @@ SOURCES_LIBMUIKABOT := \
 	muika/modules/m002_jqftu/Module.cpp \
 	muika/modules/m002_jqftu/Point.cpp \
 	muika/modules/m002_jqftu/Session.cpp \
+	muika/modules/m002_jqftu/deck_foundations/japan_eki/Card.cpp \
+	muika/modules/m002_jqftu/deck_foundations/japan_eki/Deck.cpp \
+	muika/modules/m002_jqftu/deck_foundations/kotoba/Card.cpp \
+	muika/modules/m002_jqftu/deck_foundations/kotoba/Deck.cpp \
 	muika/helpers.cpp \
 	muika/Message.cpp \
 	muika/Module.cpp \

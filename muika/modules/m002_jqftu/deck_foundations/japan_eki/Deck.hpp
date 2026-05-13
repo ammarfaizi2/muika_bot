@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: GPL-2.0-only
+#ifndef MUIKA__MODULES__M002_JQFTU__DECK_FOUNDATIONS__JAPAN_EKI__DECK_HPP
+#define MUIKA__MODULES__M002_JQFTU__DECK_FOUNDATIONS__JAPAN_EKI__DECK_HPP
+
+#include <muika/modules/m002_jqftu/Deck.hpp>
+#include <muika/modules/m002_jqftu/deck_foundations/japan_eki/Card.hpp>
+
+#include <memory>
+
+namespace muika {
+namespace modules {
+namespace m002_jqftu {
+namespace deck_foundations {
+namespace japan_eki {
+
+class Deck: public muika::modules::m002_jqftu::Deck {
+private:
+	static std::unique_ptr<Card> loadCardFromJson(const json &j);
+
+protected:
+	void loadDeckFromJsonFile(const char *file_path);
+
+public:
+	Deck(void) = default;
+
+	virtual json toJson(void) const override;
+	virtual void fromJson(const json &j) override;
+};
+
+} /* namespace japan_eki */
+} /* namespace deck_foundations */
+} /* namespace m002_jqftu */
+} /* namespace modules */
+} /* namespace muika */
+
+#endif /* MUIKA__MODULES__M002_JQFTU__DECK_FOUNDATIONS__JAPAN_EKI__DECK_HPP */
