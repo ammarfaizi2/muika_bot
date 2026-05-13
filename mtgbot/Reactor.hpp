@@ -3,6 +3,7 @@
 #define MTGBOT__REACTOR_HPP
 
 #include <muika/Muika.hpp>
+#include <muika/OutboundMessage.hpp>
 #include <mtgbot/Bot.hpp>
 
 namespace TgBot {
@@ -18,17 +19,19 @@ class Reactor: public muika::Reactor {
 public:
 	Reactor(Bot *bot);
 	virtual ~Reactor(void);
-	virtual void sendMsgText(const std::string &chat_id,
-				 const std::string &text,
-				 const std::string &reply_to_msg_id = "") override;
-	virtual void sendMsgPhotoUrl(const std::string &chat_id,
-				     const std::string &photo_url,
-				     const std::string &caption = "",
-				     const std::string &reply_to_msg_id = "") override;
-	virtual void sendMsgPhotoFile(const std::string &chat_id,
-				      const std::string &photo_file_path,
-				      const std::string &caption = "",
-				      const std::string &reply_to_msg_id = "") override;
+
+	using muika::Reactor::sendMsgText;
+	using muika::Reactor::sendMsgPhotoUrl;
+	using muika::Reactor::sendMsgPhotoFile;
+
+	virtual std::string sendMsgText(const std::string &chat_id,
+					const muika::OutboundMessage &om) override;
+	virtual std::string sendMsgPhotoUrl(const std::string &chat_id,
+					    const std::string &photo_url,
+					    const muika::OutboundMessage &om) override;
+	virtual std::string sendMsgPhotoFile(const std::string &chat_id,
+					     const std::string &photo_file_path,
+					     const muika::OutboundMessage &om) override;
 
 private:
 	Bot *bot_;
