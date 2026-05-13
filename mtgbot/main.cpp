@@ -8,7 +8,7 @@
 
 namespace {
 
-mk_logger_t *create_logger(void)
+static mk_logger_t *create_logger(void)
 {
 	const char *path = getenv("MUIKA_TGBOT_LOG_FILE");
 	mk_logger_t *l;
@@ -40,7 +40,7 @@ mk_logger_t *create_logger(void)
 	return l;
 }
 
-std::unique_ptr<mtgbot::Bot> create_mtgbot(mk_logger_t *log)
+static std::unique_ptr<mtgbot::Bot> create_mtgbot(mk_logger_t *log)
 {
 	const char *token = getenv("MUIKA_TGBOT_TOKEN");
 	if (!token) {
