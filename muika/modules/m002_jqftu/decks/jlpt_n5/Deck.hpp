@@ -4,6 +4,8 @@
 
 #include <muika/modules/m002_jqftu/deck_foundations/kotoba/Deck.hpp>
 
+#include <string>
+
 namespace muika {
 namespace modules {
 namespace m002_jqftu {
@@ -12,7 +14,7 @@ namespace jlpt_n5 {
 
 class Deck: public muika::modules::m002_jqftu::deck_foundations::kotoba::Deck {
 public:
-	Deck(void);
+	explicit Deck(const std::string &decks_dir);
 };
 
 } /* namespace jlpt_n5 */

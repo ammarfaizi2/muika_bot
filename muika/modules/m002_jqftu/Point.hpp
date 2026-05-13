@@ -18,8 +18,6 @@ private:
 	std::string first_name_;
 	std::string last_name_;
 
-	static std::string points_dir_;
-
 public:
 	using json = ::nlohmann::json;
 
@@ -58,16 +56,15 @@ public:
 
 	json toJson(void) const;
 	std::string toJsonString(void) const;
-	void saveToDisk(int64_t chat_id) const;
+	void saveToDisk(const std::string &points_dir, int64_t chat_id) const;
 
 	void fromJson(const json &j);
 	void fromJsonString(const std::string &s);
-	static Point tryLoadFromDisk(int64_t chat_id, uint64_t user_id);
+	static Point tryLoadFromDisk(const std::string &points_dir,
+				     int64_t chat_id, uint64_t user_id);
 
-	static void setPointsDir(const std::string &dir);
-	static const std::string &getPointsDir(void);
-
-	static std::string chatPointsDir(int64_t chat_id);
+	static std::string chatPointsDir(const std::string &points_dir,
+					 int64_t chat_id);
 };
 
 } /* namespace m002_jqftu */

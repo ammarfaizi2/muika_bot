@@ -5,6 +5,7 @@
 #include <muika/Module.hpp>
 #include <muika/modules/m002_jqftu/DeckGroup.hpp>
 #include <muika/modules/m002_jqftu/Point.hpp>
+#include <muika/modules/m002_jqftu/internal.hpp>
 
 #include <condition_variable>
 #include <cstdint>
@@ -23,6 +24,7 @@ class Session: public std::enable_shared_from_this<Session> {
 private:
 	muika::Module *mod_;
 	WorkerPool *pool_;
+	Paths paths_;
 
 	std::mutex mutex_;
 	std::condition_variable cond_;
@@ -39,8 +41,6 @@ private:
 	std::unordered_map<uint64_t, Point> points_;
 	Deck *current_deck_ = nullptr;
 	Card *current_card_ = nullptr;
-
-	static std::string sessions_dir_;
 
 	uint64_t sendMsg(const std::string &msg, uint64_t reply_to = 0,
 			 bool save_last = true);
@@ -71,10 +71,10 @@ private:
 	void __deleteFromDisk(void);
 	void __createSessionDir(void);
 
-	static std::string sessionFilePath(int64_t chat_id);
+	std::string sessionFilePath(void) const;
 
 public:
-	Session(muika::Module *mod, WorkerPool *pool,
+	Session(muika::Module *mod, WorkerPool *pool, const Paths &paths,
 		int64_t chat_id, uint64_t last_msg_id = 0);
 	~Session(void) = default;
 
@@ -95,14 +95,14 @@ public:
 	std::string toJsonString(void);
 	static std::shared_ptr<Session> fromJsonString(muika::Module *mod,
 						       WorkerPool *pool,
+						       const Paths &paths,
 						       const std::string &json_str);
 	static std::string generateScoreBoard(std::unordered_map<uint64_t, Point> &points);
-	static std::string generateScoreBoardFromDisk(int64_t chat_id);
-	static void loadAllPointsFromDisk(int64_t chat_id,
+	static std::string generateScoreBoardFromDisk(const std::string &points_dir,
+						      int64_t chat_id);
+	static void loadAllPointsFromDisk(const std::string &points_dir,
+					  int64_t chat_id,
 					  std::unordered_map<uint64_t, Point> &points);
-
-	static void setSessionsDir(const std::string &dir);
-	static const std::string &getSessionsDir(void);
 };
 
 } /* namespace m002_jqftu */

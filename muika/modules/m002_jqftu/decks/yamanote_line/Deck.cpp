@@ -7,7 +7,8 @@ namespace m002_jqftu {
 namespace decks {
 namespace yamanote_line {
 
-Deck::Deck(void)
+Deck::Deck(const std::string &decks_dir):
+	muika::modules::m002_jqftu::deck_foundations::japan_eki::Deck(decks_dir)
 {
 	setName("yamanote_line");
 	setScope("Yamanote Line");

@@ -15,16 +15,17 @@ namespace m002_jqftu {
 
 class DeckGroup {
 private:
+	std::string decks_dir_;
 	std::vector<std::unique_ptr<Deck>> decks_;
 
 public:
 	using json = ::nlohmann::json;
 
-	DeckGroup(void) = default;
+	explicit DeckGroup(std::string decks_dir);
 	~DeckGroup(void) = default;
 
-	static std::unique_ptr<Deck> createDeckByName(const std::string &name);
-	static std::unique_ptr<Deck> createDeckByJson(const json &j);
+	std::unique_ptr<Deck> createDeckByName(const std::string &name) const;
+	std::unique_ptr<Deck> createDeckByJson(const json &j) const;
 
 	void addDeckByName(const std::string &name);
 	void addDeck(std::unique_ptr<Deck> deck);

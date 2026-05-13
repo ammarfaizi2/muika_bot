@@ -59,7 +59,7 @@ public:
 	bool __remove(int64_t chat_id);
 	void __insert(int64_t chat_id, std::shared_ptr<Session> session);
 
-	void loadSessionsFromDisk(muika::Module *mod, WorkerPool *pool);
+	void loadSessionsFromDisk(muika::Module *mod, WorkerPool *pool, const Paths &paths);
 	void stopAll(void);
 
 	inline std::mutex &getMutex(void) { return mutex_; }
@@ -99,10 +99,10 @@ void SessionMap::stopAll(void)
 	sessions_.clear();
 }
 
-void SessionMap::loadSessionsFromDisk(muika::Module *mod, WorkerPool *pool)
+void SessionMap::loadSessionsFromDisk(muika::Module *mod, WorkerPool *pool, const Paths &paths)
 {
 	std::lock_guard<std::mutex> lock(mutex_);
-	const std::string &dir = Session::getSessionsDir();
+	const std::string &dir = paths.sessions_dir;
 
 	DIR *d = opendir(dir.c_str());
 	if (!d)
@@ -126,7 +126,7 @@ void SessionMap::loadSessionsFromDisk(muika::Module *mod, WorkerPool *pool)
 
 		std::shared_ptr<Session> sess;
 		try {
-			sess = Session::fromJsonString(mod, pool, contents);
+			sess = Session::fromJsonString(mod, pool, paths, contents);
 		} catch (const std::exception &e) {
 			pr_debug("Failed to parse session file %s: %s",
 				 path.c_str(), e.what());
@@ -157,7 +157,7 @@ void SessionMap::loadSessionsFromDisk(muika::Module *mod, WorkerPool *pool)
 
 class Command {
 public:
-	Command(muika::Module *mod, MsgPtr msg, SessionMap *smap, WorkerPool *pool);
+	Command(muika::Module *mod, MsgPtr msg, SessionMap *smap, WorkerPool *pool, const Paths &paths);
 	bool execute(void);
 
 private:
@@ -165,6 +165,7 @@ private:
 	MsgPtr msg_;
 	SessionMap *smap_;
 	WorkerPool *pool_;
+	Paths paths_;
 	std::unique_lock<std::mutex> smap_lock_;
 	std::shared_ptr<Session> sess_;
 	std::vector<std::string> args_;
@@ -186,11 +187,12 @@ private:
 	void stop(void);
 };
 
-Command::Command(muika::Module *mod, MsgPtr msg, SessionMap *smap, WorkerPool *pool):
+Command::Command(muika::Module *mod, MsgPtr msg, SessionMap *smap, WorkerPool *pool, const Paths &paths):
 	mod_(mod),
 	msg_(std::move(msg)),
 	smap_(smap),
 	pool_(pool),
+	paths_(paths),
 	smap_lock_(smap->getMutex(), std::defer_lock)
 {
 	chat_id_ = strtoll(msg_->chat_id().c_str(), nullptr, 10);
@@ -309,7 +311,7 @@ void Command::scoreboard(void)
 	if (__loadSession())
 		s = sess_->generateScoreBoard();
 	else
-		s = Session::generateScoreBoardFromDisk(chat_id_);
+		s = Session::generateScoreBoardFromDisk(paths_.points_dir, chat_id_);
 	smap_lock_.unlock();
 
 	if (s.empty())
@@ -326,7 +328,7 @@ void Command::points(void)
 		p = sess_->getPoint(user_id_);
 	} else {
 		try {
-			p = Point::tryLoadFromDisk(chat_id_, user_id_);
+			p = Point::tryLoadFromDisk(paths_.points_dir, chat_id_, user_id_);
 		} catch (const std::exception &e) {
 			sendMsg("Failed to load points: " + std::string(e.what()));
 			return;
@@ -353,7 +355,7 @@ void Command::start(void)
 
 	std::shared_ptr<Session> sess;
 	try {
-		sess = std::make_shared<Session>(mod_, pool_, chat_id_, msg_id_);
+		sess = std::make_shared<Session>(mod_, pool_, paths_, chat_id_, msg_id_);
 		for (size_t i = 1; i < args_.size(); i++)
 			sess->addDeckByName(args_[i]);
 		sess->start();
@@ -430,18 +432,18 @@ public:
 
 	void init(void)
 	{
-		Deck::setDecksDir(m_->storageDir() + "/decks");
-		Point::setPointsDir(m_->storageDir() + "/points");
-		Session::setSessionsDir(m_->storageDir() + "/sessions");
+		paths_.decks_dir = m_->storageDir() + "/decks";
+		paths_.points_dir = m_->storageDir() + "/points";
+		paths_.sessions_dir = m_->storageDir() + "/sessions";
 
-		mk_mkdir_p((m_->storageDir() + "/points").c_str(), 0755);
-		mk_mkdir_p((m_->storageDir() + "/sessions").c_str(), 0755);
+		mk_mkdir_p(paths_.points_dir.c_str(), 0755);
+		mk_mkdir_p(paths_.sessions_dir.c_str(), 0755);
 
 		std::size_t nr = WorkerPool::workerCountFromEnv(4);
 		pool_ = std::make_unique<WorkerPool>(nr);
 		smap_ = std::make_unique<SessionMap>();
 
-		smap_->loadSessionsFromDisk(m_, pool_.get());
+		smap_->loadSessionsFromDisk(m_, pool_.get(), paths_);
 	}
 
 	void free(void)
@@ -463,7 +465,7 @@ public:
 		if (!smap_ || !pool_)
 			return muika::Module::Type::MSG_SKIP;
 
-		Command cmd(m_, msg, smap_.get(), pool_.get());
+		Command cmd(m_, msg, smap_.get(), pool_.get(), paths_);
 		bool handled = cmd.execute();
 		return handled ? muika::Module::Type::MSG_HANDLED
 			       : muika::Module::Type::MSG_SKIP;
@@ -473,6 +475,7 @@ public:
 
 private:
 	Module *m_;
+	Paths paths_;
 	std::unique_ptr<WorkerPool> pool_;
 	std::unique_ptr<SessionMap> smap_;
 };

@@ -4,6 +4,8 @@
 
 #include <muika/modules/m002_jqftu/deck_foundations/japan_eki/Deck.hpp>
 
+#include <string>
+
 namespace muika {
 namespace modules {
 namespace m002_jqftu {
@@ -12,7 +14,7 @@ namespace chuo_sobu {
 
 class Deck: public muika::modules::m002_jqftu::deck_foundations::japan_eki::Deck {
 public:
-	Deck(void);
+	explicit Deck(const std::string &decks_dir);
 };
 
 } /* namespace chuo_sobu */

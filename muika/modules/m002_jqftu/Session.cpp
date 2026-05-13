@@ -22,34 +22,21 @@ namespace muika {
 namespace modules {
 namespace m002_jqftu {
 
-std::string Session::sessions_dir_ = "./storage/mtgbot/jqftu/sessions";
-
-// static
-void Session::setSessionsDir(const std::string &dir)
-{
-	sessions_dir_ = dir;
-}
-
-// static
-const std::string &Session::getSessionsDir(void)
-{
-	return sessions_dir_;
-}
-
-// static
-std::string Session::sessionFilePath(int64_t chat_id)
+std::string Session::sessionFilePath(void) const
 {
 	char buf[64];
-	snprintf(buf, sizeof(buf), "/s_%lld.json", (long long)chat_id);
-	return sessions_dir_ + buf;
+	snprintf(buf, sizeof(buf), "/s_%lld.json", (long long)chat_id_);
+	return paths_.sessions_dir + buf;
 }
 
-Session::Session(muika::Module *mod, WorkerPool *pool,
+Session::Session(muika::Module *mod, WorkerPool *pool, const Paths &paths,
 		 int64_t chat_id, uint64_t last_msg_id):
 	mod_(mod),
 	pool_(pool),
+	paths_(paths),
 	chat_id_(chat_id),
-	last_msg_id_(last_msg_id)
+	last_msg_id_(last_msg_id),
+	deck_group_(paths.decks_dir)
 {
 }
 
@@ -253,7 +240,7 @@ void Session::start(bool silent)
 			throw std::runtime_error("Session worker already running");
 
 		try {
-			loadAllPointsFromDisk(chat_id_, points_);
+			loadAllPointsFromDisk(paths_.points_dir, chat_id_, points_);
 		} catch (...) {
 		}
 		silent_start_ = silent;
@@ -277,7 +264,7 @@ void Session::stop(void)
 Point Session::__tryLoadPointFromDisk(uint64_t user_id, uint64_t err_reply_to)
 {
 	try {
-		return Point::tryLoadFromDisk(chat_id_, user_id);
+		return Point::tryLoadFromDisk(paths_.points_dir, chat_id_, user_id);
 	} catch (const std::exception &e) {
 		pr_debug("Failed to load point from disk, chat_id=%lld, user_id=%llu: %s",
 			 (long long)chat_id_, (unsigned long long)user_id, e.what());
@@ -317,7 +304,7 @@ uint64_t Session::__handleCorrectAnswerPoint(uint64_t user_id,
 	p->addPoint(1);
 
 	try {
-		p->saveToDisk(chat_id_);
+		p->saveToDisk(paths_.points_dir, chat_id_);
 	} catch (const std::exception &e) {
 		pr_debug("Failed to save point to disk, chat_id=%lld, user_id=%llu: %s",
 			 (long long)chat_id_, (unsigned long long)user_id, e.what());
@@ -413,21 +400,21 @@ std::string Session::toJsonString(void)
 
 inline void Session::__deleteFromDisk(void)
 {
-	std::string p = sessionFilePath(chat_id_);
+	std::string p = sessionFilePath();
 	remove(p.c_str());
 }
 
 void Session::__createSessionDir(void)
 {
-	if (mk_mkdir_p(sessions_dir_.c_str(), 0755) < 0)
+	if (mk_mkdir_p(paths_.sessions_dir.c_str(), 0755) < 0)
 		throw std::runtime_error("Failed to create sessions dir: " +
-					 sessions_dir_);
+					 paths_.sessions_dir);
 }
 
 inline void Session::__saveToDisk(void)
 {
 	__createSessionDir();
-	std::string path = sessionFilePath(chat_id_);
+	std::string path = sessionFilePath();
 	int r = mk_file_put_contents(path, __toJsonString());
 	if (r < 0)
 		throw std::runtime_error("Failed to write session file: " + path);
@@ -460,6 +447,7 @@ void Session::sendRebootMessage(void)
 // static
 std::shared_ptr<Session> Session::fromJsonString(muika::Module *mod,
 						 WorkerPool *pool,
+						 const Paths &paths,
 						 const std::string &json_str)
 {
 	::nlohmann::json j = ::nlohmann::json::parse(json_str);
@@ -479,7 +467,7 @@ std::shared_ptr<Session> Session::fromJsonString(muika::Module *mod,
 	if (!j.contains("deck_group") || !j["deck_group"].is_object())
 		throw std::runtime_error("Missing/invalid deck_group");
 
-	auto r = std::make_shared<Session>(mod, pool,
+	auto r = std::make_shared<Session>(mod, pool, paths,
 					   j["chat_id"].get<int64_t>(),
 					   j["last_msg_id"].get<uint64_t>());
 	r->setTimeout(j["timeout_secs"].get<uint32_t>());
@@ -489,10 +477,11 @@ std::shared_ptr<Session> Session::fromJsonString(muika::Module *mod,
 }
 
 // static
-void Session::loadAllPointsFromDisk(int64_t chat_id,
+void Session::loadAllPointsFromDisk(const std::string &points_dir,
+				    int64_t chat_id,
 				    std::unordered_map<uint64_t, Point> &points)
 {
-	std::string dir = Point::chatPointsDir(chat_id);
+	std::string dir = Point::chatPointsDir(points_dir, chat_id);
 	DIR *d = opendir(dir.c_str());
 	if (!d)
 		return;
@@ -514,7 +503,7 @@ void Session::loadAllPointsFromDisk(int64_t chat_id,
 			continue;
 
 		try {
-			Point p = Point::tryLoadFromDisk(chat_id, user_id);
+			Point p = Point::tryLoadFromDisk(points_dir, chat_id, user_id);
 			if (p.getUserId() == user_id)
 				points.emplace(user_id, p);
 		} catch (const std::exception &e) {
@@ -553,10 +542,11 @@ std::string Session::generateScoreBoard(std::unordered_map<uint64_t, Point> &poi
 }
 
 // static
-std::string Session::generateScoreBoardFromDisk(int64_t chat_id)
+std::string Session::generateScoreBoardFromDisk(const std::string &points_dir,
+						int64_t chat_id)
 {
 	std::unordered_map<uint64_t, Point> points;
-	loadAllPointsFromDisk(chat_id, points);
+	loadAllPointsFromDisk(points_dir, chat_id, points);
 	return generateScoreBoard(points);
 }
 

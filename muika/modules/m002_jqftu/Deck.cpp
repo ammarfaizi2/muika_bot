@@ -16,22 +16,12 @@ namespace muika {
 namespace modules {
 namespace m002_jqftu {
 
-std::string Deck::decks_dir_ = "./storage/mtgbot/jqftu/decks";
-
-// static
-void Deck::setDecksDir(const std::string &dir)
+Deck::Deck(std::string decks_dir):
+	decks_dir_(std::move(decks_dir))
 {
-	decks_dir_ = dir;
 }
 
-// static
-const std::string &Deck::getDecksDir(void)
-{
-	return decks_dir_;
-}
-
-// static
-std::string Deck::getDeckJsonString(const char *file_name)
+std::string Deck::getDeckJsonString(const char *file_name) const
 {
 	std::string path = decks_dir_ + "/" + file_name;
 

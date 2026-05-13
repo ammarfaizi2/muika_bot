@@ -7,7 +7,8 @@ namespace m002_jqftu {
 namespace decks {
 namespace chuo_sobu {
 
-Deck::Deck(void)
+Deck::Deck(const std::string &decks_dir):
+	muika::modules::m002_jqftu::deck_foundations::japan_eki::Deck(decks_dir)
 {
 	setName("chuo_sobu");
 	setScope("Chuo Sobu Line");

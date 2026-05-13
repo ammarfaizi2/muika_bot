@@ -7,7 +7,8 @@ namespace m002_jqftu {
 namespace decks {
 namespace jlpt_n5 {
 
-Deck::Deck(void)
+Deck::Deck(const std::string &decks_dir):
+	muika::modules::m002_jqftu::deck_foundations::kotoba::Deck(decks_dir)
 {
 	setName("jlpt_n5");
 	setScope("JLPT N5 Kotoba Deck");

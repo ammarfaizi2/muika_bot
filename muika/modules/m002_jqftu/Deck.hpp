@@ -18,13 +18,12 @@ using json = nlohmann::json;
 
 class Deck {
 private:
+	std::string decks_dir_;
 	std::string name_;
 	std::string info_;
 	std::string scope_;
 	std::vector<std::unique_ptr<Card>> cards_;
 	uint32_t current_card_index_ = 0;
-
-	static std::string decks_dir_;
 
 protected:
 	inline void setName(const std::string &name) { name_ = name; }
@@ -33,12 +32,13 @@ protected:
 	inline void addCard(std::unique_ptr<Card> &&card) { cards_.push_back(std::move(card)); }
 	inline void setCurrentCardIndex(uint32_t index) { current_card_index_ = index; }
 	inline const std::vector<std::unique_ptr<Card>> &getCards(void) const { return cards_; }
-	static std::string getDeckJsonString(const char *file_name);
+	std::string getDeckJsonString(const char *file_name) const;
 
 public:
-	Deck(void) = default;
+	explicit Deck(std::string decks_dir);
 	virtual ~Deck(void) = default;
 
+	const std::string &getDecksDir(void) const { return decks_dir_; }
 	const std::string &getName(void) const { return name_; }
 	const std::string &getInfo(void) const { return info_; }
 	const std::string &getScope(void) const { return scope_; }
@@ -51,9 +51,6 @@ public:
 
 	virtual json toJson(void) const = 0;
 	virtual void fromJson(const json &j) = 0;
-
-	static void setDecksDir(const std::string &dir);
-	static const std::string &getDecksDir(void);
 };
 
 } /* namespace m002_jqftu */

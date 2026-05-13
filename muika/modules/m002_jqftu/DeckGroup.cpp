@@ -9,30 +9,34 @@
 #include <chrono>
 #include <random>
 #include <stdexcept>
+#include <utility>
 
 namespace muika {
 namespace modules {
 namespace m002_jqftu {
 
-// static
-std::unique_ptr<Deck> DeckGroup::createDeckByName(const std::string &name)
+DeckGroup::DeckGroup(std::string decks_dir):
+	decks_dir_(std::move(decks_dir))
+{
+}
+
+std::unique_ptr<Deck> DeckGroup::createDeckByName(const std::string &name) const
 {
 	if (name == "tozai_line")
-		return std::make_unique<decks::tozai_line::Deck>();
+		return std::make_unique<decks::tozai_line::Deck>(decks_dir_);
 	if (name == "yamanote_line")
-		return std::make_unique<decks::yamanote_line::Deck>();
+		return std::make_unique<decks::yamanote_line::Deck>(decks_dir_);
 	if (name == "chuo_sobu")
-		return std::make_unique<decks::chuo_sobu::Deck>();
+		return std::make_unique<decks::chuo_sobu::Deck>(decks_dir_);
 	if (name == "keikyu_line")
-		return std::make_unique<decks::keikyu_line::Deck>();
+		return std::make_unique<decks::keikyu_line::Deck>(decks_dir_);
 	if (name == "jlpt_n5")
-		return std::make_unique<decks::jlpt_n5::Deck>();
+		return std::make_unique<decks::jlpt_n5::Deck>(decks_dir_);
 
 	throw std::runtime_error("Unknown deck: " + name);
 }
 
-// static
-std::unique_ptr<Deck> DeckGroup::createDeckByJson(const json &j)
+std::unique_ptr<Deck> DeckGroup::createDeckByJson(const json &j) const
 {
 	if (!j.contains("name"))
 		throw std::runtime_error("No \"name\" key in JSON");

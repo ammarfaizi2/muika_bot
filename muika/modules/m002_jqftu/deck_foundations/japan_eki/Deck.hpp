@@ -6,6 +6,8 @@
 #include <muika/modules/m002_jqftu/deck_foundations/japan_eki/Card.hpp>
 
 #include <memory>
+#include <string>
+#include <utility>
 
 namespace muika {
 namespace modules {
@@ -21,7 +23,10 @@ protected:
 	void loadDeckFromJsonFile(const char *file_path);
 
 public:
-	Deck(void) = default;
+	explicit Deck(std::string decks_dir):
+		muika::modules::m002_jqftu::Deck(std::move(decks_dir))
+	{
+	}
 
 	virtual json toJson(void) const override;
 	virtual void fromJson(const json &j) override;

@@ -12,26 +12,12 @@ namespace m002_jqftu {
 
 using json = ::nlohmann::json;
 
-std::string Point::points_dir_ = "./storage/mtgbot/jqftu/points";
-
 // static
-void Point::setPointsDir(const std::string &dir)
-{
-	points_dir_ = dir;
-}
-
-// static
-const std::string &Point::getPointsDir(void)
-{
-	return points_dir_;
-}
-
-// static
-std::string Point::chatPointsDir(int64_t chat_id)
+std::string Point::chatPointsDir(const std::string &points_dir, int64_t chat_id)
 {
 	char buf[64];
 	snprintf(buf, sizeof(buf), "/s_%lld", (long long)chat_id);
-	return points_dir_ + buf;
+	return points_dir + buf;
 }
 
 json Point::toJson(void) const
@@ -87,9 +73,9 @@ void Point::fromJsonString(const std::string &s)
 	}
 }
 
-void Point::saveToDisk(int64_t chat_id) const
+void Point::saveToDisk(const std::string &points_dir, int64_t chat_id) const
 {
-	std::string dir = chatPointsDir(chat_id);
+	std::string dir = chatPointsDir(points_dir, chat_id);
 	if (mk_mkdir_p(dir.c_str(), 0755) < 0)
 		throw std::runtime_error("Failed to create points dir: " + dir);
 
@@ -104,11 +90,12 @@ void Point::saveToDisk(int64_t chat_id) const
 }
 
 // static
-Point Point::tryLoadFromDisk(int64_t chat_id, uint64_t user_id)
+Point Point::tryLoadFromDisk(const std::string &points_dir,
+			     int64_t chat_id, uint64_t user_id)
 {
 	char tail[64];
 	snprintf(tail, sizeof(tail), "/%llu.json", (unsigned long long)user_id);
-	std::string path = chatPointsDir(chat_id) + tail;
+	std::string path = chatPointsDir(points_dir, chat_id) + tail;
 
 	std::string contents;
 	if (mk_file_get_contents(path, contents) < 0)
