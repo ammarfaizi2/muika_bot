@@ -32,10 +32,12 @@ public:
 		Image,
 		Video,
 		Audio,
+		Callback,
 		Unknown,
 	};
 
 	MessageContent(const std::string &text);
+	MessageContent(Type type, const std::string &payload);
 	~MessageContent(void);
 
 	inline Type type(void) const { return type_; }
@@ -58,11 +60,22 @@ public:
 	inline const User &user(void) const { return user_; }
 	inline const MessageContent &content(void) const { return content_; }
 
+	inline bool is_callback(void) const { return is_callback_; }
+	inline const std::string &callback_id(void) const { return callback_id_; }
+	inline const std::string &callback_data(void) const { return content_.text(); }
+
+	inline void setCallback(const std::string &cb_id) {
+		is_callback_ = true;
+		callback_id_ = cb_id;
+	}
+
 private:
 	std::string chat_id_;
 	std::string id_;
 	User user_;
 	MessageContent content_;
+	bool is_callback_ = false;
+	std::string callback_id_;
 };
 
 } /* namespace muika */

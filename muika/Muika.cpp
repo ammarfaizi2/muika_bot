@@ -80,6 +80,32 @@ MsgPtr Muika::createMsgText(const std::string &chat_id,
 	return createMsgText(chat_id, id, user, text);
 }
 
+// static
+MsgPtr Muika::createMsgCallback(const std::string &chat_id,
+				const std::string &id,
+				const std::string &callback_id,
+				const User &user,
+				const std::string &data)
+{
+	MessageContent content(MessageContent::Type::Callback, data);
+	auto msg = std::make_shared<Message>(chat_id, id, user, content);
+	msg->setCallback(callback_id);
+	return msg;
+}
+
+// static
+MsgPtr Muika::createMsgCallback(const std::string &chat_id,
+				const std::string &id,
+				const std::string &callback_id,
+				const std::string &user_id,
+				const std::string &name,
+				const std::string &uname,
+				const std::string &data)
+{
+	User user = createUser(user_id, name, uname);
+	return createMsgCallback(chat_id, id, callback_id, user, data);
+}
+
 void Muika::passMsg(MsgPtr msg)
 {
 	std::shared_lock<std::shared_mutex> lock(modules_lock_);

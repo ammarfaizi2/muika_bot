@@ -19,6 +19,12 @@ MessageContent::MessageContent(const std::string &text):
 {
 }
 
+MessageContent::MessageContent(Type type, const std::string &payload):
+	type_(type),
+	content_(payload)
+{
+}
+
 MessageContent::~MessageContent(void) = default;
 
 Message::Message(const std::string &chat_id, const std::string &id,

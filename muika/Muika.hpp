@@ -51,6 +51,22 @@ public:
 			     const std::string &uname,
 			     const std::string &text);
 
+	static
+	MsgPtr createMsgCallback(const std::string &chat_id,
+				 const std::string &msg_id,
+				 const std::string &callback_id,
+				 const User &user,
+				 const std::string &data);
+
+	static
+	MsgPtr createMsgCallback(const std::string &chat_id,
+				 const std::string &msg_id,
+				 const std::string &callback_id,
+				 const std::string &user_id,
+				 const std::string &name,
+				 const std::string &uname,
+				 const std::string &data);
+
 private:
 	std::shared_ptr<Reactor> reactor_;
 	std::vector<std::unique_ptr<Module>> modules_;
