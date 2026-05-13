@@ -47,6 +47,11 @@ Reactor *Module::reactor(void)
 	return mk_->reactor();
 }
 
+mk_logger_t *Module::logger(void) const
+{
+	return mk_ ? mk_->logger() : nullptr;
+}
+
 void Module::setStorageDir(const std::string &dir)
 {
 	storage_dir_ = dir;

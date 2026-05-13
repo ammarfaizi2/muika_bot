@@ -6,6 +6,8 @@
 #include <muika/Module.hpp>
 #include <muika/Reactor.hpp>
 
+#include <mlogger/mlogger.h>
+
 #include <string>
 #include <memory>
 #include <vector>
@@ -16,6 +18,12 @@ namespace muika {
 
 struct MuikaConfig {
 	std::string storage_path;
+	/*
+	 * Optional logger. The Muika instance does not take ownership; the
+	 * caller must keep the logger alive for the lifetime of Muika and
+	 * is responsible for mk_logger_free()ing it. NULL disables logging.
+	 */
+	mk_logger_t *logger = nullptr;
 };
 
 typedef std::shared_ptr<Message> MsgPtr;
@@ -32,6 +40,7 @@ public:
 	void enableModule(const std::string &name);
 	Module *getModule(const std::string &name);
 	Reactor *reactor(void);
+	mk_logger_t *logger(void) const { return cfg_.logger; }
 
 	static
 	User createUser(const std::string &id,

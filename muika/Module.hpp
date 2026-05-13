@@ -3,6 +3,7 @@
 #define MUIKA__MODULE_HPP
 
 #include <muika/Message.hpp>
+#include <mlogger/mlogger.h>
 #include <memory>
 
 namespace muika {
@@ -29,6 +30,7 @@ public:
 	const std::string& moduleName(void) const;
 	Muika *mk(void) const;
 	Reactor *reactor(void);
+	mk_logger_t *logger(void) const;
 	void setMk(Muika *mk);
 	void setStorageDir(const std::string &dir);
 	const std::string &storageDir(void) const;

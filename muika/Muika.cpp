@@ -40,10 +40,13 @@ Muika::Muika(const MuikaConfig &cfg, std::shared_ptr<Reactor> reactor):
 {
 	createStorageDir(cfg_.storage_path);
 	lock_file_ = openLockFile(cfg_.storage_path);
+	mk_info(cfg_.logger, "Muika instance starting (storage=%s)",
+		cfg_.storage_path.c_str());
 }
 
 Muika::~Muika(void)
 {
+	mk_info(cfg_.logger, "Muika instance shutting down");
 	if (lock_file_) {
 		flock(fileno(lock_file_), LOCK_UN);
 		fclose(lock_file_);
@@ -145,18 +148,25 @@ void Muika::loadModule(const std::string &name)
 	} else if (name == "jqftu") {
 		mod = std::make_unique<modules::m002_jqftu::Module>();
 	} else {
+		mk_error(cfg_.logger, "loadModule: unknown module '%s'",
+			 name.c_str());
 		throw std::runtime_error("Unknown module: " + name);
 	}
 
 	std::string mod_storage = cfg_.storage_path + "/" + name;
-	if (mk_mkdir_p(mod_storage.c_str(), 0755) < 0)
+	if (mk_mkdir_p(mod_storage.c_str(), 0755) < 0) {
+		mk_error(cfg_.logger,
+			 "loadModule: failed to create storage '%s'",
+			 mod_storage.c_str());
 		throw std::runtime_error("Failed to create module storage "
 					 + mod_storage);
+	}
 
 	mod->setMk(this);
 	mod->setStorageDir(mod_storage);
 	mod->init();
 	modules_.push_back(std::move(mod));
+	mk_info(cfg_.logger, "Loaded module '%s'", name.c_str());
 }
 
 void Muika::unloadModule(const std::string &name)
@@ -168,6 +178,7 @@ void Muika::unloadModule(const std::string &name)
 
 	modules_[idx]->free();
 	modules_.erase(modules_.begin() + idx);
+	mk_info(cfg_.logger, "Unloaded module '%s'", name.c_str());
 }
 
 void Muika::unloadAllModules(void)
