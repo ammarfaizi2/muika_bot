@@ -25,7 +25,8 @@ namespace mtgbot {
 static void loadModules(muika::Muika *m)
 {
 	std::vector<std::string> modules = {
-		"hello"
+		"hello",
+		"jqftu"
 	};
 
 	for (const auto &mod: modules) {

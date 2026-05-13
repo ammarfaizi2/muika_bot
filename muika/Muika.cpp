@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 #include <muika/modules/m001_hello/Module.hpp>
+#include <muika/modules/m002_jqftu/Module.hpp>
 #include <muika/helpers.hpp>
 #include <muika/Muika.hpp>
 
@@ -141,6 +142,8 @@ void Muika::loadModule(const std::string &name)
 	std::unique_ptr<Module> mod;
 	if (name == "hello") {
 		mod = std::make_unique<modules::m001_hello::Module>();
+	} else if (name == "jqftu") {
+		mod = std::make_unique<modules::m002_jqftu::Module>();
 	} else {
 		throw std::runtime_error("Unknown module: " + name);
 	}
