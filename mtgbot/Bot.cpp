@@ -69,14 +69,21 @@ public:
 	inline void stop(void);
 
 private:
+	struct InboundEvent {
+		TgBot::Message::Ptr msg;
+		TgBot::CallbackQuery::Ptr cb;
+	};
+
 	inline void runWorker(unsigned int id);
+	inline void handleEvent(const InboundEvent &ev);
 	inline void handleMsgText(const TgBot::Message::Ptr &msg);
-	inline void enqueueMsg(TgBot::Message::Ptr msg);
-	inline TgBot::Message::Ptr dequeueMsg(void);
+	inline void handleCallback(const TgBot::CallbackQuery::Ptr &cb);
+	inline void enqueueEvent(InboundEvent ev);
+	inline InboundEvent dequeueEvent(void);
 
 	Bot *bot_;
 	std::thread workers_[16];
-	std::queue<TgBot::Message::Ptr> msg_queue_;
+	std::queue<InboundEvent> msg_queue_;
 	uint32_t nr_sleeping_ = 0;
 	std::mutex msg_queue_lock_;
 	std::condition_variable msg_queue_cv_;
@@ -99,7 +106,12 @@ inline void BotMgr::run(void)
 	bot_->bot()->getEvents().onAnyMessage([this](TgBot::Message::Ptr msg) {
 		printf("Received message: %s\n", msg->text.c_str());
 		if (!msg->text.empty())
-			enqueueMsg(msg);
+			enqueueEvent({msg, nullptr});
+	});
+
+	bot_->bot()->getEvents().onCallbackQuery([this](TgBot::CallbackQuery::Ptr cb) {
+		printf("Received callback query: %s\n", cb->data.c_str());
+		enqueueEvent({nullptr, cb});
 	});
 
 	TgBot::TgLongPoll longPoll(*bot_->bot());
@@ -128,23 +140,23 @@ inline void BotMgr::stop(void)
 		workers_[i].join();
 }
 
-inline void BotMgr::enqueueMsg(const TgBot::Message::Ptr msg)
+inline void BotMgr::enqueueEvent(InboundEvent ev)
 {
 	std::unique_lock<std::mutex> lk(msg_queue_lock_);
-	msg_queue_.push(msg);
+	msg_queue_.push(std::move(ev));
 	if (nr_sleeping_ > 0)
 		msg_queue_cv_.notify_one();
 }
 
-inline TgBot::Message::Ptr BotMgr::dequeueMsg(void)
+inline BotMgr::InboundEvent BotMgr::dequeueEvent(void)
 {
 	std::unique_lock<std::mutex> lk(msg_queue_lock_);
 	nr_sleeping_++;
 	msg_queue_cv_.wait(lk, [this] { return !msg_queue_.empty(); });
 	nr_sleeping_--;
-	auto msg = msg_queue_.front();
+	auto ev = std::move(msg_queue_.front());
 	msg_queue_.pop();
-	return msg;
+	return ev;
 }
 
 inline void BotMgr::handleMsgText(const TgBot::Message::Ptr &msg)
@@ -164,6 +176,50 @@ inline void BotMgr::handleMsgText(const TgBot::Message::Ptr &msg)
 	bot_->muika_->passMsg(mmsg);
 }
 
+inline void BotMgr::handleCallback(const TgBot::CallbackQuery::Ptr &cb)
+{
+	if (!cb->from)
+		return;
+
+	std::string name = cb->from->firstName;
+	if (!cb->from->lastName.empty())
+		name += " " + cb->from->lastName;
+
+	std::string chat_id;
+	std::string msg_id;
+	if (cb->message) {
+		if (cb->message->chat)
+			chat_id = std::to_string(cb->message->chat->id);
+		msg_id = std::to_string(cb->message->messageId);
+	}
+
+	auto mmsg = muika::Muika::createMsgCallback(
+		chat_id,
+		msg_id,
+		cb->id,
+		std::to_string(cb->from->id),
+		name,
+		cb->from->username,
+		cb->data
+	);
+	bot_->muika_->passMsg(mmsg);
+
+	/* Auto-acknowledge the callback so Telegram stops the spinner. */
+	try {
+		bot_->bot()->getApi().answerCallbackQuery(cb->id);
+	} catch (const std::exception &e) {
+		printf("answerCallbackQuery failed: %s\n", e.what());
+	}
+}
+
+inline void BotMgr::handleEvent(const InboundEvent &ev)
+{
+	if (ev.msg)
+		handleMsgText(ev.msg);
+	else if (ev.cb)
+		handleCallback(ev.cb);
+}
+
 inline void BotMgr::runWorker(unsigned int id)
 {
 	char tname[128];
@@ -172,13 +228,8 @@ inline void BotMgr::runWorker(unsigned int id)
 	pthread_setname_np(pthread_self(), tname);
 
 	while (!bot_->should_stop_) {
-		TgBot::Message::Ptr msg = dequeueMsg();
-
-		if (!msg ->text.empty()) {
-			printf("Worker %u: handling text message %s\n", id, msg->text.c_str());
-			handleMsgText(msg);
-			continue;
-		}
+		InboundEvent ev = dequeueEvent();
+		handleEvent(ev);
 	}
 }
 
