@@ -62,7 +62,8 @@ SOURCES_MUIKA_TESTS := \
 	muika/tests/main.cpp \
 	muika/tests/test.cpp \
 	muika/tests/test_helpers.cpp \
-	muika/tests/test_m001_hello.cpp
+	muika/tests/test_m001_hello.cpp \
+	muika/tests/test_m002_jqftu.cpp
 OBJECTS_MUIKA_TESTS := $(SOURCES_MUIKA_TESTS:.cpp=.o)
 DEPENDS_MUIKA_TESTS := $(SOURCES_MUIKA_TESTS:.cpp=.d)
 CXXFLAGS_MUIKA_TESTS := $(CXXFLAGS) -fpie -fPIE
