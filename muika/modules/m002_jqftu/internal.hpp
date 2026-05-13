@@ -21,6 +21,7 @@ struct Paths {
 	std::string decks_dir;
 	std::string points_dir;
 	std::string sessions_dir;
+	std::string config_dir;
 };
 
 } /* namespace m002_jqftu */
