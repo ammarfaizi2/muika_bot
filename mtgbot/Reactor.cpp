@@ -80,8 +80,9 @@ std::string Reactor::sendMsgText(const std::string &chat_id,
 	auto rep = buildReplyParams(chat_id, om.reply_to_msg_id);
 	auto kb = buildKeyboard(om.inline_keyboard);
 
-	printf("Reactor::sendMsgText: chat_id=%s, text=%s, reply_to_msg_id=%s\n",
-	       chat_id.c_str(), om.text.c_str(), om.reply_to_msg_id.c_str());
+	mk_debug(bot_->logger(),
+		 "Reactor::sendMsgText: chat_id=%s, text=%s, reply_to_msg_id=%s",
+		 chat_id.c_str(), om.text.c_str(), om.reply_to_msg_id.c_str());
 
 	try {
 		auto m = bot()->getApi().sendMessage(chat_id, om.text,
@@ -91,7 +92,8 @@ std::string Reactor::sendMsgText(const std::string &chat_id,
 		if (m)
 			return idToStr(m->messageId);
 	} catch (const std::exception &e) {
-		printf("Reactor::sendMsgText: error: %s\n", e.what());
+		mk_error(bot_->logger(),
+			 "Reactor::sendMsgText: error: %s", e.what());
 	}
 	return "";
 }
@@ -109,7 +111,8 @@ std::string Reactor::sendMsgPhotoUrl(const std::string &chat_id,
 		if (m)
 			return idToStr(m->messageId);
 	} catch (const std::exception &e) {
-		printf("Reactor::sendMsgPhotoUrl: error: %s\n", e.what());
+		mk_error(bot_->logger(),
+			 "Reactor::sendMsgPhotoUrl: error: %s", e.what());
 	}
 	return "";
 }
@@ -128,7 +131,8 @@ std::string Reactor::sendMsgPhotoFile(const std::string &chat_id,
 		if (m)
 			return idToStr(m->messageId);
 	} catch (const std::exception &e) {
-		printf("Reactor::sendMsgPhotoFile: error: %s\n", e.what());
+		mk_error(bot_->logger(),
+			 "Reactor::sendMsgPhotoFile: error: %s", e.what());
 	}
 	return "";
 }

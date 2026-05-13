@@ -22,7 +22,7 @@
 
 namespace mtgbot {
 
-static void loadModules(muika::Muika *m)
+static void loadModules(muika::Muika *m, mk_logger_t *log)
 {
 	std::vector<std::string> modules = {
 		"hello",
@@ -33,9 +33,11 @@ static void loadModules(muika::Muika *m)
 		try {
 			m->loadModule(mod);
 		} catch (std::exception &e) {
-			printf("Error loading module %s: %s\n", mod.c_str(), e.what());
+			mk_error(log, "Error loading module %s: %s",
+				 mod.c_str(), e.what());
 		} catch (...) {
-			printf("Unknown error loading module %s\n", mod.c_str());
+			mk_error(log, "Unknown error loading module %s",
+				 mod.c_str());
 		}
 	}
 }
@@ -46,11 +48,12 @@ Bot::Bot(const BotConfig &cfg):
 	muika::MuikaConfig muika_cfg;
 	reactor_ = std::make_shared<Reactor>(this);
 	muika_cfg.storage_path = cfg.storage_path;
+	muika_cfg.logger = cfg.logger;
 	muika_ = std::make_unique<muika::Muika>(muika_cfg, reactor_);
 	http_client_ = std::make_unique<TgBot::CurlHttpClient>();
 	bot_ = std::make_unique<TgBot::Bot>(cfg_.token, *http_client_);
 	mgr_ = std::make_unique<BotMgr>(this);
-	loadModules(muika_.get());
+	loadModules(muika_.get(), cfg_.logger);
 }
 
 TgBot::Bot *Bot::bot(void)
@@ -105,13 +108,15 @@ inline void BotMgr::run(void)
 		workers_[i] = std::thread(&BotMgr::runWorker, this, i);
 
 	bot_->bot()->getEvents().onAnyMessage([this](TgBot::Message::Ptr msg) {
-		printf("Received message: %s\n", msg->text.c_str());
+		mk_debug(bot_->logger(), "Received message: %s",
+			 msg->text.c_str());
 		if (!msg->text.empty())
 			enqueueEvent({msg, nullptr});
 	});
 
 	bot_->bot()->getEvents().onCallbackQuery([this](TgBot::CallbackQuery::Ptr cb) {
-		printf("Received callback query: %s\n", cb->data.c_str());
+		mk_debug(bot_->logger(), "Received callback query: %s",
+			 cb->data.c_str());
 		enqueueEvent({nullptr, cb});
 	});
 
@@ -121,9 +126,10 @@ inline void BotMgr::run(void)
 			while (true)
 				longPoll.start();
 		} catch (std::exception &e) {
-			printf("Error: %s\n", e.what());
+			mk_error(bot_->logger(), "long poll error: %s",
+				 e.what());
 		} catch (...) {
-			printf("Unknown error\n");
+			mk_error(bot_->logger(), "long poll: unknown error");
 		}
 
 		sleep(3);
@@ -209,7 +215,8 @@ inline void BotMgr::handleCallback(const TgBot::CallbackQuery::Ptr &cb)
 	try {
 		bot_->bot()->getApi().answerCallbackQuery(cb->id);
 	} catch (const std::exception &e) {
-		printf("answerCallbackQuery failed: %s\n", e.what());
+		mk_error(bot_->logger(),
+			 "answerCallbackQuery failed: %s", e.what());
 	}
 }
 
@@ -236,8 +243,9 @@ inline void BotMgr::runWorker(unsigned int id)
 
 void Bot::run(void)
 {
-	printf("Bot is running...\n");
-	printf("Bot username: @%s\n", bot_->getApi().getMe()->username.c_str());
+	mk_info(cfg_.logger, "Bot is running...");
+	mk_info(cfg_.logger, "Bot username: @%s",
+		bot_->getApi().getMe()->username.c_str());
 	mgr_->run();
 }
 

@@ -3,6 +3,7 @@
 #define MTGBOT__BOT_HPP
 
 #include <muika/Muika.hpp>
+#include <mlogger/mlogger.h>
 
 #include <string>
 #include <vector>
@@ -23,6 +24,11 @@ struct BotConfig {
 	std::string token;
 	std::string storage_path;
 	std::vector<int64_t> super_users;
+	/*
+	 * Optional logger; not owned by Bot. Caller must keep it alive
+	 * for the lifetime of Bot and free it afterwards.
+	 */
+	mk_logger_t *logger = nullptr;
 };
 
 class Bot {
@@ -32,6 +38,7 @@ public:
 	void run(void);
 	TgBot::Bot *bot(void);
 	void stop(void);
+	mk_logger_t *logger(void) const { return cfg_.logger; }
 
 private:
 	void runWorker(unsigned int id);
