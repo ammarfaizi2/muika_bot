@@ -13,7 +13,9 @@ class Internal;
 class Module: public muika::Module {
 public:
 	Module();
-	virtual ~Module() = default;
+	virtual ~Module();
+	virtual void init(void) override;
+	virtual void free(void) override;
 	virtual Type passMsg(MsgPtr msg) override;
 
 private:
