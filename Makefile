@@ -54,6 +54,19 @@ CFLAGS_MUIKA_TGBOT := $(CFLAGS) -fpie -fPIE -DHAVE_CURL
 CXXFLAGS_MUIKA_TGBOT := $(CXXFLAGS) -fpie -fPIE -DHAVE_CURL
 LIBS_MUIKA_TGBOT := -lpthread -lTgBot -lcrypto -lssl -lcurl
 
+#
+# Test suite executable.
+#
+MUIKA_TESTS := muika_tests
+SOURCES_MUIKA_TESTS := \
+	muika/tests/main.cpp \
+	muika/tests/test.cpp \
+	muika/tests/test_helpers.cpp
+OBJECTS_MUIKA_TESTS := $(SOURCES_MUIKA_TESTS:.cpp=.o)
+DEPENDS_MUIKA_TESTS := $(SOURCES_MUIKA_TESTS:.cpp=.d)
+CXXFLAGS_MUIKA_TESTS := $(CXXFLAGS) -fpie -fPIE
+LIBS_MUIKA_TESTS := -lpthread -lcurl
+
 ifeq ($(ENABLE_SANITIZER),1)
 	CFLAGS += -fsanitize=address
 	CXXFLAGS += -fsanitize=address
@@ -84,11 +97,24 @@ $(OBJECTS_LIBMUIKABOT): %.o: %.cpp
 
 -include $(DEPENDS_LIBMUIKABOT)
 
+$(MUIKA_TESTS): $(OBJECTS_MUIKA_TESTS) $(LIBMUIKABOT)
+	$(LD) $(LDFLAGS) -fpie -fPIE -Wl,-rpath,'$$ORIGIN' -o $@ $^ $(LIBS_MUIKA_TESTS)
+
+$(OBJECTS_MUIKA_TESTS): %.o: %.cpp
+	$(CXX) $(CXXFLAGS_MUIKA_TESTS) -MMD -MP -c -o $@ $<
+
+-include $(DEPENDS_MUIKA_TESTS)
+
+test: $(MUIKA_TESTS)
+	./$(MUIKA_TESTS)
+
 clean:
 	rm -vf \
 		$(MUIKA_TGBOT) \
 		$(LIBMUIKABOT) \
+		$(MUIKA_TESTS) \
 		$(OBJECTS_MUIKA_TGBOT) $(DEPENDS_MUIKA_TGBOT) \
-		$(OBJECTS_LIBMUIKABOT) $(DEPENDS_LIBMUIKABOT)
+		$(OBJECTS_LIBMUIKABOT) $(DEPENDS_LIBMUIKABOT) \
+		$(OBJECTS_MUIKA_TESTS) $(DEPENDS_MUIKA_TESTS)
 
-.PHONY: all clean
+.PHONY: all clean test
