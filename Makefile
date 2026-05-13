@@ -23,6 +23,11 @@ SOURCES_LIBMUIKABOT := \
 	muika/modules/m002_jqftu/deck_foundations/japan_eki/Deck.cpp \
 	muika/modules/m002_jqftu/deck_foundations/kotoba/Card.cpp \
 	muika/modules/m002_jqftu/deck_foundations/kotoba/Deck.cpp \
+	muika/modules/m002_jqftu/decks/chuo_sobu/Deck.cpp \
+	muika/modules/m002_jqftu/decks/jlpt_n5/Deck.cpp \
+	muika/modules/m002_jqftu/decks/keikyu_line/Deck.cpp \
+	muika/modules/m002_jqftu/decks/tozai_line/Deck.cpp \
+	muika/modules/m002_jqftu/decks/yamanote_line/Deck.cpp \
 	muika/helpers.cpp \
 	muika/Message.cpp \
 	muika/Module.cpp \

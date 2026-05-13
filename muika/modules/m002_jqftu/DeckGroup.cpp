@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-only
 #include <muika/modules/m002_jqftu/DeckGroup.hpp>
+#include <muika/modules/m002_jqftu/decks/chuo_sobu/Deck.hpp>
+#include <muika/modules/m002_jqftu/decks/jlpt_n5/Deck.hpp>
+#include <muika/modules/m002_jqftu/decks/keikyu_line/Deck.hpp>
+#include <muika/modules/m002_jqftu/decks/tozai_line/Deck.hpp>
+#include <muika/modules/m002_jqftu/decks/yamanote_line/Deck.hpp>
 
 #include <chrono>
 #include <random>
@@ -12,6 +17,17 @@ namespace m002_jqftu {
 // static
 std::unique_ptr<Deck> DeckGroup::createDeckByName(const std::string &name)
 {
+	if (name == "tozai_line")
+		return std::make_unique<decks::tozai_line::Deck>();
+	if (name == "yamanote_line")
+		return std::make_unique<decks::yamanote_line::Deck>();
+	if (name == "chuo_sobu")
+		return std::make_unique<decks::chuo_sobu::Deck>();
+	if (name == "keikyu_line")
+		return std::make_unique<decks::keikyu_line::Deck>();
+	if (name == "jlpt_n5")
+		return std::make_unique<decks::jlpt_n5::Deck>();
+
 	throw std::runtime_error("Unknown deck: " + name);
 }
 
