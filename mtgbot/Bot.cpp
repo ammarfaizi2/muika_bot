@@ -45,7 +45,7 @@ Bot::Bot(const BotConfig &cfg):
 {
 	muika::MuikaConfig muika_cfg;
 	reactor_ = std::make_shared<Reactor>(this);
-	muika_cfg.storage_path = cfg.storage_path + "/muika";
+	muika_cfg.storage_path = cfg.storage_path;
 	muika_ = std::make_unique<muika::Muika>(muika_cfg, reactor_);
 	http_client_ = std::make_unique<TgBot::CurlHttpClient>();
 	bot_ = std::make_unique<TgBot::Bot>(cfg_.token, *http_client_);
